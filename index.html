@@ -146,7 +146,7 @@
   }
 
   .hero-logo { margin-bottom: 20px; animation: fadeUp 0.7s ease both; }
-  .hero-logo img { height: 80px; width: auto; filter: drop-shadow(0 0 40px rgba(255,255,255,0.15)); }
+  .hero-logo img { height: 92px; width: auto; filter: drop-shadow(0 0 40px rgba(255,255,255,0.15)); }
 
   .hero-yomi {
     font-family: 'Geist Mono', monospace; font-size: 12px;
@@ -264,6 +264,23 @@
     letter-spacing: 0.01em;
   }
 
+  .member-link {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    text-decoration: none;
+    display: block;
+    margin-top: 2px;
+    transition: color 0.15s;
+  }
+  .member-link:hover { color: rgba(255,255,255,0.55); }
+  .member-kagawa {
+    font-size: 11px;
+    color: rgba(255,255,255,0.2);
+    margin-top: 6px;
+    font-family: 'Geist Mono', monospace;
+  }
+
   .member-bio { display: flex; flex-direction: column; gap: 10px; }
   .bio-row { display: flex; gap: 16px; align-items: baseline; justify-content: flex-end; }
   .bio-label { font-family: 'Geist Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.28); white-space: nowrap; width: 100px; text-align: right; flex-shrink: 0; }
@@ -277,9 +294,27 @@
     animation: rainbow-shift 3s linear infinite;
     font-weight: 600;
   }
+  .rainbow-big {
+    display: inline-block;
+    font-size: 1.5em;
+    font-weight: 700;
+    line-height: 1;
+    vertical-align: middle;
+    background: linear-gradient(90deg, #ff6ec7, #ff9a3c, #ffe44d, #4dffb4, #4db8ff, #b44dff, #ff6ec7);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: rainbow-shift 3s linear infinite, spin 6s linear infinite;
+    transform-origin: center;
+  }
   @keyframes rainbow-shift {
     0% { background-position: 0% center; }
     100% { background-position: 200% center; }
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
 
   /* BOTTOM LINKS */
@@ -303,15 +338,17 @@
   /* FOOTER */
   footer {
     border-top: 1px solid rgba(255,255,255,0.06);
-    padding: 28px 32px;
-    display: flex; align-items: center; justify-content: space-between;
+    display: flex; align-items: stretch;
     max-width: 1000px; margin: 0 auto; position: relative; z-index: 1;
   }
-  .footer-logo img { height: 18px; width: auto; opacity: 0.3; }
+  .footer-half {
+    flex: 1; padding: 28px 32px;
+    display: flex; align-items: center;
+  }
+  .footer-half-left { justify-content: flex-end; padding-right: 48px; border-right: 1px solid rgba(255,255,255,0.06); }
+  .footer-half-right { justify-content: flex-start; padding-left: 48px; }
+  .footer-logo img { height: 21px; width: auto; opacity: 0.3; }
   .footer-text { font-size: 12px; color: var(--fg-subtle); font-family: 'Geist Mono', monospace; }
-  .footer-links { display: flex; gap: 24px; list-style: none; }
-  .footer-links a { font-size: 12px; color: var(--fg-subtle); text-decoration: none; transition: color 0.15s; }
-  .footer-links a:hover { color: var(--fg-muted); }
 
   /* MODAL */
   .modal-overlay {
@@ -488,20 +525,22 @@
 
 <section class="section" id="members">
   <h2 class="section-title">メンバー<span class="member-question">（？</span></h2>
-  <p class="member-note">一人しかいない。さみしいかと言われれば、まあ、そうかもしれない。でも考えてみれば、宇宙だって最初は一つの点だったわけで、孤独というのは何かが始まる前の状態のことなのかもしれない。強がりではない。たぶん。</p>
+  <p class="member-note">一人しかいない。さみしいかと言われれば、まあ、そうかもしれない。でも考えてみれば、宇宙だって最初は一つの点だったわけで、孤独というのは何かが始まる前の状態のことなのかもしれない。</p>
   <div class="member-card">
     <div class="member-left">
       <div class="member-avatar"><img src="tarapon.png" alt="たらぽん"></div>
       <div>
         <p class="member-name">たらぽん</p>
         <p class="member-role">founder（創設者）</p>
+        <a href="https://tarapon.dev" class="member-link">tarapon.dev</a>
+        <p class="member-kagawa">香川県にいってみたいです</p>
       </div>
     </div>
     <div class="member-bio">
       <div class="bio-row"><span class="bio-label">在住</span><span class="bio-val">神奈川県鎌倉市</span></div>
       <div class="bio-row"><span class="bio-label">好きなこと</span><span class="bio-val">ない</span></div>
       <div class="bio-row"><span class="bio-label">やっていること</span><span class="bio-val">このサイトを作ったりすること</span></div>
-      <div class="bio-row"><span class="bio-label">学歴</span><span class="bio-val">科学技術（工業）高校（<span class="rainbow">国立</span>）在籍</span></div>
+      <div class="bio-row"><span class="bio-label">学歴</span><span class="bio-val"><span class="rainbow-big">国立</span>の工業高校 在籍</span></div>
     </div>
   </div>
 </section>
@@ -518,11 +557,12 @@
 </div>
 
 <footer>
-  <a href="/" class="footer-logo"><img src="logo.png" alt="neplov"></a>
-  <p class="footer-text">© 2026 neplov</p>
-  <ul class="footer-links">
-    <li><a href="https://tarapon.dev">tarapon.dev</a></li>
-  </ul>
+  <div class="footer-half footer-half-left">
+    <a href="/" class="footer-logo"><img src="logo.png" alt="neplov"></a>
+  </div>
+  <div class="footer-half footer-half-right">
+    <p class="footer-text">© 2026 neplov</p>
+  </div>
 </footer>
 
 <!-- MODAL: PING -->
