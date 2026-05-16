@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>neplov</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --fg: #fff;
+    --fg-muted: rgba(255,255,255,0.55);
+    --fg-subtle: rgba(255,255,255,0.28);
+    --glass: rgba(255,255,255,0.07);
+    --glass-hover: rgba(255,255,255,0.11);
+    --glass-border: rgba(255,255,255,0.14);
+    --glass-highlight: rgba(255,255,255,0.32);
+    --glass-shadow: rgba(0,0,0,0.35);
+    --green: #30d158;
+    --yellow: #ffd60a;
+    --red: #ff453a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #000;
+    color: var(--fg);
+    font-family: 'Geist', -apple-system, sans-serif;
+    font-size: 16px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* AMBIENT BACKGROUND */
+  .bg-canvas {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: #04040a;
+    overflow: hidden;
+  }
+
+  .bg-blob {
+    position: absolute; border-radius: 50%;
+    filter: blur(90px); opacity: 0.45;
+    will-change: transform;
+  }
+
+  .bg-blob-1 {
+    width: 700px; height: 700px; top: -15%; left: -10%;
+    background: radial-gradient(circle, rgba(255,182,210,0.7) 0%, rgba(255,192,220,0.35) 50%, transparent 80%);
+    animation: blob1 18s ease-in-out infinite;
+  }
+  .bg-blob-2 {
+    width: 600px; height: 600px; top: -5%; right: -5%;
+    background: radial-gradient(circle, rgba(160,220,255,0.65) 0%, rgba(140,210,255,0.3) 50%, transparent 80%);
+    animation: blob2 22s ease-in-out infinite;
+  }
+  .bg-blob-3 {
+    width: 500px; height: 500px; bottom: 5%; left: 20%;
+    background: radial-gradient(circle, rgba(200,230,255,0.55) 0%, rgba(180,220,255,0.25) 50%, transparent 80%);
+    animation: blob3 16s ease-in-out infinite;
+  }
+  .bg-blob-4 {
+    width: 400px; height: 400px; bottom: 20%; right: 10%;
+    background: radial-gradient(circle, rgba(255,200,220,0.6) 0%, rgba(255,210,230,0.25) 50%, transparent 80%);
+    animation: blob4 20s ease-in-out infinite;
+  }
+
+  @keyframes blob1 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33%      { transform: translate(60px,80px) scale(1.08); }
+    66%      { transform: translate(-40px,40px) scale(0.95); }
+  }
+  @keyframes blob2 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33%      { transform: translate(-80px,60px) scale(1.1); }
+    66%      { transform: translate(40px,-50px) scale(0.92); }
+  }
+  @keyframes blob3 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    50%      { transform: translate(70px,-60px) scale(1.12); }
+  }
+  @keyframes blob4 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    40%      { transform: translate(-50px,40px) scale(1.06); }
+    70%      { transform: translate(30px,-30px) scale(0.9); }
+  }
+
+  /* GLASS MIXIN */
+  .glass {
+    background: var(--glass);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-top-color: var(--glass-highlight);
+    border-left-color: rgba(255,255,255,0.18);
+    box-shadow:
+      0 1px 0 0 var(--glass-highlight) inset,
+      0 -1px 0 0 rgba(0,0,0,0.2) inset,
+      0 8px 32px var(--glass-shadow),
+      0 1px 2px rgba(0,0,0,0.3);
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px; height: 60px;
+  }
+
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; height: 44px;
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(60px) saturate(160%) brightness(1.05);
+    -webkit-backdrop-filter: blur(60px) saturate(160%) brightness(1.05);
+    border-radius: 22px;
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    outline: 1px solid rgba(255,255,255,0.1);
+    outline-offset: -1px;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.5) inset,
+      0 -1px 0 rgba(0,0,0,0.15) inset,
+      1px 0 0 rgba(255,255,255,0.22) inset,
+      0 12px 40px rgba(0,0,0,0.55),
+      0 2px 8px rgba(180,210,255,0.12);
+    padding: 0 20px;
+    position: relative;
+  }
+
+  .nav-logo img { height: 22px; width: auto; display: block; }
+  .nav-links { display: flex; gap: 24px; list-style: none; }
+  .nav-links a { font-size: 13px; color: var(--fg-muted); text-decoration: none; transition: color 0.15s; }
+  .nav-links a:hover { color: var(--fg); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 100px 32px 80px;
+    position: relative; z-index: 1;
+  }
+
+  .hero-logo { margin-bottom: 20px; animation: fadeUp 0.7s ease both; }
+  .hero-logo img { height: 80px; width: auto; filter: drop-shadow(0 0 40px rgba(255,255,255,0.15)); }
+
+  .hero-yomi {
+    font-family: 'Geist Mono', monospace; font-size: 12px;
+    color: var(--fg-subtle); letter-spacing: 0.25em;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+
+  /* SECTIONS */
+  .section { max-width: 1000px; margin: 0 auto; padding: 64px 32px; position: relative; z-index: 1; }
+  .section-title { font-size: clamp(24px, 3.5vw, 36px); font-weight: 600; letter-spacing: -0.03em; margin-bottom: 32px; }
+  .about-note {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+    margin-bottom: 20px;
+    letter-spacing: 0.04em;
+  }
+
+  .about-text {
+    font-size: 15px;
+    line-height: 2;
+    color: rgba(255,255,255,0.72);
+    max-width: 680px;
+    letter-spacing: 0.01em;
+  }
+
+  .about-text {
+    font-size: 14px;
+    color: var(--fg-muted);
+    line-height: 1.9;
+    max-width: 680px;
+  }
+
+  /* DIVIDER */
+  .divider { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 0 32px; position: relative; z-index: 1; }
+
+  /* MEMBER CARD */
+  @keyframes float {
+    0%,100% { transform: translateY(0px) rotate(0deg); }
+    33%      { transform: translateY(-6px) rotate(0.4deg); }
+    66%      { transform: translateY(-3px) rotate(-0.3deg); }
+  }
+
+  .member-card {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(48px) saturate(160%) brightness(1.06);
+    -webkit-backdrop-filter: blur(48px) saturate(160%) brightness(1.06);
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    outline: 1px solid rgba(255,255,255,0.12);
+    outline-offset: -1px;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.55) inset,
+      0 -1px 0 rgba(0,0,0,0.12) inset,
+      1px 0 0 rgba(255,255,255,0.25) inset,
+      -1px 0 0 rgba(255,255,255,0.08) inset,
+      0 24px 64px rgba(0,0,0,0.55),
+      0 4px 20px rgba(200,220,255,0.10),
+      0 1px 4px rgba(0,0,0,0.5);
+    border-radius: 24px; padding: 28px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 40px; position: relative; overflow: hidden;
+    transition: transform 0.5s cubic-bezier(0.34,1.4,0.64,1),
+                background 0.4s ease,
+                box-shadow 0.5s ease;
+    will-change: transform;
+  }
+
+  .member-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 5%, rgba(255,255,255,0.6) 35%, rgba(255,255,255,0.6) 65%, transparent 95%);
+    pointer-events: none; z-index: 1;
+  }
+
+  .member-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 100% 60% at 50% -10%, rgba(255,255,255,0.09) 0%, transparent 60%),
+      linear-gradient(135deg, rgba(192,38,211,0.04) 0%, transparent 40%, rgba(99,102,241,0.04) 60%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .member-card:hover {
+    animation: float 3.5s ease-in-out infinite;
+    background: rgba(255,255,255,0.055);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.65) inset,
+      0 -1px 0 rgba(0,0,0,0.12) inset,
+      1px 0 0 rgba(255,255,255,0.3) inset,
+      0 40px 90px rgba(0,0,0,0.6),
+      0 12px 40px rgba(200,220,255,0.12),
+      0 3px 8px rgba(0,0,0,0.5);
+  }
+
+  .member-left { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+  .member-avatar { width: 56px; height: 56px; border-radius: 50%; overflow: hidden; border: 1px solid rgba(255,255,255,0.15); flex-shrink: 0; }
+  .member-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .member-name { font-size: 16px; font-weight: 500; margin-bottom: 4px; }
+  .member-role { font-size: 12px; color: var(--fg-muted); font-family: 'Geist Mono', monospace; }
+  .member-question {
+    font-size: 0.6em;
+    color: var(--fg-subtle);
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .member-note {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    line-height: 1.8;
+    max-width: 520px;
+    margin-bottom: 24px;
+    letter-spacing: 0.01em;
+  }
+
+  .member-bio { display: flex; flex-direction: column; gap: 10px; }
+  .bio-row { display: flex; gap: 16px; align-items: baseline; justify-content: flex-end; }
+  .bio-label { font-family: 'Geist Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.28); white-space: nowrap; width: 100px; text-align: right; flex-shrink: 0; }
+  .bio-val { font-size: 13px; color: rgba(255,255,255,0.7); text-align: left; width: 180px; }
+  .rainbow {
+    background: linear-gradient(90deg, #ff6ec7, #ff9a3c, #ffe44d, #4dffb4, #4db8ff, #b44dff, #ff6ec7);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: rainbow-shift 3s linear infinite;
+    font-weight: 600;
+  }
+  @keyframes rainbow-shift {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+  }
+
+  /* BOTTOM LINKS */
+  .bottom-links {
+    display: flex; justify-content: center; gap: 20px;
+    padding: 32px 32px; max-width: 1000px; margin: 0 auto;
+    position: relative; z-index: 1;
+  }
+
+  .bottom-link {
+    font-family: 'Geist Mono', monospace; font-size: 11px;
+    color: var(--fg-subtle); cursor: pointer;
+    background: none; border: none; padding: 0;
+    display: flex; align-items: center; gap: 6px;
+    transition: color 0.2s; letter-spacing: 0.04em;
+  }
+
+  .bottom-link:hover { color: var(--fg-muted); }
+
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 28px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: 1000px; margin: 0 auto; position: relative; z-index: 1;
+  }
+  .footer-logo img { height: 18px; width: auto; opacity: 0.3; }
+  .footer-text { font-size: 12px; color: var(--fg-subtle); font-family: 'Geist Mono', monospace; }
+  .footer-links { display: flex; gap: 24px; list-style: none; }
+  .footer-links a { font-size: 12px; color: var(--fg-subtle); text-decoration: none; transition: color 0.15s; }
+  .footer-links a:hover { color: var(--fg-muted); }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    z-index: 300; display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.25s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal {
+    background: rgba(10,10,18,0.65);
+    backdrop-filter: blur(56px) saturate(160%) brightness(1.05);
+    -webkit-backdrop-filter: blur(56px) saturate(160%) brightness(1.05);
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    outline: 1px solid rgba(255,255,255,0.12);
+    outline-offset: -1px;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.55) inset,
+      0 -1px 0 rgba(0,0,0,0.2) inset,
+      1px 0 0 rgba(255,255,255,0.22) inset,
+      0 48px 120px rgba(0,0,0,0.8),
+      0 12px 40px rgba(200,220,255,0.10),
+      0 3px 10px rgba(0,0,0,0.6);
+    border-radius: 24px;
+    width: min(840px, calc(100vw - 48px));
+    max-height: calc(100vh - 80px);
+    overflow-y: auto; position: relative;
+    transform: translateY(16px) scale(0.98);
+    transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    overflow: hidden;
+  }
+
+  .modal::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5) 30%, rgba(255,255,255,0.5) 70%, transparent);
+    pointer-events: none; z-index: 1;
+  }
+
+  .modal-overflow { max-height: calc(100vh - 80px); overflow-y: auto; }
+
+  .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+
+  .modal-close {
+    position: absolute; top: 14px; right: 14px; z-index: 10;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-top-color: rgba(255,255,255,0.28);
+    color: var(--fg-muted);
+    width: 28px; height: 28px; border-radius: 50%;
+    cursor: pointer; font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    transition: color 0.15s, background 0.15s;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.2) inset;
+  }
+  .modal-close:hover { color: var(--fg); background: rgba(255,255,255,0.15); }
+
+  /* TERMINAL */
+  .terminal { font-family: 'Geist Mono', monospace; }
+  .terminal-bar {
+    padding: 14px 18px;
+    display: flex; align-items: center; gap: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.03);
+  }
+  .t-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .t-title { font-size: 12px; color: var(--fg-subtle); margin: 0 auto; transform: translateX(-18px); }
+  .terminal-body { padding: 24px 28px; display: flex; flex-direction: column; gap: 4px; overflow-x: auto; }
+  .t-line { font-size: 13px; color: var(--fg); line-height: 1.7; white-space: pre; }
+  .t-muted { color: var(--fg-subtle); }
+  .t-green { color: var(--green); }
+  .t-prompt { color: var(--fg-muted); margin-right: 8px; }
+  .t-cursor { animation: blink 1.2s step-end infinite; }
+
+  /* STATUS BOARD */
+  .status-board { font-family: 'Geist Mono', monospace; }
+  .sb-hero-status {
+    padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.07);
+    background: rgba(48,209,88,0.06);
+  }
+  .sb-hero-inner { display: flex; align-items: center; gap: 10px; }
+  .sb-hero-dot {
+    width: 9px; height: 9px; border-radius: 50%; background: var(--green);
+    flex-shrink: 0; box-shadow: 0 0 10px var(--green);
+    animation: pulse2 2s infinite;
+  }
+  @keyframes pulse2 {
+    0%,100% { box-shadow: 0 0 6px var(--green); }
+    50% { box-shadow: 0 0 14px var(--green), 0 0 24px rgba(48,209,88,0.3); }
+  }
+  .sb-hero-title { font-size: 15px; font-weight: 500; color: var(--green); font-family: 'Geist', sans-serif; }
+  .sb-hero-updated { font-size: 11px; color: var(--fg-subtle); margin-top: 5px; padding-left: 19px; }
+  .sb-section-label { font-size: 10px; color: var(--fg-subtle); letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 24px 8px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .sb-rows { display: flex; flex-direction: column; }
+  .sb-row { display: flex; align-items: center; justify-content: space-between; padding: 11px 24px; border-bottom: 1px solid rgba(255,255,255,0.05); gap: 16px; transition: background 0.15s; }
+  .sb-row:hover { background: rgba(255,255,255,0.03); }
+  .sb-row-left { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+  .sb-name { font-size: 12px; color: var(--fg); white-space: nowrap; min-width: 120px; }
+  .sb-history { display: flex; gap: 2px; flex: 1; }
+  .sb-bar { height: 24px; border-radius: 2px; flex: 1; max-width: 10px; }
+  .sb-bar-ok { background: var(--green); opacity: 0.7; }
+  .sb-bar-deg { background: var(--yellow); opacity: 0.7; }
+  .sb-bar-out { background: var(--red); opacity: 0.7; }
+  .sb-uptime-label { font-size: 10px; color: var(--fg-subtle); white-space: nowrap; }
+  .sb-status { font-size: 11px; padding: 3px 10px; border-radius: 6px; white-space: nowrap; font-weight: 500; }
+  .sb-status-ok { color: var(--green); background: rgba(48,209,88,0.12); border: 1px solid rgba(48,209,88,0.25); }
+  .sb-status-deg { color: var(--yellow); background: rgba(255,214,10,0.1); border: 1px solid rgba(255,214,10,0.22); }
+  .sb-status-out { color: var(--red); background: rgba(255,69,58,0.1); border: 1px solid rgba(255,69,58,0.22); }
+  .sb-metrics { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .sb-metric { padding: 14px 24px; border-right: 1px solid rgba(255,255,255,0.07); display: flex; flex-direction: column; gap: 4px; }
+  .sb-metric:nth-child(3n) { border-right: none; }
+  .sb-metric-label { font-size: 10px; color: var(--fg-subtle); text-transform: uppercase; letter-spacing: 0.07em; }
+  .sb-metric-val { font-size: 12px; color: var(--fg); }
+  .sb-footer { display: flex; align-items: center; gap: 16px; padding: 10px 24px; font-size: 10px; color: var(--fg-subtle); }
+  .sb-bar-legend { display: flex; align-items: center; gap: 6px; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+    .member-card { flex-direction: column; }
+    .member-philosophy { text-align: left; }
+    .sb-metrics { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-canvas">
+  <div class="bg-blob bg-blob-1"></div>
+  <div class="bg-blob bg-blob-2"></div>
+  <div class="bg-blob bg-blob-3"></div>
+  <div class="bg-blob bg-blob-4"></div>
+</div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo"><img src="logo.png" alt="neplov"></a>
+    <ul class="nav-links">
+      <li><a href="#about">about</a></li>
+      <li><a href="#members">members</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-logo"><img src="logo.png" alt="neplov"></div>
+  <p class="hero-yomi">ねぷろふ</p>
+</section>
+
+<hr class="divider">
+
+<section class="section" id="about">
+  <h2 class="section-title">いきています</h2>
+  <p class="about-note">※ これはわざとです。アートなので。</p>
+  <p class="about-text">そういえば最近、いきていますって何だろう、と思うことがある。<br>
+朝起きて、スマホを見て、なんとなく時間が溶けて、気づいたら夜になっている。それでもまだ生きてる。すごいことでもないけど、すごくないわけでもない。<br><br>
+コードを書くときも、最近は結局AIに聞いて、AIに書かせて、レビューも半分くらいはAIだ。自分が書いているのか、AIが書いているのか、だんだんわからなくなってくる。でもよく考えれば、紙とペンの時代の人から見たら、今の自分だって十分ずるをしている。道具が変わっただけかもしれない。いや、道具が思考そのものを変えてしまっているのかもしれない。それって、悪いことなのか。<br>
+鉛筆で書いていた人が消しゴムを手にしたとき、誰かはきっと「努力が足りない」と言ったはずだ。たぶん。<br><br>
+生きているというのは、何かをやろうとしては失敗して、それでも次の日が来てしまう、その繰り返しだと思う。次の日が来るというのは、よく考えるとけっこうな奇跡で、まあいいんじゃね、別に。<br><br>
+そもそも、生きている意味というものは「存在」するものではない。形而上の、人間の空想だ。だから、ただ流れに任せればいい。まあ、流れというものも本当はないのだけれど。<br><br>
+結局のところ、愛が大事だと思う。それは、まあ、その、女の子に対してとか、そういうことも、なくはないというか、あるにはあるというか、べつにそこは深く聞かないでほしいんですけど。前に好きだった人がいて、その人とはいろいろ複雑で、一方的だったのかもわからないのだけれど、僕が別の人を好きだったときにその人が最接近してきて、だから正直に別の人が好きだと答えた。でもそのあと、やっぱりその人のことが好きだったと気づいた。気づくのが遅い。その後しばらくして彼氏がいるという話を聞いて、ああそうかと思っていたら、別れたらしいという話も聞こえてきて、今はもう別のところにいる。よくわからないけど、とりあえず今も好きです。以上です。深く聞かないでください。<br>とにかくそれだけじゃなくて、目の前のパソコンで、AIを使って何かを作るという行為への愛とか、そういうものでもいい。なんだっていい。対象はなんでもいい。<br><br>
+だから、なぜ生きているのかなんて、わからなくていい。いつか死ぬ。</p>
+</section>
+
+<hr class="divider">
+
+<section class="section" id="members">
+  <h2 class="section-title">メンバー<span class="member-question">（？</span></h2>
+  <p class="member-note">一人しかいない。さみしいかと言われれば、まあ、そうかもしれない。でも考えてみれば、宇宙だって最初は一つの点だったわけで、孤独というのは何かが始まる前の状態のことなのかもしれない。強がりではない。たぶん。</p>
+  <div class="member-card">
+    <div class="member-left">
+      <div class="member-avatar"><img src="tarapon.png" alt="たらぽん"></div>
+      <div>
+        <p class="member-name">たらぽん</p>
+        <p class="member-role">founder（創設者）</p>
+      </div>
+    </div>
+    <div class="member-bio">
+      <div class="bio-row"><span class="bio-label">在住</span><span class="bio-val">神奈川県鎌倉市</span></div>
+      <div class="bio-row"><span class="bio-label">好きなこと</span><span class="bio-val">ない</span></div>
+      <div class="bio-row"><span class="bio-label">やっていること</span><span class="bio-val">このサイトを作ったりすること</span></div>
+      <div class="bio-row"><span class="bio-label">学歴</span><span class="bio-val">科学技術（工業）高校（<span class="rainbow">国立</span>）在籍</span></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<div class="bottom-links">
+  <button class="bottom-link" onclick="openModal('modal-ping')">
+    ping
+  </button>
+  <button class="bottom-link" onclick="openModal('modal-status')">
+    稼働状況
+  </button>
+</div>
+
+<footer>
+  <a href="/" class="footer-logo"><img src="logo.png" alt="neplov"></a>
+  <p class="footer-text">© 2026 neplov</p>
+  <ul class="footer-links">
+    <li><a href="https://tarapon.dev">tarapon.dev</a></li>
+  </ul>
+</footer>
+
+<!-- MODAL: PING -->
+<div class="modal-overlay" id="modal-ping" onclick="closeOnOverlay(event,'modal-ping')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-ping')">✕</button>
+    <div class="modal-overflow">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="t-dot" style="background:#ff453a"></span>
+          <span class="t-dot" style="background:#ffd60a"></span>
+          <span class="t-dot" style="background:#30d158"></span>
+          <span class="t-title">neplov — ping</span>
+        </div>
+        <div class="terminal-body">
+          <p class="t-line"><span class="t-prompt">$</span> ping neplov.net -c 4</p>
+          <p class="t-line t-muted">PING neplov.net (192.0.2.74): 56 data bytes</p>
+          <p class="t-line">64 bytes from 192.0.2.74: icmp_seq=0 ttl=57 time=<span class="t-green">3.841 ms</span></p>
+          <p class="t-line">64 bytes from 192.0.2.74: icmp_seq=1 ttl=57 time=<span class="t-green">3.729 ms</span></p>
+          <p class="t-line">64 bytes from 192.0.2.74: icmp_seq=2 ttl=57 time=<span class="t-green">3.802 ms</span></p>
+          <p class="t-line">64 bytes from 192.0.2.74: icmp_seq=3 ttl=57 time=<span class="t-green">3.755 ms</span></p>
+          <p class="t-line t-muted">--- neplov.net ping statistics ---</p>
+          <p class="t-line">4 packets transmitted, 4 received, <span class="t-green">0% packet loss</span>, time 3006ms</p>
+          <p class="t-line t-muted">rtt min/avg/max/mdev = 3.729/3.781/3.841/0.044 ms</p>
+          <p class="t-line">&nbsp;</p>
+          <p class="t-line"><span class="t-prompt">$</span> curl -I https://neplov.net</p>
+          <p class="t-line t-muted">HTTP/2 <span class="t-green">200</span></p>
+          <p class="t-line t-muted">server: neplov-edge/0.3.1</p>
+          <p class="t-line t-muted">content-type: text/html; charset=utf-8</p>
+          <p class="t-line t-muted">x-powered-by: love and caffeine</p>
+          <p class="t-line t-muted">x-neplov-region: ap-northeast-1</p>
+          <p class="t-line t-muted">cache-control: public, max-age=31536000</p>
+          <p class="t-line">&nbsp;</p>
+          <p class="t-line"><span class="t-prompt">$</span> <span class="t-cursor">█</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: STATUS -->
+<div class="modal-overlay" id="modal-status" onclick="closeOnOverlay(event,'modal-status')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-status')">✕</button>
+    <div class="modal-overflow">
+      <div class="status-board">
+        <div class="sb-hero-status">
+          <div class="sb-hero-inner">
+            <span class="sb-hero-dot"></span>
+            <p class="sb-hero-title">All systems operational</p>
+          </div>
+          <p class="sb-hero-updated">Last checked <span id="last-checked">—</span></p>
+        </div>
+
+        <div class="sb-section-label">Services</div>
+        <div class="sb-rows">
+          <div class="sb-row">
+            <div class="sb-row-left">
+              <span class="sb-name">やる気</span>
+              <span class="sb-history"><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span></span>
+              <span class="sb-uptime-label">89.7% uptime</span>
+            </div>
+            <span class="sb-status sb-status-deg">Degraded</span>
+          </div>
+          <div class="sb-row">
+            <div class="sb-row-left">
+              <span class="sb-name">睡眠</span>
+              <span class="sb-history"><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span></span>
+              <span class="sb-uptime-label">31.4% uptime</span>
+            </div>
+            <span class="sb-status sb-status-out">Major Outage</span>
+          </div>
+          <div class="sb-row">
+            <div class="sb-row-left">
+              <span class="sb-name">課題処理キュー</span>
+              <span class="sb-history"><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span></span>
+              <span class="sb-uptime-label">96.2% uptime</span>
+            </div>
+            <span class="sb-status sb-status-out">Major Outage</span>
+          </div>
+          <div class="sb-row">
+            <div class="sb-row-left">
+              <span class="sb-name">元気</span>
+              <span class="sb-history"><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span></span>
+              <span class="sb-uptime-label">98.3% uptime</span>
+            </div>
+            <span class="sb-status sb-status-ok">Operational</span>
+          </div>
+          <div class="sb-row">
+            <div class="sb-row-left">
+              <span class="sb-name">将来への見通し</span>
+              <span class="sb-history"><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-out"></span></span>
+              <span class="sb-uptime-label">52.1% uptime</span>
+            </div>
+            <span class="sb-status sb-status-deg">Partial Outage</span>
+          </div>
+          <div class="sb-row">
+            <div class="sb-row-left">
+              <span class="sb-name">コード書く気</span>
+              <span class="sb-history"><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span></span>
+              <span class="sb-uptime-label">99.1% uptime</span>
+            </div>
+            <span class="sb-status sb-status-ok">Operational</span>
+          </div>
+        </div>
+
+        <div class="sb-section-label" style="margin-top:0">System</div>
+        <div class="sb-metrics">
+          <div class="sb-metric"><span class="sb-metric-label">Started at</span><span class="sb-metric-val">2010-09-29 00:00:00 JST</span></div>
+          <div class="sb-metric"><span class="sb-metric-label">Uptime</span><span class="sb-metric-val" id="uptime-hms">—</span></div>
+          <div class="sb-metric"><span class="sb-metric-label">Total days</span><span class="sb-metric-val" id="uptime-days">—</span></div>
+          <div class="sb-metric"><span class="sb-metric-label">Total hours</span><span class="sb-metric-val" id="uptime-hours">—</span></div>
+          <div class="sb-metric"><span class="sb-metric-label">Incidents (total)</span><span class="sb-metric-val">多数</span></div>
+          <div class="sb-metric"><span class="sb-metric-label">Last maintenance</span><span class="sb-metric-val">昨夜 (insufficient)</span></div>
+        </div>
+        <div class="sb-footer">
+          <span class="sb-bar-legend"><span class="sb-bar sb-bar-ok" style="display:inline-block;flex:none;width:10px"></span> Operational</span>
+          <span class="sb-bar-legend"><span class="sb-bar sb-bar-deg" style="display:inline-block;flex:none;width:10px"></span> Degraded</span>
+          <span class="sb-bar-legend"><span class="sb-bar sb-bar-out" style="display:inline-block;flex:none;width:10px"></span> Outage</span>
+          <span style="margin-left:auto;font-size:10px;color:var(--fg-subtle)">Past 30 days</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
+function closeOnOverlay(e,id) { if(e.target===e.currentTarget) closeModal(id); }
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ document.querySelectorAll('.modal-overlay.open').forEach(function(el){ el.classList.remove('open'); }); document.body.style.overflow=''; } });
+
+function tick() {
+  var birth=new Date('2010-09-29T00:00:00+09:00'), now=new Date(), diff=now-birth;
+  var tS=Math.floor(diff/1000), tM=Math.floor(tS/60), tH=Math.floor(tM/60), tD=Math.floor(tH/24);
+  var y=Math.floor(tD/365.25), rd=Math.floor(tD-y*365.25), rH=tH%24, rM=tM%60, rS=tS%60;
+  function p(n){return String(n).padStart(2,'0');}
+  var e1=document.getElementById('uptime-hms'), e2=document.getElementById('uptime-days'), e3=document.getElementById('uptime-hours'), e4=document.getElementById('last-checked');
+  if(e1) e1.textContent=y+'y '+rd+'d '+p(rH)+':'+p(rM)+':'+p(rS);
+  if(e2) e2.textContent=tD.toLocaleString()+' days';
+  if(e3) e3.textContent=tH.toLocaleString()+' hrs';
+  if(e4){var n=new Date(); e4.textContent=p(n.getHours())+':'+p(n.getMinutes())+':'+p(n.getSeconds());}
+}
+tick(); setInterval(tick,1000);
+</script>
+</body>
+</html>
