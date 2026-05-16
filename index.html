@@ -35,58 +35,10 @@
     min-height: 100vh;
   }
 
-  /* AMBIENT BACKGROUND */
+  /* BACKGROUND */
   .bg-canvas {
     position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background: #04040a;
-    overflow: hidden;
-  }
-
-  .bg-blob {
-    position: absolute; border-radius: 50%;
-    filter: blur(90px); opacity: 0.45;
-    will-change: transform;
-  }
-
-  .bg-blob-1 {
-    width: 700px; height: 700px; top: -15%; left: -10%;
-    background: radial-gradient(circle, rgba(255,182,210,0.7) 0%, rgba(255,192,220,0.35) 50%, transparent 80%);
-    animation: blob1 18s ease-in-out infinite;
-  }
-  .bg-blob-2 {
-    width: 600px; height: 600px; top: -5%; right: -5%;
-    background: radial-gradient(circle, rgba(160,220,255,0.65) 0%, rgba(140,210,255,0.3) 50%, transparent 80%);
-    animation: blob2 22s ease-in-out infinite;
-  }
-  .bg-blob-3 {
-    width: 500px; height: 500px; bottom: 5%; left: 20%;
-    background: radial-gradient(circle, rgba(200,230,255,0.55) 0%, rgba(180,220,255,0.25) 50%, transparent 80%);
-    animation: blob3 16s ease-in-out infinite;
-  }
-  .bg-blob-4 {
-    width: 400px; height: 400px; bottom: 20%; right: 10%;
-    background: radial-gradient(circle, rgba(255,200,220,0.6) 0%, rgba(255,210,230,0.25) 50%, transparent 80%);
-    animation: blob4 20s ease-in-out infinite;
-  }
-
-  @keyframes blob1 {
-    0%,100% { transform: translate(0,0) scale(1); }
-    33%      { transform: translate(60px,80px) scale(1.08); }
-    66%      { transform: translate(-40px,40px) scale(0.95); }
-  }
-  @keyframes blob2 {
-    0%,100% { transform: translate(0,0) scale(1); }
-    33%      { transform: translate(-80px,60px) scale(1.1); }
-    66%      { transform: translate(40px,-50px) scale(0.92); }
-  }
-  @keyframes blob3 {
-    0%,100% { transform: translate(0,0) scale(1); }
-    50%      { transform: translate(70px,-60px) scale(1.12); }
-  }
-  @keyframes blob4 {
-    0%,100% { transform: translate(0,0) scale(1); }
-    40%      { transform: translate(-50px,40px) scale(1.06); }
-    70%      { transform: translate(30px,-30px) scale(0.9); }
+    background: url('background.png') center center / cover no-repeat;
   }
 
   /* GLASS MIXIN */
@@ -139,24 +91,303 @@
 
   /* HERO */
   .hero {
-    min-height: 100vh; display: flex; flex-direction: column;
+    height: 55vh; min-height: 340px;
+    display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    text-align: center; padding: 100px 32px 80px;
-    position: relative; z-index: 1;
+    position: relative; overflow: hidden;
+    isolation: isolate;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background: #04040a;
+  }
+
+  .hero-blob {
+    position: absolute; border-radius: 50%;
+    filter: blur(70px); opacity: 0.5;
+  }
+
+  .hero-blob-1 {
+    width: 500px; height: 500px; top: -30%; left: -10%;
+    background: radial-gradient(circle, rgba(255,182,210,0.8) 0%, rgba(255,192,220,0.4) 50%, transparent 80%);
+    animation: blob1 18s ease-in-out infinite;
+  }
+
+  .hero-blob-2 {
+    width: 420px; height: 420px; top: -20%; right: -5%;
+    background: radial-gradient(circle, rgba(160,220,255,0.75) 0%, rgba(140,210,255,0.35) 50%, transparent 80%);
+    animation: blob2 22s ease-in-out infinite;
+  }
+
+  .hero-blob-3 {
+    width: 340px; height: 340px; bottom: -10%; left: 30%;
+    background: radial-gradient(circle, rgba(200,180,255,0.55) 0%, rgba(180,160,255,0.25) 50%, transparent 80%);
+    animation: blob3 16s ease-in-out infinite;
   }
 
   .hero-logo { margin-bottom: 20px; animation: fadeUp 0.7s ease both; }
-  .hero-logo img { height: 92px; width: auto; filter: drop-shadow(0 0 40px rgba(255,255,255,0.15)); }
+  .hero-logo img { height: 60px; width: auto; filter: drop-shadow(0 0 30px rgba(255,255,255,0.12)); }
 
   .hero-yomi {
     font-family: 'Geist Mono', monospace; font-size: 12px;
     color: var(--fg-subtle); letter-spacing: 0.25em;
-    animation: fadeUp 0.7s 0.1s ease both;
+    margin-top: 12px; text-align: center;
   }
 
   /* SECTIONS */
   .section { max-width: 1000px; margin: 0 auto; padding: 64px 32px; position: relative; z-index: 1; }
   .section-title { font-size: clamp(24px, 3.5vw, 36px); font-weight: 600; letter-spacing: -0.03em; margin-bottom: 32px; }
+  .rec-note {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  .press-hint-wrap {
+    position: relative;
+    height: 40px;
+    pointer-events: none;
+    user-select: none;
+    overflow: visible;
+  }
+
+  .press-hint {
+    font-family: 'Geist Mono', monospace;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    position: absolute;
+    left: 50%; transform: translateX(-50%);
+    top: 8px;
+    white-space: nowrap;
+    background: linear-gradient(90deg, #ff6ec7, #ff9a3c, #ffe44d, #4dffb4, #4db8ff, #b44dff, #ff6ec7);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: rainbow-shift 2s linear infinite;
+    opacity: 0.25;
+  }
+
+  .press-arrow {
+    font-family: 'Geist Mono', monospace;
+    font-weight: 700;
+    position: absolute;
+    background: linear-gradient(90deg, #ff6ec7, #ff9a3c, #ffe44d, #4dffb4, #4db8ff, #b44dff, #ff6ec7);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: rainbow-shift 2s linear infinite;
+    opacity: 0.2;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .pa-1  { font-size: 28px; top: -32px; left: -24px; opacity: 0.18; animation-delay: 0s; }
+  .pa-2  { font-size: 14px; top: -18px; left: 10px;  opacity: 0.15; animation-delay: 0.3s; letter-spacing: -4px; }
+  .pa-3  { font-size: 36px; top: -44px; left: 48%;   opacity: 0.22; animation-delay: 0.6s; }
+  .pa-4  { font-size: 11px; top: -8px;  left: 60%;   opacity: 0.13; animation-delay: 0.1s; letter-spacing: -6px; }
+  .pa-5  { font-size: 42px; top: -52px; right: -12px; opacity: 0.16; animation-delay: 0.4s; }
+  .pa-6  { font-size: 16px; top: 14px;  left: -36px;  opacity: 0.19; animation-delay: 0.2s; letter-spacing: -3px; }
+  .pa-7  { font-size: 48px; top: -60px; right: 20%;   opacity: 0.12; animation-delay: 0.7s; }
+  .pa-8  { font-size: 10px; top: 22px;  right: -28px; opacity: 0.14; animation-delay: 0.5s; letter-spacing: -8px; }
+  .pa-9  { font-size: 22px; top: -28px; left: 30%;    opacity: 0.20; animation-delay: 0.9s; }
+
+  .alive-title {
+    cursor: pointer;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: opacity 0.15s;
+  }
+  .alive-title:hover { opacity: 0.75; }
+  .alive-title::after {
+    content: '';
+    display: inline-block;
+    width: 36px; height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #ff6ec7, #ff9a3c, #ffe44d, #4dffb4, #4db8ff, #b44dff, #ff6ec7);
+    background-size: 200% auto;
+    animation: rainbow-shift 2s linear infinite, bar-pulse 2s ease-in-out infinite;
+    vertical-align: middle;
+  }
+  @keyframes bar-pulse {
+    0%,100% { opacity: 1; transform: scaleX(1); }
+    50% { opacity: 0.6; transform: scaleX(0.85); }
+  }
+  @keyframes border-spin {
+    from { --angle: 0deg; }
+    to   { --angle: 360deg; }
+  }
+
+  .projects-section {
+    background: linear-gradient(90deg,
+      rgba(80,80,90,0.18) 0%,
+      rgba(160,160,175,0.08) 30%,
+      rgba(200,200,215,0.04) 50%,
+      rgba(160,160,175,0.08) 70%,
+      rgba(80,80,90,0.18) 100%
+    );
+    border-radius: 0;
+  }
+
+  .project-tag {
+    font-size: 0.55em;
+    font-family: 'Geist Mono', monospace;
+    color: rgba(255,255,255,0.35);
+    font-weight: 400;
+    vertical-align: middle;
+    letter-spacing: 0.03em;
+    margin-left: 6px;
+  }
+
+  .project-disclaimer {
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+    margin-top: 6px;
+    display: block;
+    letter-spacing: 0.01em;
+  }
+
+  .projects-note {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+    margin-bottom: 28px;
+    letter-spacing: 0.02em;
+  }
+
+  .project-card {
+    position: relative;
+    border-radius: 16px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: 12px;
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-top-color: rgba(255,255,255,0.18);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.12) inset, 0 8px 24px rgba(0,0,0,0.3);
+    transition: background 0.2s;
+  }
+
+  .project-card { cursor: default; }
+
+  .project-left { flex: 1; }
+
+  .project-alpha {
+    font-size: 0.7em;
+    color: rgba(255,180,100,0.7);
+    font-family: 'Geist Mono', monospace;
+    font-weight: 400;
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+
+  .project-name {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, #fff 60%, rgba(255,255,255,0.5));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .project-link {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-top-color: rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 10px 16px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: color 0.15s, border-color 0.15s;
+    background: rgba(255,255,255,0.03);
+  }
+  .project-link:hover { color: rgba(255,255,255,0.75); border-color: rgba(255,255,255,0.2); }
+
+  .sparkle-link {
+    background: linear-gradient(90deg,
+      rgba(255,255,255,0.25) 0%,
+      rgba(255,255,255,0.55) 20%,
+      rgba(255,110,199,0.7) 35%,
+      rgba(255,255,255,0.8) 50%,
+      rgba(77,184,255,0.7) 65%,
+      rgba(255,255,255,0.55) 80%,
+      rgba(255,255,255,0.25) 100%
+    );
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 12s linear infinite;
+    border-color: rgba(255,255,255,0.12);
+  }
+
+  .sparkle-link:hover {
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 6s linear infinite;
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: 200% center; }
+    100% { background-position: -100% center; }
+  }
+
+  .project-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.7;
+    max-width: 360px;
+    font-family: 'Geist Mono', monospace;
+  }
+
+  .what-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .what-logo {
+    height: 1.4em;
+    width: auto;
+    vertical-align: middle;
+    display: inline-block;
+  }
+  .what-disclaimer {
+    font-size: clamp(15px, 2vw, 20px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 40px;
+    line-height: 1.2;
+    background: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.4) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    border-left: 3px solid rgba(255,255,255,0.6);
+    padding-left: 20px;
+  }
+
+  .what-answer {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 12px;
+    max-width: 640px;
+    line-height: 1.8;
+    letter-spacing: 0.01em;
+  }
+
   .about-note {
     font-family: 'Geist Mono', monospace;
     font-size: 11px;
@@ -473,6 +704,99 @@
   @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
 
+
+  .modal-alive-inner {
+    width: min(320px, calc(100vw - 48px)) !important;
+  }
+
+  .alive-modal-body {
+    padding: 36px 28px 32px;
+    display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;
+    width: 100%;
+  }
+
+  .alive-modal-title {
+    font-size: 17px; font-weight: 600; color: var(--fg);
+    letter-spacing: -0.01em;
+  }
+
+  .alive-modal-sub {
+    font-size: 13px; color: var(--fg-muted);
+    margin-bottom: 20px;
+  }
+
+  .alive-btn {
+    background: var(--green);
+    color: #000;
+    border: none; border-radius: 14px;
+    padding: 14px 40px;
+    font-size: 15px; font-weight: 600;
+    font-family: 'Geist', sans-serif;
+    cursor: pointer;
+    width: 100%;
+    transition: opacity 0.15s, transform 0.1s;
+    box-shadow: 0 4px 20px rgba(48,209,88,0.35);
+  }
+
+  .alive-btn:hover { opacity: 0.88; }
+  .alive-btn:active { transform: scale(0.97); }
+
+  .dead-btn-wrap { width: 100%; margin-top: 8px; }
+
+  .dead-btn {
+    background: rgba(255,255,255,0.04);
+    color: rgba(255,255,255,0.45);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    padding: 14px 40px;
+    font-size: 15px; font-weight: 500;
+    font-family: 'Geist', sans-serif;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.15s;
+  }
+  .dead-btn:hover { background: rgba(255,255,255,0.08); }
+
+  /* iOS TOAST */
+  .ios-toast {
+    position: fixed; bottom: 32px; right: 24px; z-index: 500;
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(30,30,38,0.82);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-top-color: rgba(255,255,255,0.3);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.25) inset, 0 16px 48px rgba(0,0,0,0.6);
+    border-radius: 16px;
+    padding: 14px 18px;
+    min-width: 220px;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .ios-toast.show {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .ios-toast-icon {
+    width: 36px; height: 36px;
+    position: relative; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ios-toast-heart {
+    position: absolute; bottom: -2px; right: -4px;
+    font-size: 13px; line-height: 1;
+    color: #ff3b30;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
+  }
+
+  .ios-toast-title { font-size: 13px; font-weight: 600; color: var(--fg); }
+  .ios-toast-sub { font-size: 11px; color: var(--fg-muted); margin-top: 1px; font-family: 'Geist Mono', monospace; }
+
   @media (max-width: 768px) {
     .nav-links { display: none; }
     footer { flex-direction: column; gap: 12px; text-align: center; }
@@ -484,12 +808,7 @@
 </head>
 <body>
 
-<div class="bg-canvas">
-  <div class="bg-blob bg-blob-1"></div>
-  <div class="bg-blob bg-blob-2"></div>
-  <div class="bg-blob bg-blob-3"></div>
-  <div class="bg-blob bg-blob-4"></div>
-</div>
+<div class="bg-canvas"></div>
 
 <nav>
   <div class="nav-inner">
@@ -502,14 +821,44 @@
 </nav>
 
 <section class="hero">
-  <div class="hero-logo"><img src="logo.png" alt="neplov"></div>
-  <p class="hero-yomi">ねぷろふ</p>
+  <div class="hero-bg">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+    <div class="hero-blob hero-blob-3"></div>
+  </div>
+  <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:12px;">
+    <img src="logo.png" alt="neplov" style="height:76px;width:auto;filter:drop-shadow(0 0 36px rgba(255,255,255,0.15));">
+    <p class="hero-yomi">ねぷろふ</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section class="section" id="what">
+  <p class="what-disclaimer">これはグループでもなく、会社でもなく、ただの個人のサイトです。</p>
+  <h2 class="section-title what-title"><img src="logo.png" alt="neplov" class="what-logo">はなにをしているの？</h2>
+  <p class="what-answer">AIを使ったコーディング、Webアプリの開発、サイト制作、ツールづくり、あとよくわからないものをとりあえず動かすこと。だいたいAIが書いたコードを、合ってるかどうかよくわからないまま動かしている。それでもなんとかなっている。<br><br>ですが、本当によくないですよね、これ。AIを使ったコーディングがいくらできたとて、さらにいい使い方をするためには、基礎的なコーディングの知識が欠かせないというのに。エラーが出ても何が悪いのかよくわからないし、AIに投げたらなんとかなるからいいや、という思考が染みついてきている気がして、それはそれで怖い。ちゃんと学ばなければ、とは思う。思うだけで、今日もAIに投げている。<br><br>いや、これは本当によくない。絶対に、基礎的な知識が必要だ。自分ひとりでコードが書けて、はじめてAIにコーディングさせることが意味を成す。土台のないところにAIを乗せても、それは砂の上の城で、自分が何を作っているのかすら、本当にはわかっていない。わかった気になっているだけだ。これは反省として、ここに書いておく。</p>
 </section>
 
 <hr class="divider">
 
 <section class="section" id="about">
-  <h2 class="section-title">いきています</h2>
+  <div style="display:flex; align-items:baseline; gap:20px; flex-wrap:wrap;">
+    <div style="position:relative; display:inline-block;">
+      <h2 class="section-title alive-title" onclick="openModal('modal-alive')" title="クリック">いきています</h2>
+    <div class="press-hint-wrap">
+      <span class="press-arrow pa-1">↑</span>
+      <span class="press-arrow pa-2">↑↑</span>
+      <span class="press-arrow pa-3">↑</span>
+      <span class="press-arrow pa-4">↑↑↑</span>
+      <span class="press-arrow pa-5">↑</span>
+      <p class="press-hint">↑↑ ここはおせますよ ↑↑</p>
+      <span class="press-arrow pa-6">↑↑</span>
+      <span class="press-arrow pa-7">↑</span>
+      <span class="press-arrow pa-8">↑↑↑↑</span>
+      <span class="press-arrow pa-9">↑</span>
+    </div>
+  </div>
   <p class="about-note">※ これはわざとです。アートなので。</p>
   <p class="about-text">そういえば最近、いきていますって何だろう、と思うことがある。<br>
 朝起きて、スマホを見て、なんとなく時間が溶けて、気づいたら夜になっている。それでもまだ生きてる。すごいことでもないけど、すごくないわけでもない。<br><br>
@@ -520,6 +869,7 @@
 結局のところ、愛が大事だと思う。それは、まあ、その、女の子に対してとか、そういうことも、なくはないというか、あるにはあるというか、べつにそこは深く聞かないでほしいんですけど。前に好きだった人がいて、その人とはいろいろ複雑で、一方的だったのかもわからないのだけれど、僕が別の人を好きだったときにその人が最接近してきて、だから正直に別の人が好きだと答えた。でもそのあと、やっぱりその人のことが好きだったと気づいた。気づくのが遅い。その後しばらくして彼氏がいるという話を聞いて、ああそうかと思っていたら、別れたらしいという話も聞こえてきて、今はもう別のところにいる。よくわからないけど、とりあえず今も好きです。以上です。深く聞かないでください。<br>とにかくそれだけじゃなくて、目の前のパソコンで、AIを使って何かを作るという行為への愛とか、そういうものでもいい。なんだっていい。対象はなんでもいい。<br><br>
 だから、なぜ生きているのかなんて、わからなくていい。いつか死ぬ。</p>
 </section>
+
 
 <hr class="divider">
 
@@ -540,8 +890,46 @@
       <div class="bio-row"><span class="bio-label">在住</span><span class="bio-val">神奈川県鎌倉市</span></div>
       <div class="bio-row"><span class="bio-label">好きなこと</span><span class="bio-val">ない</span></div>
       <div class="bio-row"><span class="bio-label">やっていること</span><span class="bio-val">このサイトを作ったりすること</span></div>
-      <div class="bio-row"><span class="bio-label">学歴</span><span class="bio-val"><span class="rainbow-big">国立</span>の工業高校 在籍</span></div>
+      <div class="bio-row"><span class="bio-label">社会的身分</span><span class="bio-val">高校生</span></div>
     </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section class="section projects-section" id="projects">
+  <h2 class="section-title what-title">
+    <img src="logo.png" alt="neplov" class="what-logo"> Projects
+  </h2>
+
+  <div class="project-card">
+    <div class="project-left">
+      <p class="project-name">neplov 時計</p>
+      <p class="project-desc">Projectsというほどのものではないが、時計。限界まで容量を削った。たぶんうごく。</p>
+    </div>
+    <a href="https://tarapon.dev/clock" class="project-link sparkle-link" target="_blank">
+      tarapon.dev/clock →
+    </a>
+  </div>
+
+  <div class="project-card" style="margin-top:16px;">
+    <div class="project-left">
+      <p class="project-name">のこりはどれくらい？</p>
+      <p class="project-desc">いままで過ごしてきた時間が、日・週・月・年それぞれで何パーセントに相当するのかを視覚的に表示する。</p>
+    </div>
+    <a href="https://remaining.neplov.net" class="project-link sparkle-link" target="_blank">
+      remaining.neplov.net →
+    </a>
+  </div>
+
+  <div class="project-card" style="margin-top:16px;">
+    <div class="project-left">
+      <p class="project-name">Seismic Monitor <span class="project-alpha">α</span> <span class="project-tag">地震情報モニター</span></p>
+      <p class="project-desc">EEW（Earthquake Early Warning）受信、発生した地震の情報の閲覧ができます。AIが作成しました。α版として提供しています。<br><span class="project-disclaimer">このWebアプリを使用したことによって生じた損害は、一切の責任を負わないものとします。</span></p>
+    </div>
+    <a href="https://seismic-monitor.tlarnc1.workers.dev" class="project-link sparkle-link" target="_blank">
+      seismic-monitor.tlarnc1.workers.dev →
+    </a>
   </div>
 </section>
 
@@ -689,6 +1077,57 @@
   </div>
 </div>
 
+<!-- MODAL: ALIVE -->
+<div class="modal-overlay" id="modal-alive" onclick="closeOnOverlay(event,'modal-alive')">
+  <div class="modal modal-alive-inner">
+
+    <!-- STEP 1: 生存確認 -->
+    <div class="alive-modal-body" id="alive-step-1">
+      <p class="alive-modal-title">生存確認</p>
+      <p class="alive-modal-sub">たらぽんもしくはあなたはいきていますか？</p>
+      <button class="alive-btn" onclick="confirmAlive()">いきています</button>
+      <div class="dead-btn-wrap">
+        <button class="dead-btn" onclick="goDeadStep()">いきていません</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: どちら？ -->
+    <div class="alive-modal-body" id="alive-step-2" style="display:none">
+      <p class="alive-modal-title">どちらですか？</p>
+      <p class="alive-modal-sub">たらぽんかあなた、どちらが生きていないのですか？</p>
+      <button class="alive-btn" onclick="goDeadTarapon()" style="margin-bottom:8px">たらぽん</button>
+      <button class="alive-btn" onclick="goDeadYou()">あなた</button>
+    </div>
+
+    <!-- STEP 3a: たらぽんが死んでいる場合 -->
+    <div class="alive-modal-body" id="alive-step-3a" style="display:none">
+      <p class="alive-modal-title">間違いです。</p>
+      <p class="alive-modal-sub" style="text-align:left;line-height:1.8">たらぽんが死んでいるのなら、たらぽんの「死」を近くに感じた時にサイトを消すと肝に銘じていることに反するので、間違いです。</p>
+      <button class="alive-btn" onclick="confirmSorry()">やっぱりいきていました。すいませんでした</button>
+    </div>
+
+    <!-- STEP 3b: あなたが死んでいる場合 -->
+    <div class="alive-modal-body" id="alive-step-3b" style="display:none">
+      <p class="alive-modal-title">いきていなきゃ<br>おせないですよね？</p>
+      <p class="alive-modal-sub"> </p>
+      <button class="alive-btn" onclick="confirmSorry()">やっぱりいきていました。すいませんでした</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="ios-toast" id="ios-toast">
+  <div class="ios-toast-icon">
+    <img src="logo-1.png" alt="" style="width:100%;height:100%;object-fit:contain;">
+    <span class="ios-toast-heart">♥</span>
+  </div>
+  <div class="ios-toast-text">
+    <p class="ios-toast-title" id="toast-title">生存を確認しました</p>
+    <p class="ios-toast-sub" id="toast-sub">たらぽんはいきています</p>
+  </div>
+</div>
+
 <script>
 function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
@@ -707,6 +1146,59 @@ function tick() {
   if(e4){var n=new Date(); e4.textContent=p(n.getHours())+':'+p(n.getMinutes())+':'+p(n.getSeconds());}
 }
 tick(); setInterval(tick,1000);
+
+
+
+
+
+
+
+
+
+
+
+
+function showToast(msg, sub) {
+  var toast = document.getElementById('ios-toast');
+  document.getElementById('toast-title').textContent = msg;
+  document.getElementById('toast-sub').textContent = sub;
+  toast.classList.add('show');
+  setTimeout(function(){ toast.classList.remove('show'); }, 3500);
+}
+
+function resetAliveModal() {
+  ['alive-step-1','alive-step-2','alive-step-3a','alive-step-3b'].forEach(function(id){
+    document.getElementById(id).style.display = 'none';
+  });
+  document.getElementById('alive-step-1').style.display = 'flex';
+}
+
+function confirmAlive() {
+  closeModal('modal-alive');
+  setTimeout(resetAliveModal, 400);
+  showToast('生存を確認しました', 'たらぽんはいきています');
+}
+
+function goDeadStep() {
+  document.getElementById('alive-step-1').style.display = 'none';
+  document.getElementById('alive-step-2').style.display = 'flex';
+}
+
+function goDeadTarapon() {
+  document.getElementById('alive-step-2').style.display = 'none';
+  document.getElementById('alive-step-3a').style.display = 'flex';
+}
+
+function goDeadYou() {
+  document.getElementById('alive-step-2').style.display = 'none';
+  document.getElementById('alive-step-3b').style.display = 'flex';
+}
+
+function confirmSorry() {
+  closeModal('modal-alive');
+  setTimeout(resetAliveModal, 400);
+  showToast('よかった', 'いきていてよかった');
+}
 </script>
 </body>
 </html>
