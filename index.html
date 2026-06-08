@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -11,8 +11,8 @@
 
   :root {
     --fg: #fff;
-    --fg-muted: rgba(255,255,255,0.55);
-    --fg-subtle: rgba(255,255,255,0.28);
+    --fg-muted: #fff;
+    --fg-subtle: #fff;
     --glass: rgba(255,255,255,0.07);
     --glass-hover: rgba(255,255,255,0.11);
     --glass-border: rgba(255,255,255,0.14);
@@ -43,12 +43,10 @@
 
   /* GLASS MIXIN */
   .glass {
-    background: var(--glass);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    background: #111;
     border: 1px solid var(--glass-border);
     border-top-color: var(--glass-highlight);
-    border-left-color: rgba(255,255,255,0.18);
+    border-left-color: #fff;
     box-shadow:
       0 1px 0 0 var(--glass-highlight) inset,
       0 -1px 0 0 rgba(0,0,0,0.2) inset,
@@ -59,35 +57,49 @@
   /* NAV */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 32px; height: 60px;
+    height: 72px; width: 100%;
+    background: #000;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0;
+    border-bottom: 1px solid #222;
   }
 
   .nav-inner {
     display: flex; align-items: center; justify-content: space-between;
-    width: 100%; height: 44px;
-    background: rgba(255,255,255,0.04);
-    backdrop-filter: blur(60px) saturate(160%) brightness(1.05);
-    -webkit-backdrop-filter: blur(60px) saturate(160%) brightness(1.05);
-    border-radius: 22px;
-    border: 1px solid transparent;
-    background-clip: padding-box;
-    outline: 1px solid rgba(255,255,255,0.1);
-    outline-offset: -1px;
-    box-shadow:
-      0 1px 0 rgba(255,255,255,0.5) inset,
-      0 -1px 0 rgba(0,0,0,0.15) inset,
-      1px 0 0 rgba(255,255,255,0.22) inset,
-      0 12px 40px rgba(0,0,0,0.55),
-      0 2px 8px rgba(180,210,255,0.12);
-    padding: 0 20px;
-    position: relative;
+    width: 100%; height: 100%;
+    background: transparent;
+    padding: 0 32px;
   }
 
-  .nav-logo img { height: 22px; width: auto; display: block; }
-  .nav-links { display: flex; gap: 24px; list-style: none; }
-  .nav-links a { font-size: 13px; color: var(--fg-muted); text-decoration: none; transition: color 0.15s; }
-  .nav-links a:hover { color: var(--fg); }
+  .nav-logo {
+    display: flex; align-items: center; justify-content: center;
+    background: transparent;
+    height: 100%;
+    text-decoration: none;
+  }
+
+  .nav-logo img {
+    height: 36px; width: auto; display: block;
+    opacity: 1; transition: transform 0.2s;
+    transform: scaleY(0.85); /* Slightly squashed vertically */
+  }
+  .nav-logo:hover img { transform: scale(1.05) scaleY(0.85); }
+
+  .nav-links {
+    display: flex; gap: 32px; list-style: none; margin: 0;
+    background: transparent;
+    height: 100%;
+    align-items: center;
+  }
+
+  .nav-links li { display: flex; align-items: center; }
+  .nav-links a {
+    font-size: 15px; font-weight: 500; color: #fff; 
+    text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { 
+    color: #ccc; 
+  }
 
   /* HERO */
   .hero {
@@ -136,87 +148,17 @@
   }
 
   /* SECTIONS */
+  .what-logo { height: 1.5em; width: auto; vertical-align: middle; margin-right: 16px; margin-bottom: 4px; }
   .section { max-width: 1000px; margin: 0 auto; padding: 64px 32px; position: relative; z-index: 1; }
-  .section-title { font-size: clamp(24px, 3.5vw, 36px); font-weight: 600; letter-spacing: -0.03em; margin-bottom: 32px; }
+  .section-title { display: flex; align-items: center; font-size: clamp(24px, 3.5vw, 36px); font-weight: 600; letter-spacing: -0.03em; margin-bottom: 32px; }
   .rec-note {
     font-family: 'Geist Mono', monospace;
     font-size: 12px;
-    color: rgba(255,255,255,0.25);
+    color: #fff;
     letter-spacing: 0.02em;
     white-space: nowrap;
   }
 
-  .press-hint-wrap {
-    position: relative;
-    height: 40px;
-    pointer-events: none;
-    user-select: none;
-    overflow: visible;
-  }
-
-  .press-hint {
-    font-family: 'Geist Mono', monospace;
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    position: absolute;
-    left: 50%; transform: translateX(-50%);
-    top: 8px;
-    white-space: nowrap;
-    background: linear-gradient(90deg, #ff6ec7, #ff9a3c, #ffe44d, #4dffb4, #4db8ff, #b44dff, #ff6ec7);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: rainbow-shift 2s linear infinite;
-    opacity: 0.25;
-  }
-
-  .press-arrow {
-    font-family: 'Geist Mono', monospace;
-    font-weight: 700;
-    position: absolute;
-    background: linear-gradient(90deg, #ff6ec7, #ff9a3c, #ffe44d, #4dffb4, #4db8ff, #b44dff, #ff6ec7);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: rainbow-shift 2s linear infinite;
-    opacity: 0.2;
-    pointer-events: none;
-    user-select: none;
-  }
-
-  .pa-1  { font-size: 28px; top: -32px; left: -24px; opacity: 0.18; animation-delay: 0s; }
-  .pa-2  { font-size: 14px; top: -18px; left: 10px;  opacity: 0.15; animation-delay: 0.3s; letter-spacing: -4px; }
-  .pa-3  { font-size: 36px; top: -44px; left: 48%;   opacity: 0.22; animation-delay: 0.6s; }
-  .pa-4  { font-size: 11px; top: -8px;  left: 60%;   opacity: 0.13; animation-delay: 0.1s; letter-spacing: -6px; }
-  .pa-5  { font-size: 42px; top: -52px; right: -12px; opacity: 0.16; animation-delay: 0.4s; }
-  .pa-6  { font-size: 16px; top: 14px;  left: -36px;  opacity: 0.19; animation-delay: 0.2s; letter-spacing: -3px; }
-  .pa-7  { font-size: 48px; top: -60px; right: 20%;   opacity: 0.12; animation-delay: 0.7s; }
-  .pa-8  { font-size: 10px; top: 22px;  right: -28px; opacity: 0.14; animation-delay: 0.5s; letter-spacing: -8px; }
-  .pa-9  { font-size: 22px; top: -28px; left: 30%;    opacity: 0.20; animation-delay: 0.9s; }
-
-  .alive-title {
-    cursor: pointer;
-    display: inline-flex; align-items: center; gap: 10px;
-    transition: opacity 0.15s;
-  }
-  .alive-title:hover { opacity: 0.75; }
-  .alive-title::after {
-    content: '';
-    display: inline-block;
-    width: 36px; height: 4px;
-    border-radius: 2px;
-    background: linear-gradient(90deg, #ff6ec7, #ff9a3c, #ffe44d, #4dffb4, #4db8ff, #b44dff, #ff6ec7);
-    background-size: 200% auto;
-    animation: rainbow-shift 2s linear infinite, bar-pulse 2s ease-in-out infinite;
-    vertical-align: middle;
-  }
-  @keyframes bar-pulse {
-    0%,100% { opacity: 1; transform: scaleX(1); }
-    50% { opacity: 0.6; transform: scaleX(0.85); }
-  }
   @keyframes border-spin {
     from { --angle: 0deg; }
     to   { --angle: 360deg; }
@@ -236,7 +178,7 @@
   .project-tag {
     font-size: 0.55em;
     font-family: 'Geist Mono', monospace;
-    color: rgba(255,255,255,0.35);
+    color: #fff;
     font-weight: 400;
     vertical-align: middle;
     letter-spacing: 0.03em;
@@ -245,7 +187,7 @@
 
   .project-disclaimer {
     font-size: 11px;
-    color: rgba(255,255,255,0.25);
+    color: #fff;
     margin-top: 6px;
     display: block;
     letter-spacing: 0.01em;
@@ -254,7 +196,7 @@
   .projects-note {
     font-family: 'Geist Mono', monospace;
     font-size: 12px;
-    color: rgba(255,255,255,0.25);
+    color: #fff;
     margin-bottom: 28px;
     letter-spacing: 0.02em;
   }
@@ -268,11 +210,9 @@
     justify-content: space-between;
     gap: 40px;
     margin-top: 12px;
-    background: rgba(255,255,255,0.04);
-    backdrop-filter: blur(24px) saturate(150%);
-    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    background: #111;
     border: 1px solid rgba(255,255,255,0.08);
-    border-top-color: rgba(255,255,255,0.18);
+    border-top-color: #fff;
     box-shadow: 0 1px 0 rgba(255,255,255,0.12) inset, 0 8px 24px rgba(0,0,0,0.3);
     transition: background 0.2s;
   }
@@ -302,183 +242,24 @@
   }
 
   .project-link {
-    font-family: 'Geist Mono', monospace;
-    font-size: 12px;
-    color: rgba(255,255,255,0.4);
-    text-decoration: none;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-top-color: rgba(255,255,255,0.2);
-    border-radius: 8px;
-    padding: 10px 16px;
+    font-family: initial;
+    font-size: 14px;
+    color: blue;
+    background: #fff;
+    text-decoration: underline;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
     white-space: nowrap;
     flex-shrink: 0;
-    transition: color 0.15s, border-color 0.15s;
-    background: rgba(255,255,255,0.03);
   }
-  .project-link:hover { color: rgba(255,255,255,0.75); border-color: rgba(255,255,255,0.2); }
-
-  .sparkle-link {
-    background: linear-gradient(90deg,
-      rgba(255,255,255,0.25) 0%,
-      rgba(255,255,255,0.55) 20%,
-      rgba(255,110,199,0.7) 35%,
-      rgba(255,255,255,0.8) 50%,
-      rgba(77,184,255,0.7) 65%,
-      rgba(255,255,255,0.55) 80%,
-      rgba(255,255,255,0.25) 100%
-    );
-    background-size: 300% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: shimmer 12s linear infinite;
-    border-color: rgba(255,255,255,0.12);
+  .project-link:hover {
+    opacity: 0.8;
   }
-
-  .sparkle-link:hover {
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 6s linear infinite;
-  }
-
-  @keyframes shimmer {
-    0%   { background-position: 200% center; }
-    100% { background-position: -100% center; }
-  }
-
-  .project-desc {
-    font-size: 13px;
-    color: rgba(255,255,255,0.5);
-    line-height: 1.7;
-    max-width: 360px;
-    font-family: 'Geist Mono', monospace;
-  }
-
-  .what-title {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .what-logo {
-    height: 1.4em;
-    width: auto;
-    vertical-align: middle;
-    display: inline-block;
-  }
-  .what-disclaimer {
-    font-size: clamp(15px, 2vw, 20px);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    margin-bottom: 40px;
-    line-height: 1.2;
-    background: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.4) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    border-left: 3px solid rgba(255,255,255,0.6);
-    padding-left: 20px;
-  }
-
-  .what-answer {
-    font-size: 14px;
-    color: rgba(255,255,255,0.5);
-    margin-top: 12px;
-    max-width: 640px;
-    line-height: 1.8;
-    letter-spacing: 0.01em;
-  }
-
-  .about-note {
-    font-family: 'Geist Mono', monospace;
-    font-size: 11px;
-    color: rgba(255,255,255,0.25);
-    margin-bottom: 20px;
-    letter-spacing: 0.04em;
-  }
-
-  .about-text {
-    font-size: 15px;
-    line-height: 2;
-    color: rgba(255,255,255,0.72);
-    max-width: 680px;
-    letter-spacing: 0.01em;
-  }
-
-  .about-text {
-    font-size: 14px;
-    color: var(--fg-muted);
-    line-height: 1.9;
-    max-width: 680px;
-  }
-
-  /* DIVIDER */
-  .divider { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 0 32px; position: relative; z-index: 1; }
-
-  /* MEMBER CARD */
-  @keyframes float {
-    0%,100% { transform: translateY(0px) rotate(0deg); }
-    33%      { transform: translateY(-6px) rotate(0.4deg); }
-    66%      { transform: translateY(-3px) rotate(-0.3deg); }
-  }
-
-  .member-card {
-    background: rgba(255,255,255,0.06);
-    backdrop-filter: blur(48px) saturate(160%) brightness(1.06);
-    -webkit-backdrop-filter: blur(48px) saturate(160%) brightness(1.06);
-    border: 1px solid transparent;
-    background-clip: padding-box;
-    outline: 1px solid rgba(255,255,255,0.12);
-    outline-offset: -1px;
-    box-shadow:
-      0 1px 0 rgba(255,255,255,0.55) inset,
-      0 -1px 0 rgba(0,0,0,0.12) inset,
-      1px 0 0 rgba(255,255,255,0.25) inset,
-      -1px 0 0 rgba(255,255,255,0.08) inset,
-      0 24px 64px rgba(0,0,0,0.55),
-      0 4px 20px rgba(200,220,255,0.10),
-      0 1px 4px rgba(0,0,0,0.5);
-    border-radius: 24px; padding: 28px 32px;
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 40px; position: relative; overflow: hidden;
-    transition: transform 0.5s cubic-bezier(0.34,1.4,0.64,1),
-                background 0.4s ease,
-                box-shadow 0.5s ease;
-    will-change: transform;
-  }
-
-  .member-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent 5%, rgba(255,255,255,0.6) 35%, rgba(255,255,255,0.6) 65%, transparent 95%);
-    pointer-events: none; z-index: 1;
-  }
-
-  .member-card::after {
-    content: '';
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse 100% 60% at 50% -10%, rgba(255,255,255,0.09) 0%, transparent 60%),
-      linear-gradient(135deg, rgba(192,38,211,0.04) 0%, transparent 40%, rgba(99,102,241,0.04) 60%, transparent 100%);
-    pointer-events: none;
-  }
-
-  .member-card:hover {
-    animation: float 3.5s ease-in-out infinite;
-    background: rgba(255,255,255,0.055);
-    box-shadow:
-      0 1px 0 rgba(255,255,255,0.65) inset,
-      0 -1px 0 rgba(0,0,0,0.12) inset,
-      1px 0 0 rgba(255,255,255,0.3) inset,
-      0 40px 90px rgba(0,0,0,0.6),
-      0 12px 40px rgba(200,220,255,0.12),
-      0 3px 8px rgba(0,0,0,0.5);
-  }
-
-  .member-left { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
   .member-avatar { width: 56px; height: 56px; border-radius: 50%; overflow: hidden; border: 1px solid rgba(255,255,255,0.15); flex-shrink: 0; }
   .member-avatar img { width: 100%; height: 100%; object-fit: cover; }
   .member-name { font-size: 16px; font-weight: 500; margin-bottom: 4px; }
-  .member-role { font-size: 12px; color: var(--fg-muted); font-family: 'Geist Mono', monospace; }
+  .member-role { font-size: 14px; color: var(--fg-muted); font-family: 'Geist Mono', monospace; }
   .member-question {
     font-size: 0.6em;
     color: var(--fg-subtle);
@@ -488,7 +269,7 @@
 
   .member-note {
     font-size: 12px;
-    color: rgba(255,255,255,0.3);
+    color: #fff;
     line-height: 1.8;
     max-width: 520px;
     margin-bottom: 24px;
@@ -498,24 +279,24 @@
   .member-link {
     font-family: 'Geist Mono', monospace;
     font-size: 11px;
-    color: rgba(255,255,255,0.3);
+    color: #fff;
     text-decoration: none;
     display: block;
     margin-top: 2px;
     transition: color 0.15s;
   }
-  .member-link:hover { color: rgba(255,255,255,0.55); }
+  .member-link:hover { color: #fff; }
   .member-kagawa {
     font-size: 11px;
-    color: rgba(255,255,255,0.2);
+    color: #fff;
     margin-top: 6px;
     font-family: 'Geist Mono', monospace;
   }
 
   .member-bio { display: flex; flex-direction: column; gap: 10px; }
   .bio-row { display: flex; gap: 16px; align-items: baseline; justify-content: flex-end; }
-  .bio-label { font-family: 'Geist Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.28); white-space: nowrap; width: 100px; text-align: right; flex-shrink: 0; }
-  .bio-val { font-size: 13px; color: rgba(255,255,255,0.7); text-align: left; width: 180px; }
+  .bio-label { font-family: 'Geist Mono', monospace; font-size: 11px; color: #fff; white-space: nowrap; width: 100px; text-align: right; flex-shrink: 0; }
+  .bio-val { font-size: 13px; color: #fff; text-align: left; width: 180px; }
   .rainbow {
     background: linear-gradient(90deg, #ff6ec7, #ff9a3c, #ffe44d, #4dffb4, #4db8ff, #b44dff, #ff6ec7);
     background-size: 200% auto;
@@ -579,14 +360,12 @@
   .footer-half-left { justify-content: flex-end; padding-right: 48px; border-right: 1px solid rgba(255,255,255,0.06); }
   .footer-half-right { justify-content: flex-start; padding-left: 48px; }
   .footer-logo img { height: 21px; width: auto; opacity: 0.3; }
-  .footer-text { font-size: 12px; color: var(--fg-subtle); font-family: 'Geist Mono', monospace; }
+  .footer-text { font-size: 14px; color: var(--fg-subtle); font-family: 'Geist Mono', monospace; }
 
   /* MODAL */
   .modal-overlay {
     position: fixed; inset: 0;
     background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(16px) saturate(150%);
-    -webkit-backdrop-filter: blur(16px) saturate(150%);
     z-index: 300; display: flex; align-items: center; justify-content: center;
     opacity: 0; pointer-events: none; transition: opacity 0.25s;
   }
@@ -594,8 +373,6 @@
 
   .modal {
     background: rgba(10,10,18,0.65);
-    backdrop-filter: blur(56px) saturate(160%) brightness(1.05);
-    -webkit-backdrop-filter: blur(56px) saturate(160%) brightness(1.05);
     border: 1px solid transparent;
     background-clip: padding-box;
     outline: 1px solid rgba(255,255,255,0.12);
@@ -630,9 +407,8 @@
   .modal-close {
     position: absolute; top: 14px; right: 14px; z-index: 10;
     background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(10px);
     border: 1px solid rgba(255,255,255,0.15);
-    border-top-color: rgba(255,255,255,0.28);
+    border-top-color: #fff;
     color: var(--fg-muted);
     width: 28px; height: 28px; border-radius: 50%;
     cursor: pointer; font-size: 13px;
@@ -705,104 +481,44 @@
   @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
 
 
-  .modal-alive-inner {
-    width: min(320px, calc(100vw - 48px)) !important;
-  }
-
-  .alive-modal-body {
-    padding: 36px 28px 32px;
-    display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;
-    width: 100%;
-  }
-
-  .alive-modal-title {
-    font-size: 17px; font-weight: 600; color: var(--fg);
-    letter-spacing: -0.01em;
-  }
-
-  .alive-modal-sub {
-    font-size: 13px; color: var(--fg-muted);
-    margin-bottom: 20px;
-  }
-
-  .alive-btn {
-    background: var(--green);
-    color: #000;
-    border: none; border-radius: 14px;
-    padding: 14px 40px;
-    font-size: 15px; font-weight: 600;
-    font-family: 'Geist', sans-serif;
-    cursor: pointer;
-    width: 100%;
-    transition: opacity 0.15s, transform 0.1s;
-    box-shadow: 0 4px 20px rgba(48,209,88,0.35);
-  }
-
-  .alive-btn:hover { opacity: 0.88; }
-  .alive-btn:active { transform: scale(0.97); }
-
-  .dead-btn-wrap { width: 100%; margin-top: 8px; }
-
-  .dead-btn {
-    background: rgba(255,255,255,0.04);
-    color: rgba(255,255,255,0.45);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 14px;
-    padding: 14px 40px;
-    font-size: 15px; font-weight: 500;
-    font-family: 'Geist', sans-serif;
-    cursor: pointer;
-    width: 100%;
-    transition: background 0.15s;
-  }
-  .dead-btn:hover { background: rgba(255,255,255,0.08); }
-
-  /* iOS TOAST */
-  .ios-toast {
-    position: fixed; bottom: 32px; right: 24px; z-index: 500;
-    display: flex; align-items: center; gap: 12px;
-    background: rgba(30,30,38,0.82);
-    backdrop-filter: blur(40px) saturate(200%);
-    -webkit-backdrop-filter: blur(40px) saturate(200%);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-top-color: rgba(255,255,255,0.3);
-    box-shadow: 0 1px 0 rgba(255,255,255,0.25) inset, 0 16px 48px rgba(0,0,0,0.6);
-    border-radius: 16px;
-    padding: 14px 18px;
-    min-width: 220px;
-    transform: translateY(100px);
-    opacity: 0;
-    transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;
-    pointer-events: none;
-  }
-
-  .ios-toast.show {
-    transform: translateY(0);
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .ios-toast-icon {
-    width: 36px; height: 36px;
-    position: relative; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .ios-toast-heart {
-    position: absolute; bottom: -2px; right: -4px;
-    font-size: 13px; line-height: 1;
-    color: #ff3b30;
-    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
-  }
-
-  .ios-toast-title { font-size: 13px; font-weight: 600; color: var(--fg); }
-  .ios-toast-sub { font-size: 11px; color: var(--fg-muted); margin-top: 1px; font-family: 'Geist Mono', monospace; }
-
   @media (max-width: 768px) {
     .nav-links { display: none; }
     footer { flex-direction: column; gap: 12px; text-align: center; }
     .member-card { flex-direction: column; }
     .member-philosophy { text-align: left; }
     .sb-metrics { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* MEMBER CARD (GLASS) */
+  .member-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    background: rgba(15,15,25,0.45) !important;
+    backdrop-filter: blur(40px) saturate(200%) !important;
+    -webkit-backdrop-filter: blur(40px) saturate(200%) !important;
+    border: 1px solid rgba(255,255,255,0.15) !important;
+    border-top-color: rgba(255,255,255,0.25) !important;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.1) inset !important;
+    border-radius: 24px !important;
+    transition: background 0.4s, box-shadow 0.4s !important; /* Removed transform transition */
+    padding: 32px !important;
+  }
+  .member-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex: 1;
+  }
+  .member-card:hover {
+    background: rgba(25,25,35,0.55) !important;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 1px 0 rgba(255,255,255,0.15) inset !important;
+    transform: none !important; /* Absolutely stop it from floating */
+  }
+  .member-avatar {
+    box-shadow: 0 0 24px rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.2) !important;
   }
 </style>
 </head>
@@ -815,62 +531,22 @@
     <a href="/" class="nav-logo"><img src="logo.png" alt="neplov"></a>
     <ul class="nav-links">
       <li><a href="#about">about</a></li>
+      <li><a href="#projects">projects</a></li>
       <li><a href="#members">members</a></li>
     </ul>
   </div>
 </nav>
 
-<section class="hero">
-  <div class="hero-bg">
-    <div class="hero-blob hero-blob-1"></div>
-    <div class="hero-blob hero-blob-2"></div>
-    <div class="hero-blob hero-blob-3"></div>
-  </div>
-  <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:12px;">
-    <img src="logo.png" alt="neplov" style="height:76px;width:auto;filter:drop-shadow(0 0 36px rgba(255,255,255,0.15));">
-    <p class="hero-yomi">ねぷろふ</p>
-  </div>
+
+
+<section class="section" id="what" style="text-align: center; padding: 100px 32px 60px;">
+  <h2 class="section-title what-title" style="display: flex; align-items: center; justify-content: center;">
+    <img src="logo.png" alt="neplov" class="what-logo"> neplov はなにをしているの？
+  </h2>
+  <p class="what-answer" style="font-size: 32px; font-weight: bold; margin-top: 40px; letter-spacing: 0.2em;">
+    開発
+  </p>
 </section>
-
-<hr class="divider">
-
-<section class="section" id="what">
-  <p class="what-disclaimer">これはグループでもなく、会社でもなく、ただの個人のサイトです。</p>
-  <h2 class="section-title what-title"><img src="logo.png" alt="neplov" class="what-logo">はなにをしているの？</h2>
-  <p class="what-answer">AIを使ったコーディング、Webアプリの開発、サイト制作、ツールづくり、あとよくわからないものをとりあえず動かすこと。だいたいAIが書いたコードを、合ってるかどうかよくわからないまま動かしている。それでもなんとかなっている。<br><br>ですが、本当によくないですよね、これ。AIを使ったコーディングがいくらできたとて、さらにいい使い方をするためには、基礎的なコーディングの知識が欠かせないというのに。エラーが出ても何が悪いのかよくわからないし、AIに投げたらなんとかなるからいいや、という思考が染みついてきている気がして、それはそれで怖い。ちゃんと学ばなければ、とは思う。思うだけで、今日もAIに投げている。<br><br>いや、これは本当によくない。絶対に、基礎的な知識が必要だ。自分ひとりでコードが書けて、はじめてAIにコーディングさせることが意味を成す。土台のないところにAIを乗せても、それは砂の上の城で、自分が何を作っているのかすら、本当にはわかっていない。わかった気になっているだけだ。これは反省として、ここに書いておく。</p>
-</section>
-
-<hr class="divider">
-
-<section class="section" id="about">
-  <div style="display:flex; align-items:baseline; gap:20px; flex-wrap:wrap;">
-    <div style="position:relative; display:inline-block;">
-      <h2 class="section-title alive-title" onclick="openModal('modal-alive')" title="クリック">いきています</h2>
-    <div class="press-hint-wrap">
-      <span class="press-arrow pa-1">↑</span>
-      <span class="press-arrow pa-2">↑↑</span>
-      <span class="press-arrow pa-3">↑</span>
-      <span class="press-arrow pa-4">↑↑↑</span>
-      <span class="press-arrow pa-5">↑</span>
-      <p class="press-hint">↑↑ ここはおせますよ ↑↑</p>
-      <span class="press-arrow pa-6">↑↑</span>
-      <span class="press-arrow pa-7">↑</span>
-      <span class="press-arrow pa-8">↑↑↑↑</span>
-      <span class="press-arrow pa-9">↑</span>
-    </div>
-  </div>
-  <p class="about-note">※ これはわざとです。アートなので。</p>
-  <p class="about-text">そういえば最近、いきていますって何だろう、と思うことがある。<br>
-朝起きて、スマホを見て、なんとなく時間が溶けて、気づいたら夜になっている。それでもまだ生きてる。すごいことでもないけど、すごくないわけでもない。<br><br>
-コードを書くときも、最近は結局AIに聞いて、AIに書かせて、レビューも半分くらいはAIだ。自分が書いているのか、AIが書いているのか、だんだんわからなくなってくる。でもよく考えれば、紙とペンの時代の人から見たら、今の自分だって十分ずるをしている。道具が変わっただけかもしれない。いや、道具が思考そのものを変えてしまっているのかもしれない。それって、悪いことなのか。<br>
-鉛筆で書いていた人が消しゴムを手にしたとき、誰かはきっと「努力が足りない」と言ったはずだ。たぶん。<br><br>
-生きているというのは、何かをやろうとしては失敗して、それでも次の日が来てしまう、その繰り返しだと思う。次の日が来るというのは、よく考えるとけっこうな奇跡で、まあいいんじゃね、別に。<br><br>
-そもそも、生きている意味というものは「存在」するものではない。形而上の、人間の空想だ。だから、ただ流れに任せればいい。まあ、流れというものも本当はないのだけれど。<br><br>
-結局のところ、愛が大事だと思う。それは、まあ、その、女の子に対してとか、そういうことも、なくはないというか、あるにはあるというか、べつにそこは深く聞かないでほしいんですけど。前に好きだった人がいて、その人とはいろいろ複雑で、一方的だったのかもわからないのだけれど、僕が別の人を好きだったときにその人が最接近してきて、だから正直に別の人が好きだと答えた。でもそのあと、やっぱりその人のことが好きだったと気づいた。気づくのが遅い。その後しばらくして彼氏がいるという話を聞いて、ああそうかと思っていたら、別れたらしいという話も聞こえてきて、今はもう別のところにいる。よくわからないけど、とりあえず今も好きです。以上です。深く聞かないでください。<br>とにかくそれだけじゃなくて、目の前のパソコンで、AIを使って何かを作るという行為への愛とか、そういうものでもいい。なんだっていい。対象はなんでもいい。<br><br>
-だから、なぜ生きているのかなんて、わからなくていい。いつか死ぬ。</p>
-</section>
-
-
 <hr class="divider">
 
 <section class="section" id="members">
@@ -902,47 +578,38 @@
     <img src="logo.png" alt="neplov" class="what-logo"> Projects
   </h2>
 
-  <div class="project-card">
-    <div class="project-left">
-      <p class="project-name">neplov 時計</p>
-      <p class="project-desc">Projectsというほどのものではないが、時計。限界まで容量を削った。たぶんうごく。</p>
-    </div>
-    <a href="https://tarapon.dev/clock" class="project-link sparkle-link" target="_blank">
-      tarapon.dev/clock →
-    </a>
-  </div>
-
-  <div class="project-card" style="margin-top:16px;">
-    <div class="project-left">
+  <div class="project-card" style="flex-direction: column; align-items: flex-start; gap: 20px;">
+    <div class="project-left" style="width: 100%;">
       <p class="project-name">のこりはどれくらい？</p>
-      <p class="project-desc">いままで過ごしてきた時間が、日・週・月・年それぞれで何パーセントに相当するのかを視覚的に表示する。</p>
+      <p class="project-desc" style="max-width: 100%;">
+        いままで過ごしてきた時間が、日・週・月・年それぞれで何パーセントに相当するのかを視覚的に表示します。<br>
+        人生における時間の経過というのは、意識しないとあっという間に過ぎ去ってしまうものです。このプロジェクトは、「いま自分がどのくらいの時間を消費したのか」を可視化することで、一分一秒の重みを感じ、日々のモチベーションを維持することを目的として開発されました。<br>
+        時間管理のツールとしてだけでなく、哲学的で少し切ない気持ちになるデジタルアートとしてのアプローチも兼ね備えています。
+      </p>
+      
     </div>
-    <a href="https://remaining.neplov.net" class="project-link sparkle-link" target="_blank">
+    <a href="https://remaining.neplov.net" class="project-link" target="_blank" style="align-self: flex-end;">
       remaining.neplov.net →
     </a>
   </div>
 
-  <div class="project-card" style="margin-top:16px;">
-    <div class="project-left">
-      <p class="project-name">Seismic Monitor <span class="project-alpha">α</span> <span class="project-tag">地震情報モニター</span></p>
-      <p class="project-desc">EEW（Earthquake Early Warning）受信、発生した地震の情報の閲覧ができます。AIが作成しました。α版として提供しています。<br><span class="project-disclaimer">このWebアプリを使用したことによって生じた損害は、一切の責任を負わないものとします。</span></p>
+  <div class="project-card" style="margin-top:24px; flex-direction: column; align-items: flex-start; gap: 20px;">
+    <div class="project-left" style="width: 100%;">
+      <p class="project-name">Asporia Trace <span class="project-alpha">α</span> <span class="project-tag">地震情報モニター</span></p>
+      <p class="project-desc" style="max-width: 100%;">
+        Asporia Traceは、EEW（緊急地震速報）の受信および発生した地震情報のリアルタイム閲覧を可能にする、洗練されたモニターアプリケーションです。<br>
+        最新のデータビジュアライゼーションとダークモードUIを採用し、必要な情報を瞬時にかつ直感的に把握できるように設計されています。AIの支援を受けて構築されており、高速なレスポンスと安定した情報提供を目指しています。現在はα版としての提供となり、今後のアップデートでさらなる機能拡張を予定しています。
+        <br><span class="project-disclaimer">このWebアプリを使用したことによって生じた損害は、一切の責任を負わないものとします。</span>
+      </p>
+      
     </div>
-    <a href="https://seismic-monitor.tlarnc1.workers.dev" class="project-link sparkle-link" target="_blank">
-      seismic-monitor.tlarnc1.workers.dev →
+    <a href="https://asporia-t.neplov.net" class="project-link" target="_blank" style="align-self: flex-end;">
+      asporia-t.neplov.net →
     </a>
   </div>
 </section>
 
 <hr class="divider">
-
-<div class="bottom-links">
-  <button class="bottom-link" onclick="openModal('modal-ping')">
-    ping
-  </button>
-  <button class="bottom-link" onclick="openModal('modal-status')">
-    稼働状況
-  </button>
-</div>
 
 <footer>
   <div class="footer-half footer-half-left">
@@ -953,252 +620,6 @@
   </div>
 </footer>
 
-<!-- MODAL: PING -->
-<div class="modal-overlay" id="modal-ping" onclick="closeOnOverlay(event,'modal-ping')">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('modal-ping')">✕</button>
-    <div class="modal-overflow">
-      <div class="terminal">
-        <div class="terminal-bar">
-          <span class="t-dot" style="background:#ff453a"></span>
-          <span class="t-dot" style="background:#ffd60a"></span>
-          <span class="t-dot" style="background:#30d158"></span>
-          <span class="t-title">neplov — ping</span>
-        </div>
-        <div class="terminal-body">
-          <p class="t-line"><span class="t-prompt">$</span> ping neplov.net -c 4</p>
-          <p class="t-line t-muted">PING neplov.net (192.0.2.74): 56 data bytes</p>
-          <p class="t-line">64 bytes from 192.0.2.74: icmp_seq=0 ttl=57 time=<span class="t-green">3.841 ms</span></p>
-          <p class="t-line">64 bytes from 192.0.2.74: icmp_seq=1 ttl=57 time=<span class="t-green">3.729 ms</span></p>
-          <p class="t-line">64 bytes from 192.0.2.74: icmp_seq=2 ttl=57 time=<span class="t-green">3.802 ms</span></p>
-          <p class="t-line">64 bytes from 192.0.2.74: icmp_seq=3 ttl=57 time=<span class="t-green">3.755 ms</span></p>
-          <p class="t-line t-muted">--- neplov.net ping statistics ---</p>
-          <p class="t-line">4 packets transmitted, 4 received, <span class="t-green">0% packet loss</span>, time 3006ms</p>
-          <p class="t-line t-muted">rtt min/avg/max/mdev = 3.729/3.781/3.841/0.044 ms</p>
-          <p class="t-line">&nbsp;</p>
-          <p class="t-line"><span class="t-prompt">$</span> curl -I https://neplov.net</p>
-          <p class="t-line t-muted">HTTP/2 <span class="t-green">200</span></p>
-          <p class="t-line t-muted">server: neplov-edge/0.3.1</p>
-          <p class="t-line t-muted">content-type: text/html; charset=utf-8</p>
-          <p class="t-line t-muted">x-powered-by: love and caffeine</p>
-          <p class="t-line t-muted">x-neplov-region: ap-northeast-1</p>
-          <p class="t-line t-muted">cache-control: public, max-age=31536000</p>
-          <p class="t-line">&nbsp;</p>
-          <p class="t-line"><span class="t-prompt">$</span> <span class="t-cursor">█</span></p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- MODAL: STATUS -->
-<div class="modal-overlay" id="modal-status" onclick="closeOnOverlay(event,'modal-status')">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('modal-status')">✕</button>
-    <div class="modal-overflow">
-      <div class="status-board">
-        <div class="sb-hero-status">
-          <div class="sb-hero-inner">
-            <span class="sb-hero-dot"></span>
-            <p class="sb-hero-title">All systems operational</p>
-          </div>
-          <p class="sb-hero-updated">Last checked <span id="last-checked">—</span></p>
-        </div>
-
-        <div class="sb-section-label">Services</div>
-        <div class="sb-rows">
-          <div class="sb-row">
-            <div class="sb-row-left">
-              <span class="sb-name">やる気</span>
-              <span class="sb-history"><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span></span>
-              <span class="sb-uptime-label">89.7% uptime</span>
-            </div>
-            <span class="sb-status sb-status-deg">Degraded</span>
-          </div>
-          <div class="sb-row">
-            <div class="sb-row-left">
-              <span class="sb-name">睡眠</span>
-              <span class="sb-history"><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span></span>
-              <span class="sb-uptime-label">31.4% uptime</span>
-            </div>
-            <span class="sb-status sb-status-out">Major Outage</span>
-          </div>
-          <div class="sb-row">
-            <div class="sb-row-left">
-              <span class="sb-name">課題処理キュー</span>
-              <span class="sb-history"><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span></span>
-              <span class="sb-uptime-label">96.2% uptime</span>
-            </div>
-            <span class="sb-status sb-status-out">Major Outage</span>
-          </div>
-          <div class="sb-row">
-            <div class="sb-row-left">
-              <span class="sb-name">元気</span>
-              <span class="sb-history"><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span></span>
-              <span class="sb-uptime-label">98.3% uptime</span>
-            </div>
-            <span class="sb-status sb-status-ok">Operational</span>
-          </div>
-          <div class="sb-row">
-            <div class="sb-row-left">
-              <span class="sb-name">将来への見通し</span>
-              <span class="sb-history"><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-out"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-out"></span></span>
-              <span class="sb-uptime-label">52.1% uptime</span>
-            </div>
-            <span class="sb-status sb-status-deg">Partial Outage</span>
-          </div>
-          <div class="sb-row">
-            <div class="sb-row-left">
-              <span class="sb-name">コード書く気</span>
-              <span class="sb-history"><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-ok"></span><span class="sb-bar sb-bar-deg"></span><span class="sb-bar sb-bar-ok"></span></span>
-              <span class="sb-uptime-label">99.1% uptime</span>
-            </div>
-            <span class="sb-status sb-status-ok">Operational</span>
-          </div>
-        </div>
-
-        <div class="sb-section-label" style="margin-top:0">System</div>
-        <div class="sb-metrics">
-          <div class="sb-metric"><span class="sb-metric-label">Started at</span><span class="sb-metric-val">2010-09-29 00:00:00 JST</span></div>
-          <div class="sb-metric"><span class="sb-metric-label">Uptime</span><span class="sb-metric-val" id="uptime-hms">—</span></div>
-          <div class="sb-metric"><span class="sb-metric-label">Total days</span><span class="sb-metric-val" id="uptime-days">—</span></div>
-          <div class="sb-metric"><span class="sb-metric-label">Total hours</span><span class="sb-metric-val" id="uptime-hours">—</span></div>
-          <div class="sb-metric"><span class="sb-metric-label">Incidents (total)</span><span class="sb-metric-val">多数</span></div>
-          <div class="sb-metric"><span class="sb-metric-label">Last maintenance</span><span class="sb-metric-val">昨夜 (insufficient)</span></div>
-        </div>
-        <div class="sb-footer">
-          <span class="sb-bar-legend"><span class="sb-bar sb-bar-ok" style="display:inline-block;flex:none;width:10px"></span> Operational</span>
-          <span class="sb-bar-legend"><span class="sb-bar sb-bar-deg" style="display:inline-block;flex:none;width:10px"></span> Degraded</span>
-          <span class="sb-bar-legend"><span class="sb-bar sb-bar-out" style="display:inline-block;flex:none;width:10px"></span> Outage</span>
-          <span style="margin-left:auto;font-size:10px;color:var(--fg-subtle)">Past 30 days</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL: ALIVE -->
-<div class="modal-overlay" id="modal-alive" onclick="closeOnOverlay(event,'modal-alive')">
-  <div class="modal modal-alive-inner">
-
-    <!-- STEP 1: 生存確認 -->
-    <div class="alive-modal-body" id="alive-step-1">
-      <p class="alive-modal-title">生存確認</p>
-      <p class="alive-modal-sub">たらぽんもしくはあなたはいきていますか？</p>
-      <button class="alive-btn" onclick="confirmAlive()">いきています</button>
-      <div class="dead-btn-wrap">
-        <button class="dead-btn" onclick="goDeadStep()">いきていません</button>
-      </div>
-    </div>
-
-    <!-- STEP 2: どちら？ -->
-    <div class="alive-modal-body" id="alive-step-2" style="display:none">
-      <p class="alive-modal-title">どちらですか？</p>
-      <p class="alive-modal-sub">たらぽんかあなた、どちらが生きていないのですか？</p>
-      <button class="alive-btn" onclick="goDeadTarapon()" style="margin-bottom:8px">たらぽん</button>
-      <button class="alive-btn" onclick="goDeadYou()">あなた</button>
-    </div>
-
-    <!-- STEP 3a: たらぽんが死んでいる場合 -->
-    <div class="alive-modal-body" id="alive-step-3a" style="display:none">
-      <p class="alive-modal-title">間違いです。</p>
-      <p class="alive-modal-sub" style="text-align:left;line-height:1.8">たらぽんが死んでいるのなら、たらぽんの「死」を近くに感じた時にサイトを消すと肝に銘じていることに反するので、間違いです。</p>
-      <button class="alive-btn" onclick="confirmSorry()">やっぱりいきていました。すいませんでした</button>
-    </div>
-
-    <!-- STEP 3b: あなたが死んでいる場合 -->
-    <div class="alive-modal-body" id="alive-step-3b" style="display:none">
-      <p class="alive-modal-title">いきていなきゃ<br>おせないですよね？</p>
-      <p class="alive-modal-sub"> </p>
-      <button class="alive-btn" onclick="confirmSorry()">やっぱりいきていました。すいませんでした</button>
-    </div>
-
-  </div>
-</div>
-
-<!-- TOAST -->
-<div class="ios-toast" id="ios-toast">
-  <div class="ios-toast-icon">
-    <img src="logo-1.png" alt="" style="width:100%;height:100%;object-fit:contain;">
-    <span class="ios-toast-heart">♥</span>
-  </div>
-  <div class="ios-toast-text">
-    <p class="ios-toast-title" id="toast-title">生存を確認しました</p>
-    <p class="ios-toast-sub" id="toast-sub">たらぽんはいきています</p>
-  </div>
-</div>
-
-<script>
-function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
-function closeOnOverlay(e,id) { if(e.target===e.currentTarget) closeModal(id); }
-document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ document.querySelectorAll('.modal-overlay.open').forEach(function(el){ el.classList.remove('open'); }); document.body.style.overflow=''; } });
-
-function tick() {
-  var birth=new Date('2010-09-29T00:00:00+09:00'), now=new Date(), diff=now-birth;
-  var tS=Math.floor(diff/1000), tM=Math.floor(tS/60), tH=Math.floor(tM/60), tD=Math.floor(tH/24);
-  var y=Math.floor(tD/365.25), rd=Math.floor(tD-y*365.25), rH=tH%24, rM=tM%60, rS=tS%60;
-  function p(n){return String(n).padStart(2,'0');}
-  var e1=document.getElementById('uptime-hms'), e2=document.getElementById('uptime-days'), e3=document.getElementById('uptime-hours'), e4=document.getElementById('last-checked');
-  if(e1) e1.textContent=y+'y '+rd+'d '+p(rH)+':'+p(rM)+':'+p(rS);
-  if(e2) e2.textContent=tD.toLocaleString()+' days';
-  if(e3) e3.textContent=tH.toLocaleString()+' hrs';
-  if(e4){var n=new Date(); e4.textContent=p(n.getHours())+':'+p(n.getMinutes())+':'+p(n.getSeconds());}
-}
-tick(); setInterval(tick,1000);
-
-
-
-
-
-
-
-
-
-
-
-
-function showToast(msg, sub) {
-  var toast = document.getElementById('ios-toast');
-  document.getElementById('toast-title').textContent = msg;
-  document.getElementById('toast-sub').textContent = sub;
-  toast.classList.add('show');
-  setTimeout(function(){ toast.classList.remove('show'); }, 3500);
-}
-
-function resetAliveModal() {
-  ['alive-step-1','alive-step-2','alive-step-3a','alive-step-3b'].forEach(function(id){
-    document.getElementById(id).style.display = 'none';
-  });
-  document.getElementById('alive-step-1').style.display = 'flex';
-}
-
-function confirmAlive() {
-  closeModal('modal-alive');
-  setTimeout(resetAliveModal, 400);
-  showToast('生存を確認しました', 'たらぽんはいきています');
-}
-
-function goDeadStep() {
-  document.getElementById('alive-step-1').style.display = 'none';
-  document.getElementById('alive-step-2').style.display = 'flex';
-}
-
-function goDeadTarapon() {
-  document.getElementById('alive-step-2').style.display = 'none';
-  document.getElementById('alive-step-3a').style.display = 'flex';
-}
-
-function goDeadYou() {
-  document.getElementById('alive-step-2').style.display = 'none';
-  document.getElementById('alive-step-3b').style.display = 'flex';
-}
-
-function confirmSorry() {
-  closeModal('modal-alive');
-  setTimeout(resetAliveModal, 400);
-  showToast('よかった', 'いきていてよかった');
-}
-</script>
 </body>
 </html>
