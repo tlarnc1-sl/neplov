@@ -41,16 +41,41 @@ a:link { color: #0000FF; } a:visited { color: #800080; } a:hover { color: #FF000
 
 <br><br>
 
-<font size="4" color="#000066" face="Arial, Helvetica, sans-serif"><b>■ ブログ</b></font>
+<font size="4" color="#000066" face="Arial, Helvetica, sans-serif"><b>■ ブログ記事一覧</b></font>
 <hr size="1" color="#000066" noshade>
 
+<div id="blog-description-box" style="display: none; margin-bottom: 20px;">
+<table width="100%" border="1" cellpadding="8" cellspacing="0" bordercolor="#999999">
+<tr bgcolor="#EEEEFF">
+<td>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td><font size="2" color="#000066" face="MS Pゴシック, Osaka, sans-serif"><b>■ このブログについて</b></font></td>
+<td align="right"><font size="2" face="MS Pゴシック, Osaka, sans-serif"><a href="javascript:void(0);" onclick="toggleBlogDesc()">[閉じる]</a></font></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td bgcolor="#FFFFFF">
 <font size="2" face="MS Pゴシック, Osaka, sans-serif">
-
-<p>思ったことや、つくっているものの話などを、気が向いたときに書きます。更新頻度は不定期です。</p>
-
+<p>ブログです。つくったものや、思ったこと、その他よくわからないことについて書いています。</p>
+<p>更新頻度はとくに決めていません。書きたいことが出てきたときに書く、というかんじでやっています。なのでたくさん書く時期もあれば、しばらく何もない時期もあります。そういうものだと思ってください。</p>
+<p>内容に統一感はありません。サイト全体もそうなので、まあそういうことです。気楽に読んでいただければうれしいです。</p>
+<pre style="font-family: 'MS Pゴシック', 'Mona', sans-serif; font-size: 12px; line-height: 1.1; margin-top: 16px; color: #666666;">
+　 ∧,,∧
+　(；`・ω・）
+　/　　 ｏ
+　しー-Ｊ
+</pre>
 </font>
-
-<br>
+</td>
+</tr>
+</table>
+</div>
+<div id="blog-description-open" style="display: none; text-align: right; margin-bottom: 10px;">
+<font size="2" face="MS Pゴシック, Osaka, sans-serif"><a href="javascript:void(0);" onclick="toggleBlogDesc()">[ブログの説明を見る]</a></font>
+</div>
 
 <div id="post-list">
 <font size="2" face="MS Pゴシック, Osaka, sans-serif" color="#999999">記事を読み込んでいます...</font>
@@ -74,30 +99,56 @@ a:link { color: #0000FF; } a:visited { color: #800080; } a:hover { color: #FF000
 </center>
 
 <script>
-var posts = [
-  { slug: "hello", title: "はじめてのブログ", date: "2026/06/14" }
-];
-
-function renderList() {
-  var el = document.getElementById("post-list");
-  if (posts.length === 0) {
-    el.innerHTML = '<font size="2" face="MS Pゴシック, Osaka, sans-serif" color="#999999">まだ記事がありません。</font>';
-    return;
+function toggleBlogDesc() {
+  var box = document.getElementById("blog-description-box");
+  var openLink = document.getElementById("blog-description-open");
+  if (box.style.display === "none") {
+    box.style.display = "block";
+    openLink.style.display = "none";
+    localStorage.setItem("neplov_blog_desc_closed", "false");
+  } else {
+    box.style.display = "none";
+    openLink.style.display = "block";
+    localStorage.setItem("neplov_blog_desc_closed", "true");
   }
-  var html = '<table width="100%" border="1" cellpadding="6" cellspacing="0" bordercolor="#999999">';
-  html += '<tr bgcolor="#EEEEFF"><td width="110"><font size="2" face="Arial, sans-serif"><b>日付</b></font></td><td><font size="2" face="Arial, sans-serif"><b>タイトル</b></font></td></tr>';
-  for (var i = 0; i < posts.length; i++) {
-    var bg = i % 2 === 0 ? "#FFFFFF" : "#F8F8FF";
-    html += '<tr bgcolor="' + bg + '">';
-    html += '<td><font size="2" face="Courier New, monospace" color="#000066">' + posts[i].date + '</font></td>';
-    html += '<td><font size="2" face="MS Pゴシック, Osaka, sans-serif"><a href="post.html?p=' + posts[i].slug + '">' + posts[i].title + '</a></font></td>';
-    html += '</tr>';
-  }
-  html += '</table>';
-  el.innerHTML = html;
 }
 
-renderList();
+var isClosed = localStorage.getItem("neplov_blog_desc_closed");
+if (isClosed === "true") {
+  document.getElementById("blog-description-box").style.display = "none";
+  document.getElementById("blog-description-open").style.display = "block";
+} else {
+  document.getElementById("blog-description-box").style.display = "block";
+  document.getElementById("blog-description-open").style.display = "none";
+}
+
+function fetchPosts() {
+  fetch("index.json")
+    .then(function(res) { return res.json(); })
+    .then(function(posts) {
+      var el = document.getElementById("post-list");
+      if (posts.length === 0) {
+        el.innerHTML = '<font size="2" face="MS Pゴシック, Osaka, sans-serif" color="#999999">まだ記事がありません。</font>';
+        return;
+      }
+      var html = '<table width="100%" border="1" cellpadding="6" cellspacing="0" bordercolor="#999999">';
+      html += '<tr bgcolor="#EEEEFF"><td width="110"><font size="2" face="Arial, sans-serif"><b>日付</b></font></td><td><font size="2" face="Arial, sans-serif"><b>タイトル</b></font></td></tr>';
+      for (var i = 0; i < posts.length; i++) {
+        var bg = i % 2 === 0 ? "#FFFFFF" : "#F8F8FF";
+        html += '<tr bgcolor="' + bg + '">';
+        html += '<td><font size="2" face="Courier New, monospace" color="#000066">' + posts[i].date + '</font></td>';
+        html += '<td><font size="2" face="MS Pゴシック, Osaka, sans-serif"><a href="post.html#' + posts[i].slug + '">' + posts[i].title + '</a></font></td>';
+        html += '</tr>';
+      }
+      html += '</table>';
+      el.innerHTML = html;
+    })
+    .catch(function() {
+      document.getElementById("post-list").innerHTML = '<font size="2" face="MS Pゴシック, Osaka, sans-serif" color="#CC0000">記事の取得に失敗しました。</font>';
+    });
+}
+
+fetchPosts();
 </script>
 
 </body>
