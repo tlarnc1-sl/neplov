@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>ブログ - neplov</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style type="text/css">
+<!--
+body { background-color: #c0c0c0; background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAHklEQVQI12P4////f4Y3b978BwKGt2/f/gcCBigNAEwCE/kpSfd1AAAAAElFTkSuQmCC"); }
+a:link { color: #0000FF; } a:visited { color: #800080; } a:hover { color: #FF0000; }
+
+#article-body h1 { font-size: 18px; color: #000066; margin: 16px 0 8px; }
+#article-body h2 { font-size: 16px; color: #000066; margin: 14px 0 6px; }
+#article-body h3 { font-size: 14px; color: #000066; margin: 12px 0 6px; }
+#article-body p { margin: 8px 0; }
+#article-body ul, #article-body ol { margin: 8px 0 8px 24px; }
+#article-body li { margin: 4px 0; }
+#article-body code { font-family: Courier New, monospace; background: #EEEEFF; padding: 1px 4px; font-size: 12px; }
+#article-body pre { background: #1a1a2e; color: #CCCCCC; padding: 10px; overflow-x: auto; font-family: Courier New, monospace; font-size: 12px; margin: 8px 0; }
+#article-body pre code { background: none; padding: 0; color: inherit; }
+#article-body blockquote { border-left: 3px solid #000066; padding-left: 12px; color: #666666; margin: 8px 0; }
+#article-body hr { border: none; border-top: 1px solid #CCCCCC; margin: 12px 0; }
+#article-body img { max-width: 100%; }
+#article-body a { color: #0000FF; }
+#article-body a:hover { color: #FF0000; }
+-->
+</style>
+</head>
+<body text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<center>
+<table width="750" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+
+<table width="100%" border="0" cellpadding="8" cellspacing="0" bgcolor="#000066">
+<tr><td align="center">
+<font size="6" color="#FFFFFF" face="Arial, Helvetica, sans-serif"><b>neplov</b></font><br>
+<font size="2" color="#CCCCFF" face="Arial, Helvetica, sans-serif">- ブログ -</font>
+</td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="4" cellspacing="0" bgcolor="#336699">
+<tr><td align="center">
+<font size="2" face="Arial, sans-serif">
+<a href="/" style="color:#FFFFFF; text-decoration:none;"><b>トップページ</b></a>
+&nbsp;|&nbsp;
+<a href="/blog/" style="color:#FFCC00; text-decoration:none;"><b>ブログ</b></a>
+</font>
+</td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="12" cellspacing="0" bgcolor="#FFFFFF">
+<tr><td>
+
+<font size="1" face="MS Pゴシック, Osaka, sans-serif" color="#666666">
+<a href="/">トップページ</a> &gt; <a href="/blog/">ブログ</a> &gt; <span id="breadcrumb-title">読み込み中...</span>
+</font>
+
+<br><br>
+
+<div id="article-header"></div>
+<hr size="1" color="#000066" noshade>
+
+<div id="article-body">
+<font size="2" face="MS Pゴシック, Osaka, sans-serif" color="#999999">記事を読み込んでいます...</font>
+</div>
+
+<br>
+<hr size="1" color="#CCCCCC" noshade>
+<p><font size="2" face="MS Pゴシック, Osaka, sans-serif">
+<a href="/blog/">&lt;&lt; ブログ記事一覧に戻る</a> / <a href="/">トップページに戻る</a>
+</font></p>
+
+</td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="4" cellspacing="0" bgcolor="#000066">
+<tr><td align="center">
+<font size="1" color="#CCCCCC" face="Arial, sans-serif">Copyright &copy; 2026 neplov. All Rights Reserved.</font>
+</td></tr>
+</table>
+
+</td></tr>
+</table>
+</center>
+
+<script>
+var params = new URLSearchParams(window.location.search);
+var slug = params.get("p");
+
+if (!slug) {
+  document.getElementById("article-body").innerHTML = '<font size="2" face="MS Pゴシック, Osaka, sans-serif" color="#CC0000">記事が指定されていません。<br><br><a href="/blog/">ブログ記事一覧</a>からお選びください。</font>';
+  document.getElementById("breadcrumb-title").textContent = "エラー";
+  document.getElementById("article-header").innerHTML = '<font size="4" color="#000066" face="Arial, Helvetica, sans-serif"><b>エラー</b></font>';
+} else {
+  fetch("posts/" + slug + ".md")
+    .then(function(res) {
+      if (!res.ok) throw new Error("not found");
+      return res.text();
+    })
+    .then(function(md) {
+      // Parse front matter (simple: first lines starting with key: value between --- delimiters)
+      var body = md;
+      var title = slug;
+      var date = "";
+
+      if (md.substring(0, 3) === "---") {
+        var end = md.indexOf("---", 3);
+        if (end !== -1) {
+          var front = md.substring(3, end).trim();
+          body = md.substring(end + 3).trim();
+          var lines = front.split("\n");
+          for (var i = 0; i < lines.length; i++) {
+            var colon = lines[i].indexOf(":");
+            if (colon !== -1) {
+              var key = lines[i].substring(0, colon).trim();
+              var val = lines[i].substring(colon + 1).trim();
+              if (key === "title") title = val;
+              if (key === "date") date = val;
+            }
+          }
+        }
+      }
+
+      document.title = title + " - neplov ブログ";
+      document.getElementById("breadcrumb-title").textContent = title;
+      document.getElementById("article-header").innerHTML =
+        '<font size="4" color="#000066" face="Arial, Helvetica, sans-serif"><b>' + title + '</b></font>' +
+        (date ? '<br><font size="2" face="Courier New, monospace" color="#666666">' + date + '</font>' : '');
+
+      var html = marked.parse(body);
+      var el = document.getElementById("article-body");
+      el.innerHTML = '<font size="2" face="MS Pゴシック, Osaka, sans-serif">' + html + '</font>';
+    })
+    .catch(function() {
+      document.getElementById("article-body").innerHTML = '<font size="2" face="MS Pゴシック, Osaka, sans-serif" color="#CC0000">記事が見つかりませんでした。<br><br>URLを確認するか、<a href="/blog/">ブログ記事一覧</a>からお選びください。</font>';
+      document.getElementById("breadcrumb-title").textContent = "記事が見つかりません";
+      document.getElementById("article-header").innerHTML = '<font size="4" color="#000066" face="Arial, Helvetica, sans-serif"><b>記事が見つかりません</b></font>';
+    });
+}
+</script>
+
+</body>
+</html>

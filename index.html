@@ -1,624 +1,388 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>neplov</title>
-
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --fg: #fff;
-    --fg-muted: #fff;
-    --fg-subtle: #fff;
-    --glass: rgba(255,255,255,0.07);
-    --glass-hover: rgba(255,255,255,0.11);
-    --glass-border: rgba(255,255,255,0.14);
-    --glass-highlight: rgba(255,255,255,0.32);
-    --glass-shadow: rgba(0,0,0,0.35);
-    --green: #30d158;
-    --yellow: #ffd60a;
-    --red: #ff453a;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: #000;
-    color: var(--fg);
-    font-family: -apple-system, sans-serif;
-    font-size: 16px; line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-    min-height: 100vh;
-  }
-
-  /* BACKGROUND */
-  .bg-canvas {
-    position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background: url('background.png') center center / cover no-repeat;
-  }
-
-  /* GLASS MIXIN */
-  .glass {
-    background: #111;
-    border: 1px solid var(--glass-border);
-    border-top-color: var(--glass-highlight);
-    border-left-color: #fff;
-    box-shadow:
-      0 1px 0 0 var(--glass-highlight) inset,
-      0 -1px 0 0 rgba(0,0,0,0.2) inset,
-      0 8px 32px var(--glass-shadow),
-      0 1px 2px rgba(0,0,0,0.3);
-  }
-
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-    height: 72px; width: 100%;
-    background: #000;
-    display: flex; align-items: center; justify-content: center;
-    padding: 0;
-    border-bottom: 1px solid #222;
-  }
-
-  .nav-inner {
-    display: flex; align-items: center; justify-content: space-between;
-    width: 100%; height: 100%;
-    background: transparent;
-    padding: 0 32px;
-  }
-
-  .nav-logo {
-    display: flex; align-items: center; justify-content: center;
-    background: transparent;
-    height: 100%;
-    text-decoration: none;
-  }
-
-  .nav-logo img {
-    height: 36px; width: auto; display: block;
-    opacity: 1; transition: transform 0.2s;
-    transform: scaleY(0.85); /* Slightly squashed vertically */
-  }
-  .nav-logo:hover img { transform: scale(1.05) scaleY(0.85); }
-
-  .nav-links {
-    display: flex; gap: 32px; list-style: none; margin: 0;
-    background: transparent;
-    height: 100%;
-    align-items: center;
-  }
-
-  .nav-links li { display: flex; align-items: center; }
-  .nav-links a {
-    font-size: 15px; font-weight: 500; color: #fff; 
-    text-decoration: none; transition: color 0.2s;
-  }
-  .nav-links a:hover { 
-    color: #ccc; 
-  }
-
-  /* HERO */
-  .hero {
-    height: 55vh; min-height: 340px;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    position: relative; overflow: hidden;
-    isolation: isolate;
-  }
-
-  .hero-bg {
-    position: absolute; inset: 0; z-index: 0; pointer-events: none;
-    background: #04040a;
-  }
-
-  .hero-blob {
-    position: absolute; border-radius: 50%;
-    filter: blur(70px); opacity: 0.5;
-  }
-
-  .hero-blob-1 {
-    width: 500px; height: 500px; top: -30%; left: -10%;
-    background: radial-gradient(circle, rgba(255,182,210,0.8) 0%, rgba(255,192,220,0.4) 50%, transparent 80%);
-    animation: blob1 18s ease-in-out infinite;
-  }
-
-  .hero-blob-2 {
-    width: 420px; height: 420px; top: -20%; right: -5%;
-    background: radial-gradient(circle, rgba(160,220,255,0.75) 0%, rgba(140,210,255,0.35) 50%, transparent 80%);
-    animation: blob2 22s ease-in-out infinite;
-  }
-
-  .hero-blob-3 {
-    width: 340px; height: 340px; bottom: -10%; left: 30%;
-    background: radial-gradient(circle, rgba(200,180,255,0.55) 0%, rgba(180,160,255,0.25) 50%, transparent 80%);
-    animation: blob3 16s ease-in-out infinite;
-  }
-
-  .hero-logo { margin-bottom: 20px; animation: fadeUp 0.7s ease both; }
-  .hero-logo img { height: 60px; width: auto; filter: drop-shadow(0 0 30px rgba(255,255,255,0.12)); }
-
-  .hero-yomi {
-    font-family: 'Geist Mono', monospace; font-size: 12px;
-    color: var(--fg-subtle); letter-spacing: 0.25em;
-    margin-top: 12px; text-align: center;
-  }
-
-  /* SECTIONS */
-  .what-logo { height: 1.5em; width: auto; vertical-align: middle; margin-right: 16px; margin-bottom: 4px; }
-  .section { max-width: 1000px; margin: 0 auto; padding: 64px 32px; position: relative; z-index: 1; }
-  .section-title { display: flex; align-items: center; font-size: clamp(24px, 3.5vw, 36px); font-weight: 600; letter-spacing: -0.03em; margin-bottom: 32px; }
-  .rec-note {
-    font-family: 'Geist Mono', monospace;
-    font-size: 12px;
-    color: #fff;
-    letter-spacing: 0.02em;
-    white-space: nowrap;
-  }
-
-  @keyframes border-spin {
-    from { --angle: 0deg; }
-    to   { --angle: 360deg; }
-  }
-
-  .projects-section {
-    background: linear-gradient(90deg,
-      rgba(80,80,90,0.18) 0%,
-      rgba(160,160,175,0.08) 30%,
-      rgba(200,200,215,0.04) 50%,
-      rgba(160,160,175,0.08) 70%,
-      rgba(80,80,90,0.18) 100%
-    );
-    border-radius: 0;
-  }
-
-  .project-tag {
-    font-size: 0.55em;
-    font-family: 'Geist Mono', monospace;
-    color: #fff;
-    font-weight: 400;
-    vertical-align: middle;
-    letter-spacing: 0.03em;
-    margin-left: 6px;
-  }
-
-  .project-disclaimer {
-    font-size: 11px;
-    color: #fff;
-    margin-top: 6px;
-    display: block;
-    letter-spacing: 0.01em;
-  }
-
-  .projects-note {
-    font-family: 'Geist Mono', monospace;
-    font-size: 12px;
-    color: #fff;
-    margin-bottom: 28px;
-    letter-spacing: 0.02em;
-  }
-
-  .project-card {
-    position: relative;
-    border-radius: 16px;
-    padding: 24px 28px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-    margin-top: 12px;
-    background: #111;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-top-color: #fff;
-    box-shadow: 0 1px 0 rgba(255,255,255,0.12) inset, 0 8px 24px rgba(0,0,0,0.3);
-    transition: background 0.2s;
-  }
-
-  .project-card { cursor: default; }
-
-  .project-left { flex: 1; }
-
-  .project-alpha {
-    font-size: 0.7em;
-    color: rgba(255,180,100,0.7);
-    font-family: 'Geist Mono', monospace;
-    font-weight: 400;
-    vertical-align: middle;
-    margin-left: 4px;
-  }
-
-  .project-name {
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    margin-bottom: 10px;
-    background: linear-gradient(90deg, #fff 60%, rgba(255,255,255,0.5));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .project-link {
-    font-family: initial;
-    font-size: 14px;
-    color: blue;
-    background: #fff;
-    text-decoration: underline;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 16px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .project-link:hover {
-    opacity: 0.8;
-  }
-  .member-avatar { width: 56px; height: 56px; border-radius: 50%; overflow: hidden; border: 1px solid rgba(255,255,255,0.15); flex-shrink: 0; }
-  .member-avatar img { width: 100%; height: 100%; object-fit: cover; }
-  .member-name { font-size: 16px; font-weight: 500; margin-bottom: 4px; }
-  .member-role { font-size: 14px; color: var(--fg-muted); font-family: 'Geist Mono', monospace; }
-  .member-question {
-    font-size: 0.6em;
-    color: var(--fg-subtle);
-    font-weight: 400;
-    letter-spacing: 0;
-  }
-
-  .member-note {
-    font-size: 12px;
-    color: #fff;
-    line-height: 1.8;
-    max-width: 520px;
-    margin-bottom: 24px;
-    letter-spacing: 0.01em;
-  }
-
-  .member-link {
-    font-family: 'Geist Mono', monospace;
-    font-size: 11px;
-    color: #fff;
-    text-decoration: none;
-    display: block;
-    margin-top: 2px;
-    transition: color 0.15s;
-  }
-  .member-link:hover { color: #fff; }
-  .member-kagawa {
-    font-size: 11px;
-    color: #fff;
-    margin-top: 6px;
-    font-family: 'Geist Mono', monospace;
-  }
-
-  .member-bio { display: flex; flex-direction: column; gap: 10px; }
-  .bio-row { display: flex; gap: 16px; align-items: baseline; justify-content: flex-end; }
-  .bio-label { font-family: 'Geist Mono', monospace; font-size: 11px; color: #fff; white-space: nowrap; width: 100px; text-align: right; flex-shrink: 0; }
-  .bio-val { font-size: 13px; color: #fff; text-align: left; width: 180px; }
-  .rainbow {
-    background: linear-gradient(90deg, #ff6ec7, #ff9a3c, #ffe44d, #4dffb4, #4db8ff, #b44dff, #ff6ec7);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: rainbow-shift 3s linear infinite;
-    font-weight: 600;
-  }
-  .rainbow-big {
-    display: inline-block;
-    font-size: 1.5em;
-    font-weight: 700;
-    line-height: 1;
-    vertical-align: middle;
-    background: linear-gradient(90deg, #ff6ec7, #ff9a3c, #ffe44d, #4dffb4, #4db8ff, #b44dff, #ff6ec7);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: rainbow-shift 3s linear infinite, spin 6s linear infinite;
-    transform-origin: center;
-  }
-  @keyframes rainbow-shift {
-    0% { background-position: 0% center; }
-    100% { background-position: 200% center; }
-  }
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-
-  /* BOTTOM LINKS */
-  .bottom-links {
-    display: flex; justify-content: center; gap: 20px;
-    padding: 32px 32px; max-width: 1000px; margin: 0 auto;
-    position: relative; z-index: 1;
-  }
-
-  .bottom-link {
-    font-family: 'Geist Mono', monospace; font-size: 11px;
-    color: var(--fg-subtle); cursor: pointer;
-    background: none; border: none; padding: 0;
-    display: flex; align-items: center; gap: 6px;
-    transition: color 0.2s; letter-spacing: 0.04em;
-  }
-
-  .bottom-link:hover { color: var(--fg-muted); }
-
-
-  /* FOOTER */
-  footer {
-    border-top: 1px solid rgba(255,255,255,0.06);
-    display: flex; align-items: stretch;
-    max-width: 1000px; margin: 0 auto; position: relative; z-index: 1;
-  }
-  .footer-half {
-    flex: 1; padding: 28px 32px;
-    display: flex; align-items: center;
-  }
-  .footer-half-left { justify-content: flex-end; padding-right: 48px; border-right: 1px solid rgba(255,255,255,0.06); }
-  .footer-half-right { justify-content: flex-start; padding-left: 48px; }
-  .footer-logo img { height: 21px; width: auto; opacity: 0.3; }
-  .footer-text { font-size: 14px; color: var(--fg-subtle); font-family: 'Geist Mono', monospace; }
-
-  /* MODAL */
-  .modal-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 300; display: flex; align-items: center; justify-content: center;
-    opacity: 0; pointer-events: none; transition: opacity 0.25s;
-  }
-  .modal-overlay.open { opacity: 1; pointer-events: all; }
-
-  .modal {
-    background: rgba(10,10,18,0.65);
-    border: 1px solid transparent;
-    background-clip: padding-box;
-    outline: 1px solid rgba(255,255,255,0.12);
-    outline-offset: -1px;
-    box-shadow:
-      0 1px 0 rgba(255,255,255,0.55) inset,
-      0 -1px 0 rgba(0,0,0,0.2) inset,
-      1px 0 0 rgba(255,255,255,0.22) inset,
-      0 48px 120px rgba(0,0,0,0.8),
-      0 12px 40px rgba(200,220,255,0.10),
-      0 3px 10px rgba(0,0,0,0.6);
-    border-radius: 24px;
-    width: min(840px, calc(100vw - 48px));
-    max-height: calc(100vh - 80px);
-    overflow-y: auto; position: relative;
-    transform: translateY(16px) scale(0.98);
-    transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
-    overflow: hidden;
-  }
-
-  .modal::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5) 30%, rgba(255,255,255,0.5) 70%, transparent);
-    pointer-events: none; z-index: 1;
-  }
-
-  .modal-overflow { max-height: calc(100vh - 80px); overflow-y: auto; }
-
-  .modal-overlay.open .modal { transform: translateY(0) scale(1); }
-
-  .modal-close {
-    position: absolute; top: 14px; right: 14px; z-index: 10;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-top-color: #fff;
-    color: var(--fg-muted);
-    width: 28px; height: 28px; border-radius: 50%;
-    cursor: pointer; font-size: 13px;
-    display: flex; align-items: center; justify-content: center;
-    transition: color 0.15s, background 0.15s;
-    box-shadow: 0 1px 0 rgba(255,255,255,0.2) inset;
-  }
-  .modal-close:hover { color: var(--fg); background: rgba(255,255,255,0.15); }
-
-  /* TERMINAL */
-  .terminal { font-family: 'Geist Mono', monospace; }
-  .terminal-bar {
-    padding: 14px 18px;
-    display: flex; align-items: center; gap: 8px;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-    background: rgba(255,255,255,0.03);
-  }
-  .t-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
-  .t-title { font-size: 12px; color: var(--fg-subtle); margin: 0 auto; transform: translateX(-18px); }
-  .terminal-body { padding: 24px 28px; display: flex; flex-direction: column; gap: 4px; overflow-x: auto; }
-  .t-line { font-size: 13px; color: var(--fg); line-height: 1.7; white-space: pre; }
-  .t-muted { color: var(--fg-subtle); }
-  .t-green { color: var(--green); }
-  .t-prompt { color: var(--fg-muted); margin-right: 8px; }
-  .t-cursor { animation: blink 1.2s step-end infinite; }
-
-  /* STATUS BOARD */
-  .status-board { font-family: 'Geist Mono', monospace; }
-  .sb-hero-status {
-    padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.07);
-    background: rgba(48,209,88,0.06);
-  }
-  .sb-hero-inner { display: flex; align-items: center; gap: 10px; }
-  .sb-hero-dot {
-    width: 9px; height: 9px; border-radius: 50%; background: var(--green);
-    flex-shrink: 0; box-shadow: 0 0 10px var(--green);
-    animation: pulse2 2s infinite;
-  }
-  @keyframes pulse2 {
-    0%,100% { box-shadow: 0 0 6px var(--green); }
-    50% { box-shadow: 0 0 14px var(--green), 0 0 24px rgba(48,209,88,0.3); }
-  }
-  .sb-hero-title { font-size: 15px; font-weight: 500; color: var(--green); font-family: 'Geist', sans-serif; }
-  .sb-hero-updated { font-size: 11px; color: var(--fg-subtle); margin-top: 5px; padding-left: 19px; }
-  .sb-section-label { font-size: 10px; color: var(--fg-subtle); letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 24px 8px; border-bottom: 1px solid rgba(255,255,255,0.07); }
-  .sb-rows { display: flex; flex-direction: column; }
-  .sb-row { display: flex; align-items: center; justify-content: space-between; padding: 11px 24px; border-bottom: 1px solid rgba(255,255,255,0.05); gap: 16px; transition: background 0.15s; }
-  .sb-row:hover { background: rgba(255,255,255,0.03); }
-  .sb-row-left { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
-  .sb-name { font-size: 12px; color: var(--fg); white-space: nowrap; min-width: 120px; }
-  .sb-history { display: flex; gap: 2px; flex: 1; }
-  .sb-bar { height: 24px; border-radius: 2px; flex: 1; max-width: 10px; }
-  .sb-bar-ok { background: var(--green); opacity: 0.7; }
-  .sb-bar-deg { background: var(--yellow); opacity: 0.7; }
-  .sb-bar-out { background: var(--red); opacity: 0.7; }
-  .sb-uptime-label { font-size: 10px; color: var(--fg-subtle); white-space: nowrap; }
-  .sb-status { font-size: 11px; padding: 3px 10px; border-radius: 6px; white-space: nowrap; font-weight: 500; }
-  .sb-status-ok { color: var(--green); background: rgba(48,209,88,0.12); border: 1px solid rgba(48,209,88,0.25); }
-  .sb-status-deg { color: var(--yellow); background: rgba(255,214,10,0.1); border: 1px solid rgba(255,214,10,0.22); }
-  .sb-status-out { color: var(--red); background: rgba(255,69,58,0.1); border: 1px solid rgba(255,69,58,0.22); }
-  .sb-metrics { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid rgba(255,255,255,0.07); }
-  .sb-metric { padding: 14px 24px; border-right: 1px solid rgba(255,255,255,0.07); display: flex; flex-direction: column; gap: 4px; }
-  .sb-metric:nth-child(3n) { border-right: none; }
-  .sb-metric-label { font-size: 10px; color: var(--fg-subtle); text-transform: uppercase; letter-spacing: 0.07em; }
-  .sb-metric-val { font-size: 12px; color: var(--fg); }
-  .sb-footer { display: flex; align-items: center; gap: 16px; padding: 10px 24px; font-size: 10px; color: var(--fg-subtle); }
-  .sb-bar-legend { display: flex; align-items: center; gap: 6px; }
-
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
-
-
-  @media (max-width: 768px) {
-    .nav-links { display: none; }
-    footer { flex-direction: column; gap: 12px; text-align: center; }
-    .member-card { flex-direction: column; }
-    .member-philosophy { text-align: left; }
-    .sb-metrics { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  /* MEMBER CARD (GLASS) */
-  .member-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-    background: rgba(15,15,25,0.45) !important;
-    backdrop-filter: blur(40px) saturate(200%) !important;
-    -webkit-backdrop-filter: blur(40px) saturate(200%) !important;
-    border: 1px solid rgba(255,255,255,0.15) !important;
-    border-top-color: rgba(255,255,255,0.25) !important;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.1) inset !important;
-    border-radius: 24px !important;
-    transition: background 0.4s, box-shadow 0.4s !important; /* Removed transform transition */
-    padding: 32px !important;
-  }
-  .member-left {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    flex: 1;
-  }
-  .member-card:hover {
-    background: rgba(25,25,35,0.55) !important;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 1px 0 rgba(255,255,255,0.15) inset !important;
-    transform: none !important; /* Absolutely stop it from floating */
-  }
-  .member-avatar {
-    box-shadow: 0 0 24px rgba(255,255,255,0.15);
-    border: 2px solid rgba(255,255,255,0.2) !important;
-  }
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="GENERATOR" content="手打ち">
+<meta name="description" content="neplovのホームページです。いろいろつくっています。">
+<meta name="keywords" content="neplov,ネプロフ,ホームページ,個人サイト,Web制作,鎌倉">
+<title>neplov - ネプロフのホームページへようこそ！</title>
+<style type="text/css">
+<!--
+body {
+  background-color: #c0c0c0;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAHklEQVQI12P4////f4Y3b978BwKGt2/f/gcCBigNAEwCE/kpSfd1AAAAAElFTkSuQmCC");
+}
+a:link    { color: #0000FF; }
+a:visited { color: #800080; }
+a:hover   { color: #FF0000; }
+.blink { animation: blinker 1s step-end infinite; }
+@keyframes blinker { 50% { visibility: hidden; } }
+-->
 </style>
 </head>
-<body>
+<body text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
 
-<div class="bg-canvas"></div>
+<center>
+<table width="750" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td>
 
-<nav>
-  <div class="nav-inner">
-    <a href="/" class="nav-logo"><img src="logo.png" alt="neplov"></a>
-    <ul class="nav-links">
-      <li><a href="#about">about</a></li>
-      <li><a href="#projects">projects</a></li>
-      <li><a href="#members">members</a></li>
-    </ul>
-  </div>
-</nav>
+<!-- ============ HEADER ============ -->
+<table width="100%" border="0" cellpadding="8" cellspacing="0" bgcolor="#000066">
+<tr>
+<td align="center">
+<font size="6" color="#FFFFFF" face="Arial, Helvetica, sans-serif"><b>neplov</b></font>
+<br>
+<font size="2" color="#CCCCFF" face="Arial, Helvetica, sans-serif">- ネプロフのホームページ -</font>
+</td>
+</tr>
+</table>
 
+<!-- MARQUEE -->
+<marquee bgcolor="#FFFFCC" scrollamount="3" height="24">
+<font size="2" color="#CC0000" face="MS Pゴシック, Osaka, sans-serif">
+★ようこそ！ このページはneplov（ネプロフ）の公式ホームページです。いろいろつくっています！ブックマークお願いします★
+</font>
+</marquee>
 
+<br>
 
-<section class="section" id="what" style="text-align: center; padding: 100px 32px 60px;">
-  <h2 class="section-title what-title" style="display: flex; align-items: center; justify-content: center;">
-    <img src="logo.png" alt="neplov" class="what-logo"> neplov はなにをしているの？
-  </h2>
-  <p class="what-answer" style="font-size: 32px; font-weight: bold; margin-top: 40px; letter-spacing: 0.2em;">
-    開発
-  </p>
-</section>
-<hr class="divider">
+<!-- ============ MAIN LAYOUT TABLE ============ -->
+<table width="100%" border="0" cellpadding="0" cellspacing="8">
+<tr valign="top">
 
-<section class="section" id="members">
-  <h2 class="section-title">メンバー<span class="member-question">（？</span></h2>
-  <p class="member-note">一人しかいない。さみしいかと言われれば、まあ、そうかもしれない。でも考えてみれば、宇宙だって最初は一つの点だったわけで、孤独というのは何かが始まる前の状態のことなのかもしれない。</p>
-  <div class="member-card">
-    <div class="member-left">
-      <div class="member-avatar"><img src="tarapon.png" alt="たらぽん"></div>
-      <div>
-        <p class="member-name">たらぽん</p>
-        <p class="member-role">founder（創設者）</p>
-        <a href="https://tarapon.dev" class="member-link">tarapon.dev</a>
-        <p class="member-kagawa">香川県にいってみたいです</p>
-      </div>
-    </div>
-    <div class="member-bio">
-      <div class="bio-row"><span class="bio-label">在住</span><span class="bio-val">神奈川県鎌倉市</span></div>
-      <div class="bio-row"><span class="bio-label">好きなこと</span><span class="bio-val">ない</span></div>
-      <div class="bio-row"><span class="bio-label">やっていること</span><span class="bio-val">このサイトを作ったりすること</span></div>
-      <div class="bio-row"><span class="bio-label">社会的身分</span><span class="bio-val">高校生</span></div>
-    </div>
-  </div>
-</section>
+<!-- ====== SIDEBAR ====== -->
+<td width="160" bgcolor="#FFFFFF">
+<table width="100%" border="0" cellpadding="6" cellspacing="0">
+<tr bgcolor="#000066">
+<td><font size="2" color="#FFFFFF" face="Arial, sans-serif"><b>メニュー</b></font></td>
+</tr>
+<tr>
+<td bgcolor="#EEEEFF">
+<font size="2" face="MS Pゴシック, Osaka, sans-serif">
+<img src="data:image/gif;base64,R0lGODlhCAAIAIAAAP///wAAACH5BAEAAAEALAAAAAAIAAgAAAIKjI+py+0PIUikFQA7" width="8" height="8" alt="*"> <a href="#about">neplovとは</a><br>
+<img src="data:image/gif;base64,R0lGODlhCAAIAIAAAP///wAAACH5BAEAAAEALAAAAAAIAAgAAAIKjI+py+0PIUikFQA7" width="8" height="8" alt="*"> <a href="#projects">つくったもの</a><br>
+<img src="data:image/gif;base64,R0lGODlhCAAIAIAAAP///wAAACH5BAEAAAEALAAAAAAIAAgAAAIKjI+py+0PIUikFQA7" width="8" height="8" alt="*"> <a href="#profile">自己紹介</a><br>
+<img src="data:image/gif;base64,R0lGODlhCAAIAIAAAP///wAAACH5BAEAAAEALAAAAAAIAAgAAAIKjI+py+0PIUikFQA7" width="8" height="8" alt="*"> <a href="/blog/">ブログ</a><br>
+<img src="data:image/gif;base64,R0lGODlhCAAIAIAAAP///wAAACH5BAEAAAEALAAAAAAIAAgAAAIKjI+py+0PIUikFQA7" width="8" height="8" alt="*"> <a href="#updates">更新履歴</a><br>
+<img src="data:image/gif;base64,R0lGODlhCAAIAIAAAP///wAAACH5BAEAAAEALAAAAAAIAAgAAAIKjI+py+0PIUikFQA7" width="8" height="8" alt="*"> <a href="#links">リンク集</a><br>
+</font>
+</td>
+</tr>
+</table>
 
-<hr class="divider">
+<br>
 
-<section class="section projects-section" id="projects">
-  <h2 class="section-title what-title">
-    <img src="logo.png" alt="neplov" class="what-logo"> Projects
-  </h2>
+<table width="100%" border="0" cellpadding="6" cellspacing="0">
+<tr bgcolor="#000066">
+<td><font size="2" color="#FFFFFF" face="Arial, sans-serif"><b>おしらせ</b></font></td>
+</tr>
+<tr>
+<td bgcolor="#FFFFEE">
+<font size="1" face="MS Pゴシック, Osaka, sans-serif">
+このサイトは<b>Internet Explorer 4.0</b>以上、<b>Netscape Navigator 4.0</b>以上での閲覧を推奨しています。<br><br>
+画面解像度は<b>800×600</b>以上を推奨します。
+</font>
+</td>
+</tr>
+</table>
 
-  <div class="project-card" style="flex-direction: column; align-items: flex-start; gap: 20px;">
-    <div class="project-left" style="width: 100%;">
-      <p class="project-name">のこりはどれくらい？</p>
-      <p class="project-desc" style="max-width: 100%;">
-        いままで過ごしてきた時間が、日・週・月・年それぞれで何パーセントに相当するのかを視覚的に表示します。<br>
-        人生における時間の経過というのは、意識しないとあっという間に過ぎ去ってしまうものです。このプロジェクトは、「いま自分がどのくらいの時間を消費したのか」を可視化することで、一分一秒の重みを感じ、日々のモチベーションを維持することを目的として開発されました。<br>
-        時間管理のツールとしてだけでなく、哲学的で少し切ない気持ちになるデジタルアートとしてのアプローチも兼ね備えています。
-      </p>
-      
-    </div>
-    <a href="https://remaining.neplov.net" class="project-link" target="_blank" style="align-self: flex-end;">
-      remaining.neplov.net →
-    </a>
-  </div>
+<br>
 
-  <div class="project-card" style="margin-top:24px; flex-direction: column; align-items: flex-start; gap: 20px;">
-    <div class="project-left" style="width: 100%;">
-      <p class="project-name">Asporia Trace <span class="project-alpha">α</span> <span class="project-tag">地震情報モニター</span></p>
-      <p class="project-desc" style="max-width: 100%;">
-        Asporia Traceは、EEW（緊急地震速報）の受信および発生した地震情報のリアルタイム閲覧を可能にする、洗練されたモニターアプリケーションです。<br>
-        最新のデータビジュアライゼーションとダークモードUIを採用し、必要な情報を瞬時にかつ直感的に把握できるように設計されています。AIの支援を受けて構築されており、高速なレスポンスと安定した情報提供を目指しています。現在はα版としての提供となり、今後のアップデートでさらなる機能拡張を予定しています。
-        <br><span class="project-disclaimer">このWebアプリを使用したことによって生じた損害は、一切の責任を負わないものとします。</span>
-      </p>
-      
-    </div>
-    <a href="https://asporia-t.neplov.net" class="project-link" target="_blank" style="align-self: flex-end;">
-      asporia-t.neplov.net →
-    </a>
-  </div>
-</section>
+<a href="/blog/" style="text-decoration: none;">
+<table width="100%" border="2" cellpadding="8" cellspacing="0" bordercolor="#CC6600" bgcolor="#FFFFF0">
+<tr>
+<td align="center">
+<font size="3" face="Arial, sans-serif" color="#CC6600"><b>Blog</b></font><br>
+<font size="1" face="MS Pゴシック, Osaka, sans-serif" color="#666666">思ったことを<br>書いています</font>
+</td>
+</tr>
+</table>
+</a>
 
-<hr class="divider">
+<br>
 
-<footer>
-  <div class="footer-half footer-half-left">
-    <a href="/" class="footer-logo"><img src="logo.png" alt="neplov"></a>
-  </div>
-  <div class="footer-half footer-half-right">
-    <p class="footer-text">© 2026 neplov</p>
-  </div>
-</footer>
+<table width="100%" border="0" cellpadding="6" cellspacing="0">
+<tr bgcolor="#000066">
+<td><font size="2" color="#FFFFFF" face="Arial, sans-serif"><b>カウンター</b></font></td>
+</tr>
+<tr>
+<td bgcolor="#FFFFFF" align="center">
+<br>
+<font size="1" face="Arial, sans-serif">あなたは</font><br>
+<font size="4" face="Courier New, monospace" color="#000066"><b>002849</b></font><br>
+<font size="1" face="Arial, sans-serif">人目の訪問者です</font>
+<br><br>
+</td>
+</tr>
+</table>
 
+</td>
+
+<!-- ====== MAIN CONTENT ====== -->
+<td bgcolor="#FFFFFF">
+<table width="100%" border="0" cellpadding="12" cellspacing="0">
+<tr>
+<td>
+
+<!-- ===== WELCOME ===== -->
+<font size="4" color="#000066" face="Arial, Helvetica, sans-serif"><b>ようこそ！ neplovのホームページへ！</b></font>
+<hr size="2" color="#000066" noshade>
+
+<font size="2" face="MS Pゴシック, Osaka, sans-serif">
+
+<p>
+こんにちは！ このページを見つけてくださってありがとうございます！<br>
+ここは <b>neplov（ネプロフ）</b> のホームページです。
+</p>
+
+<p>
+neplovというのは、なんとなくつけた名前です。特に意味はありません。響きがよかったのかもしれないし、よくなかったのかもしれません。正直なところ、自分でもよく覚えていません。ある日ふと思いついて、「まあこれでいいか」と思って、そのまま使っています。
+</p>
+
+<p>
+このサイトでは、neplovの名前のもとでつくったいろいろなものを紹介しています。Webサービスだったり、ツールだったり、あるいは自分でもよくわからないものだったりします。基本的に思いつきでつくっているので、統一感とかそういうものはあまりありません。ご了承ください。
+</p>
+
+</font>
+
+<br>
+
+<!-- ===== ABOUT ===== -->
+<a name="about"></a>
+<font size="4" color="#000066" face="Arial, Helvetica, sans-serif"><b>■ neplovとは</b></font>
+<hr size="1" color="#000066" noshade>
+
+<font size="2" face="MS Pゴシック, Osaka, sans-serif">
+
+<p>
+neplov（ネプロフ）は、2026年に活動を開始した個人の制作活動における名称です。団体でもなければ、会社でもありません。一人でやっています。
+</p>
+
+<p>
+もともとは、何かをインターネットに公開するときに名前があったほうがいいかなと思って、それでなんとなくつけたのが始まりです。由来を聞かれることがあるのですが、特にありません。語感で決めました。もしかしたら寝ぼけているときに思いついたのかもしれません。記憶が定かではないのですが、たぶんそのあたりだったと思います。
+</p>
+
+<p>
+活動の内容としては、主にWebサービスやWebアプリケーションの開発をしています。といっても、すごく大規模なものをつくっているわけではなく、「こういうのがあったらいいな」とか「これおもしろそうだな」と思ったものを、気が向いたときにつくっている、という感じです。完成するものもあれば、途中で飽きるものもあります。そういうものだと思っています。
+</p>
+
+<p>
+ちなみに、neplovの正式な読み方は「ネプロフ」ですが、「ネプロブ」と読む人もいますし、「ネプラヴ」と読む人もいるかもしれません。どれでも構いません。そもそも正式な読み方というもの自体が怪しいです。最初に決めたのかどうかすら覚えていないので。
+</p>
+
+</font>
+
+<br>
+
+<!-- ===== PROJECTS ===== -->
+<a name="projects"></a>
+<font size="4" color="#000066" face="Arial, Helvetica, sans-serif"><b>■ つくったもの</b></font>
+<hr size="1" color="#000066" noshade>
+
+<font size="2" face="MS Pゴシック, Osaka, sans-serif">
+
+<p>これまでにneplovとしてつくって公開したものを紹介します。数は少ないですが、一つひとつにそれなりの思い入れはあります。たぶん。</p>
+
+</font>
+
+<br>
+
+<!-- Project 1 -->
+<table width="100%" border="1" cellpadding="8" cellspacing="0" bordercolor="#999999">
+<tr bgcolor="#EEEEFF">
+<td>
+<font size="3" face="Arial, sans-serif" color="#000066"><b>のこりはどれくらい？</b></font>
+</td>
+</tr>
+<tr>
+<td bgcolor="#FFFFFF">
+<font size="2" face="MS Pゴシック, Osaka, sans-serif">
+
+<p>
+これは、いままで自分が過ごしてきた時間が、いったいどれくらいの割合に相当するのかを可視化するWebサービスです。
+</p>
+
+<p>
+たとえば、今日という一日のうち、すでに何パーセントが過ぎたのか。今週のうち何パーセントが終わったのか。今月は？ 今年は？ そういうことを、プログレスバーみたいなもので表示します。
+</p>
+
+<p>
+つくった動機としては、時間というのは意識しないとあっという間に過ぎてしまうなあ、と思ったからです。気がついたら夕方になっていたり、気がついたら週末が終わっていたり、気がついたら年末になっていたりします。そういう「気がついたら」を少しでも減らせないかと思って、数字として見えるようにしてみました。
+</p>
+
+<p>
+使い方は特にありません。開いて、眺めてください。何かを感じるかもしれないし、何も感じないかもしれません。それでいいと思います。
+</p>
+
+<p>
+<b>URL：</b><a href="https://remaining.neplov.net" target="_blank">https://remaining.neplov.net</a>
+</p>
+
+</font>
+</td>
+</tr>
+</table>
+
+<br>
+
+<!-- Project 2 -->
+<table width="100%" border="1" cellpadding="8" cellspacing="0" bordercolor="#999999">
+<tr bgcolor="#EEEEFF">
+<td>
+<font size="3" face="Arial, sans-serif" color="#000066"><b>Asporia Trace</b></font>
+<font size="2" color="#999999"> [公開終了]</font>
+<font size="1" color="#666666"> ─ 地震情報モニター</font>
+</td>
+</tr>
+<tr>
+<td bgcolor="#FFFFFF">
+<font size="2" face="MS Pゴシック, Osaka, sans-serif">
+
+<p>
+Asporia Traceは、地震に関する情報をリアルタイムで閲覧できるWebアプリケーションとして開発していましたが、現在は公開を終了しています。詳しくは<a href="news/20260614-asporia-trace-discontinued.html">こちら</a>をご覧ください。
+</p>
+
+<p>
+<a href="https://asporia-t.neplov.net" target="_blank">asporia-t.neplov.net</a> にはAsporia Traceについての説明を掲載しています。
+</p>
+
+</font>
+</td>
+</tr>
+</table>
+
+<br>
+
+<!-- ===== PROFILE ===== -->
+<a name="profile"></a>
+<font size="4" color="#000066" face="Arial, Helvetica, sans-serif"><b>■ 自己紹介</b></font>
+<hr size="1" color="#000066" noshade>
+
+<font size="2" face="MS Pゴシック, Osaka, sans-serif">
+
+<p>
+neplovの中の人の自己紹介です。前述のとおり、一人でやっています。さみしいかと言われれば、まあ、そうかもしれません。でもよく考えてみると、宇宙だって最初は一つの点だったわけですし、一人であるということは、もしかしたら何かが始まる前の状態なのかもしれない、と前向きに捉えることにしています。捉えられているかどうかは別として。
+</p>
+
+</font>
+
+<table border="1" cellpadding="6" cellspacing="0" bordercolor="#999999">
+<tr bgcolor="#EEEEFF">
+<td><font size="2" face="Arial, sans-serif"><b>名前</b></font></td>
+<td><font size="2" face="MS Pゴシック, sans-serif">たらぽん</font></td>
+</tr>
+<tr>
+<td bgcolor="#EEEEFF"><font size="2" face="Arial, sans-serif"><b>肩書き</b></font></td>
+<td><font size="2" face="MS Pゴシック, sans-serif">neplov の創設者（というほど大層なものではないですが、一応）</font></td>
+</tr>
+<tr bgcolor="#F8F8FF">
+<td bgcolor="#EEEEFF"><font size="2" face="Arial, sans-serif"><b>在住</b></font></td>
+<td><font size="2" face="MS Pゴシック, sans-serif">神奈川県鎌倉市（海が近くていいところです）</font></td>
+</tr>
+<tr>
+<td bgcolor="#EEEEFF"><font size="2" face="Arial, sans-serif"><b>身分</b></font></td>
+<td><font size="2" face="MS Pゴシック, sans-serif">高校生</font></td>
+</tr>
+<tr bgcolor="#F8F8FF">
+<td bgcolor="#EEEEFF"><font size="2" face="Arial, sans-serif"><b>やっていること</b></font></td>
+<td><font size="2" face="MS Pゴシック, sans-serif">このサイトをつくったり、Webサービスを開発したりすること</font></td>
+</tr>
+<tr>
+<td bgcolor="#EEEEFF"><font size="2" face="Arial, sans-serif"><b>好きなこと</b></font></td>
+<td><font size="2" face="MS Pゴシック, sans-serif">特にない（と思っているけど、たぶん気づいていないだけかもしれない）</font></td>
+</tr>
+<tr bgcolor="#F8F8FF">
+<td bgcolor="#EEEEFF"><font size="2" face="Arial, sans-serif"><b>ホームページ</b></font></td>
+<td><font size="2" face="MS Pゴシック, sans-serif"><a href="https://tarapon.dev" target="_blank">https://tarapon.dev</a>（個人サイト）</font></td>
+</tr>
+<tr>
+<td bgcolor="#EEEEFF"><font size="2" face="Arial, sans-serif"><b>ひとこと</b></font></td>
+<td><font size="2" face="MS Pゴシック, sans-serif">香川県にいってみたいです。うどんが食べたいからというわけではなく、なんとなく行ってみたいのです。理由を聞かれても困りますが、強いて言えば「行ったことがないから」でしょうか。行ったことがない場所に行ってみたいと思うのは、わりと普通のことだと思います。</font></td>
+</tr>
+</table>
+
+<br>
+
+<!-- ===== UPDATES ===== -->
+<a name="updates"></a>
+<font size="4" color="#000066" face="Arial, Helvetica, sans-serif"><b>■ 更新履歴</b></font>
+<hr size="1" color="#000066" noshade>
+
+<font size="2" face="MS Pゴシック, Osaka, sans-serif">
+
+<dl>
+<dt><font color="#000066"><b>2026/06/14</b></font></dt>
+<dd>Asporia Traceの公開をやめました。詳しくは<a href="news/20260614-asporia-trace-discontinued.html">こちら</a>をご覧ください。<font color="#FF0000" class="blink"><b> NEW!</b></font></dd>
+<br>
+<dt><font color="#000066"><b>2026/06/08</b></font></dt>
+<dd>Asporia Trace α版を公開しました。詳しくは<a href="news/20260608-asporia-trace.html">こちら</a>。</dd>
+<br>
+<dt><font color="#000066"><b>2026/05/20</b></font></dt>
+<dd>「のこりはどれくらい？」を公開しました。詳しくは<a href="news/20260520-remaining.html">こちら</a>。</dd>
+<br>
+<dt><font color="#000066"><b>2026/05/01</b></font></dt>
+<dd>neplov.net を公開しました。このサイトのことです。詳しくは<a href="news/20260501-site-launch.html">こちら</a>。</dd>
+</dl>
+
+</font>
+
+<br>
+
+<!-- ===== LINKS ===== -->
+<a name="links"></a>
+<font size="4" color="#000066" face="Arial, Helvetica, sans-serif"><b>■ リンク集</b></font>
+<hr size="1" color="#000066" noshade>
+
+<font size="2" face="MS Pゴシック, Osaka, sans-serif">
+
+<p>お世話になっているサイト、好きなサイトのリンクです。（このサイトはリンクフリーです。連絡不要でご自由にリンクしてください。バナーはまだつくっていません。）</p>
+
+<ul>
+<li><a href="https://tarapon.dev" target="_blank">tarapon.dev</a> ─ neplovの中の人（たらぽん）の個人サイトです</li>
+<li><a href="https://remaining.neplov.net" target="_blank">のこりはどれくらい？</a> ─ neplovの制作物です</li>
+<li><a href="https://asporia-t.neplov.net" target="_blank">Asporia Trace</a> ─ neplovの制作物です（公開終了・説明ページ）</li>
+</ul>
+
+<p><font size="1" color="#999999">リンク先の内容については、neplovは一切の責任を負いません。リンク切れ等ございましたら、ご連絡いただけると助かります。</font></p>
+
+</font>
+
+<br>
+
+<!-- ===== FOOTER AREA ===== -->
+<hr size="2" color="#000066" noshade>
+
+<center>
+<font size="1" face="Arial, Helvetica, sans-serif" color="#666666">
+
+<p>
+このサイトは <b>GitHub</b> にソースコードを置き、<b>Cloudflare Pages</b> でホスティングしています。<br>
+HTML は手打ちです。<br>
+<br>
+Since 2026.05.01 / Last updated: 2026.06.14
+</p>
+
+<p>
+<img src="logo.png" alt="neplov" height="20" border="0"><br>
+Copyright &copy; 2026 neplov. All Rights Reserved.<br>
+無断転載は禁止…と書くほどのものはありませんが、一応書いておきます。
+</p>
+
+</font>
+</center>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+</td>
+</tr>
+</table>
+</center>
 
 </body>
 </html>
