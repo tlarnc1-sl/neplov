@@ -1,95 +1,112 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ブログ - neplov</title>
+<link rel="stylesheet" href="/style.css">
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<style type="text/css">
-<!--
-body { background-color: #c0c0c0; background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAHklEQVQI12P4////f4Y3b978BwKGt2/f/gcCBigNAEwCE/kpSfd1AAAAAElFTkSuQmCC"); }
-a:link { color: #0000FF; } a:visited { color: #800080; } a:hover { color: #FF0000; }
-
-#article-body h1 { font-size: 18px; color: #000066; margin: 16px 0 8px; }
-#article-body h2 { font-size: 16px; color: #000066; margin: 14px 0 6px; }
-#article-body h3 { font-size: 14px; color: #000066; margin: 12px 0 6px; }
-#article-body p { margin: 8px 0; }
-#article-body ul, #article-body ol { margin: 8px 0 8px 24px; }
-#article-body li { margin: 4px 0; }
-#article-body code { font-family: Courier New, monospace; background: #EEEEFF; padding: 1px 4px; font-size: 12px; }
-#article-body pre { background: #1a1a2e; color: #CCCCCC; padding: 10px; overflow-x: auto; font-family: Courier New, monospace; font-size: 12px; margin: 8px 0; }
-#article-body pre code { background: none; padding: 0; color: inherit; }
-#article-body blockquote { border-left: 3px solid #000066; padding-left: 12px; color: #666666; margin: 8px 0; }
-#article-body hr { border: none; border-top: 1px solid #CCCCCC; margin: 12px 0; }
-#article-body img { max-width: 100%; }
-#article-body a { color: #0000FF; }
-#article-body a:hover { color: #FF0000; }
--->
+<style>
+  /* Prose headings for markdown-rendered content */
+  .prose h1 {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-ink);
+    margin: var(--space-xl) 0 var(--space-sm);
+  }
+  .prose h2 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-ink);
+    margin: var(--space-lg) 0 var(--space-xs);
+  }
+  .prose h3 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-ink);
+    margin: var(--space-lg) 0 var(--space-xs);
+  }
+  .prose img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--rounded-md);
+    margin: var(--space-base) 0;
+  }
 </style>
 </head>
-<body text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
-<center>
-<table width="750" border="0" cellpadding="0" cellspacing="0">
-<tr><td>
+<body>
 
-<table width="100%" border="0" cellpadding="8" cellspacing="0" bgcolor="#000066">
-<tr><td align="center">
-<font size="6" color="#FFFFFF" face="Arial, Helvetica, sans-serif"><b>neplov</b></font><br>
-<font size="2" color="#CCCCFF" face="Arial, Helvetica, sans-serif">- ブログ -</font>
-</td></tr>
-</table>
+<!-- Top Navigation -->
+<nav class="top-nav">
+  <div class="container">
+    <a href="/" class="top-nav__brand">
+      <img src="/logo-1.png" alt="neplov">
+      <span class="top-nav__brand-text">neplov</span>
+    </a>
+    <ul class="top-nav__links" id="nav-links">
+      <li><a href="/#about" class="top-nav__link">neplovとは</a></li>
+      <li><a href="/#projects" class="top-nav__link">つくったもの</a></li>
+      <li><a href="/blog/" class="top-nav__link top-nav__link--active">ブログ</a></li>
+      <li><a href="/#updates" class="top-nav__link">更新履歴</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="メニュー" onclick="document.getElementById('nav-links').classList.toggle('top-nav__links--open')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
 
-<table width="100%" border="0" cellpadding="4" cellspacing="0" bgcolor="#336699">
-<tr><td align="center">
-<font size="2" face="Arial, sans-serif">
-<a href="/" style="color:#FFFFFF; text-decoration:none;"><b>トップページ</b></a>
-&nbsp;|&nbsp;
-<a href="/blog/" style="color:#FFCC00; text-decoration:none;"><b>ブログ</b></a>
-</font>
-</td></tr>
-</table>
+<!-- Main Content -->
+<main class="section">
+  <div class="container">
 
-<table width="100%" border="0" cellpadding="12" cellspacing="0" bgcolor="#FFFFFF">
-<tr><td>
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+      <a href="/">トップページ</a>
+      <span class="breadcrumb__sep">›</span>
+      <a href="/blog/">ブログ</a>
+      <span class="breadcrumb__sep">›</span>
+      <span id="breadcrumb-title">読み込み中...</span>
+    </nav>
 
-<font size="1" face="MS Pゴシック, Osaka, sans-serif" color="#666666">
-<a href="/">トップページ</a> &gt; <a href="/blog/">ブログ</a> &gt; <span id="breadcrumb-title">読み込み中...</span>
-</font>
+    <!-- Article Header -->
+    <div id="article-header" class="mb-base"></div>
+    <hr style="border: none; border-top: 1px solid var(--color-hairline); margin-bottom: var(--space-lg);">
 
-<br><br>
+    <!-- Article Body -->
+    <div id="article-body" class="prose">
+      <p class="body-sm text-muted">記事を読み込んでいます...</p>
+    </div>
 
-<div id="article-header"></div>
-<hr size="1" color="#000066" noshade>
+    <div class="mt-xl" style="border-top: 1px solid var(--color-hairline); padding-top: var(--space-lg);">
+      <a href="/blog/" class="body-sm">&lt;&lt; ブログ記事一覧に戻る</a>
+      <span class="body-sm text-muted"> / </span>
+      <a href="/" class="body-sm">トップページに戻る</a>
+    </div>
 
-<div id="article-body">
-<font size="2" face="MS Pゴシック, Osaka, sans-serif" color="#999999">記事を読み込んでいます...</font>
-</div>
+  </div>
+</main>
 
-<br>
-<hr size="1" color="#CCCCCC" noshade>
-<p><font size="2" face="MS Pゴシック, Osaka, sans-serif">
-<a href="/blog/">&lt;&lt; ブログ記事一覧に戻る</a> / <a href="/">トップページに戻る</a>
-</font></p>
-
-</td></tr>
-</table>
-
-<table width="100%" border="0" cellpadding="4" cellspacing="0" bgcolor="#000066">
-<tr><td align="center">
-<font size="1" color="#CCCCCC" face="Arial, sans-serif">Copyright &copy; 2026 neplov. All Rights Reserved.</font>
-</td></tr>
-</table>
-
-</td></tr>
-</table>
-</center>
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__brand"><img src="/logo-1.png" alt="neplov" style="height: 16px;"></div>
+    <div class="footer__copy">Copyright &copy; 2026 neplov. All Rights Reserved.</div>
+  </div>
+</footer>
 
 <script>
 var slug = window.location.hash ? window.location.hash.substring(1) : null;
 
 if (!slug) {
-  document.getElementById("article-body").innerHTML = '<font size="2" face="MS Pゴシック, Osaka, sans-serif" color="#CC0000">記事が指定されていません。<br><br><a href="/blog/">ブログ記事一覧</a>からお選びください。</font>';
+  document.getElementById("article-body").innerHTML = '<p class="body-sm" style="color: var(--color-error);">記事が指定されていません。<br><br><a href="/blog/">ブログ記事一覧</a>からお選びください。</p>';
   document.getElementById("breadcrumb-title").textContent = "エラー";
-  document.getElementById("article-header").innerHTML = '<font size="4" color="#000066" face="Arial, Helvetica, sans-serif"><b>エラー</b></font>';
+  document.getElementById("article-header").innerHTML = '<h1 class="display-md">エラー</h1>';
 } else {
   fetch("posts/" + slug + ".md")
     .then(function(res) {
@@ -123,17 +140,17 @@ if (!slug) {
       document.title = title + " - neplov ブログ";
       document.getElementById("breadcrumb-title").textContent = title;
       document.getElementById("article-header").innerHTML =
-        '<font size="4" color="#000066" face="Arial, Helvetica, sans-serif"><b>' + title + '</b></font>' +
-        (date ? '<br><font size="2" face="Courier New, monospace" color="#666666">' + date + '</font>' : '');
+        '<h1 class="display-md">' + title + '</h1>' +
+        (date ? '<p class="caption code-text mt-xs">' + date + '</p>' : '');
 
       var html = marked.parse(body);
       var el = document.getElementById("article-body");
-      el.innerHTML = '<font size="2" face="MS Pゴシック, Osaka, sans-serif">' + html + '</font>';
+      el.innerHTML = html;
     })
     .catch(function() {
-      document.getElementById("article-body").innerHTML = '<font size="2" face="MS Pゴシック, Osaka, sans-serif" color="#CC0000">記事が見つかりませんでした。<br><br>URLを確認するか、<a href="/blog/">ブログ記事一覧</a>からお選びください。</font>';
+      document.getElementById("article-body").innerHTML = '<p class="body-sm" style="color: var(--color-error);">記事が見つかりませんでした。<br><br>URLを確認するか、<a href="/blog/">ブログ記事一覧</a>からお選びください。</p>';
       document.getElementById("breadcrumb-title").textContent = "記事が見つかりません";
-      document.getElementById("article-header").innerHTML = '<font size="4" color="#000066" face="Arial, Helvetica, sans-serif"><b>記事が見つかりません</b></font>';
+      document.getElementById("article-header").innerHTML = '<h1 class="display-md">記事が見つかりません</h1>';
     });
 }
 </script>

@@ -1,84 +1,67 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>neplov.net を公開しました - neplov</title>
-<style type="text/css">
-<!--
-body { background-color: #c0c0c0; background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAHklEQVQI12P4////f4Y3b978BwKGt2/f/gcCBigNAEwCE/kpSfd1AAAAAElFTkSuQmCC"); }
-a:link { color: #0000FF; } a:visited { color: #800080; } a:hover { color: #FF0000; }
--->
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>neplov.net を公開しました - neplov</title>
+  <link rel="stylesheet" href="/style.css">
 </head>
-<body text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
-<center>
-<table width="750" border="0" cellpadding="0" cellspacing="0">
-<tr><td>
+<body>
 
-<table width="100%" border="0" cellpadding="8" cellspacing="0" bgcolor="#000066">
-<tr><td align="center">
-<font size="6" color="#FFFFFF" face="Arial, Helvetica, sans-serif"><b>neplov</b></font><br>
-<font size="2" color="#CCCCFF" face="Arial, Helvetica, sans-serif">- ネプロフのホームページ -</font>
-</td></tr>
-</table>
+<nav class="top-nav">
+  <div class="container">
+    <a href="/" class="top-nav__brand">
+      <img src="/logo-1.png" alt="neplov">
+      <span class="top-nav__brand-text">neplov</span>
+    </a>
+    <ul class="top-nav__links" id="nav-links">
+      <li><a href="/#about" class="top-nav__link">neplovとは</a></li>
+      <li><a href="/#projects" class="top-nav__link">つくったもの</a></li>
+      <li><a href="/blog/" class="top-nav__link">ブログ</a></li>
+      <li><a href="/#updates" class="top-nav__link top-nav__link--active">更新履歴</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="メニュー" onclick="document.getElementById('nav-links').classList.toggle('top-nav__links--open')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
 
-<table width="100%" border="0" cellpadding="12" cellspacing="0" bgcolor="#FFFFFF">
-<tr><td>
+<main class="container section">
+  <div class="breadcrumb">
+    <a href="/">トップページ</a><span class="breadcrumb__sep">›</span>
+    <a href="/#updates">更新履歴</a><span class="breadcrumb__sep">›</span>
+    neplov.net を公開しました
+  </div>
 
-<font size="1" face="MS Pゴシック, Osaka, sans-serif" color="#666666">
-<a href="/">トップページ</a> &gt; 更新履歴 &gt; neplov.net を公開しました
-</font>
+  <article>
+    <h1 class="display-md">neplov.net を公開しました</h1>
+    <p class="code-text text-muted" style="margin-top: var(--space-xs);">2026/05/01</p>
 
-<br><br>
+    <div class="prose" style="margin-top: var(--space-xl);">
+      <p>本日、<strong>neplov.net</strong> を公開しました。このサイトのことです。今あなたが見ているのがそれです。</p>
 
-<font size="4" color="#000066" face="Arial, Helvetica, sans-serif"><b>neplov.net を公開しました</b></font>
-<hr size="1" color="#000066" noshade>
+      <p>neplov（ネプロフ）というのは、なんとなくつけた名前です。何かをインターネットに公開するときに、名前があったほうがいいかなと思って、それでつけました。由来は特にありません。響きで決めました。「ネプロフ」という響きがいいかどうかは、正直自分でもよくわからないのですが、まあ、一度つけてしまったものは仕方ないかなという気持ちもあります。</p>
 
-<font size="2" face="MS Pゴシック, Osaka, sans-serif">
+      <p>このサイトでは、neplovの名前のもとでつくったいろいろなものを紹介したり、更新情報を載せたりしていく予定です。どのくらいの頻度で更新するかは未定です。がんばって更新する日もあれば、何ヶ月も放置してしまう日もあるかもしれません。そのへんはゆるくやっていこうと思います。</p>
 
-<p><font color="#000066"><b>2026/05/01</b></font></p>
+      <p>ちなみにこのサイトのHTMLは手打ちです。2026年にもなってHTMLを手打ちしているというのはどうかと思うかもしれませんが、個人的には嫌いじゃないです。タグを一つひとつ書いていると、なんだか工作をしているような気分になります。効率はよくないですが、楽しいので良しとします。</p>
 
-<p>
-本日、<b>neplov.net</b> を公開しました。このサイトのことです。今あなたが見ているのがそれです。
-</p>
+      <p>このサイトのソースコードはGitHubに置いてあり、Cloudflare Pagesでホスティングしています。特に隠すようなものでもないので、興味がある方はソースコードを見ていただいても構いません。たいしたことは書いていませんが。</p>
 
-<p>
-neplov（ネプロフ）というのは、なんとなくつけた名前です。何かをインターネットに公開するときに、名前があったほうがいいかなと思って、それでつけました。由来は特にありません。響きで決めました。「ネプロフ」という響きがいいかどうかは、正直自分でもよくわからないのですが、まあ、一度つけてしまったものは仕方ないかなという気持ちもあります。
-</p>
+      <p>今後ともneplovをよろしくお願いいたします。お気に入りに追加していただけるととても嬉しいです。</p>
+    </div>
 
-<p>
-このサイトでは、neplovの名前のもとでつくったいろいろなものを紹介したり、更新情報を載せたりしていく予定です。どのくらいの頻度で更新するかは未定です。がんばって更新する日もあれば、何ヶ月も放置してしまう日もあるかもしれません。そのへんはゆるくやっていこうと思います。
-</p>
+    <hr style="border: none; border-top: 1px solid var(--color-hairline); margin: var(--space-xl) 0;">
+    <p><a href="/">&lt;&lt; トップページに戻る</a></p>
+  </article>
+</main>
 
-<p>
-ちなみにこのサイトのHTMLは手打ちです。2026年にもなってHTMLを手打ちしているというのはどうかと思うかもしれませんが、個人的には嫌いじゃないです。タグを一つひとつ書いていると、なんだか工作をしているような気分になります。効率はよくないですが、楽しいので良しとします。
-</p>
+<footer class="footer">
+  <div class="container">
+    <div class="footer__brand"><img src="/logo-1.png" alt="neplov" style="height: 16px;"></div>
+    <div class="footer__copy">Since 2026.05.01 / Copyright &copy; 2026 neplov. All Rights Reserved.</div>
+  </div>
+</footer>
 
-<p>
-このサイトのソースコードはGitHubに置いてあり、Cloudflare Pagesでホスティングしています。特に隠すようなものでもないので、興味がある方はソースコードを見ていただいても構いません。たいしたことは書いていませんが。
-</p>
-
-<p>
-今後ともneplovをよろしくお願いいたします。お気に入りに追加していただけるととても嬉しいです。
-</p>
-
-<br>
-<hr size="1" color="#CCCCCC" noshade>
-<p><a href="/">&lt;&lt; トップページに戻る</a></p>
-
-</font>
-
-</td></tr>
-</table>
-
-<table width="100%" border="0" cellpadding="4" cellspacing="0" bgcolor="#000066">
-<tr><td align="center">
-<font size="1" color="#CCCCCC" face="Arial, sans-serif">Copyright &copy; 2026 neplov. All Rights Reserved.</font>
-</td></tr>
-</table>
-
-</td></tr>
-</table>
-</center>
 </body>
 </html>

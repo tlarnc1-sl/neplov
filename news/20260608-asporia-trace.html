@@ -1,84 +1,67 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Asporia Trace α版を公開しました - neplov</title>
-<style type="text/css">
-<!--
-body { background-color: #c0c0c0; background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAHklEQVQI12P4////f4Y3b978BwKGt2/f/gcCBigNAEwCE/kpSfd1AAAAAElFTkSuQmCC"); }
-a:link { color: #0000FF; } a:visited { color: #800080; } a:hover { color: #FF0000; }
--->
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asporia Trace α版を公開しました - neplov</title>
+  <link rel="stylesheet" href="/style.css">
 </head>
-<body text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
-<center>
-<table width="750" border="0" cellpadding="0" cellspacing="0">
-<tr><td>
+<body>
 
-<table width="100%" border="0" cellpadding="8" cellspacing="0" bgcolor="#000066">
-<tr><td align="center">
-<font size="6" color="#FFFFFF" face="Arial, Helvetica, sans-serif"><b>neplov</b></font><br>
-<font size="2" color="#CCCCFF" face="Arial, Helvetica, sans-serif">- ネプロフのホームページ -</font>
-</td></tr>
-</table>
+<nav class="top-nav">
+  <div class="container">
+    <a href="/" class="top-nav__brand">
+      <img src="/logo-1.png" alt="neplov">
+      <span class="top-nav__brand-text">neplov</span>
+    </a>
+    <ul class="top-nav__links" id="nav-links">
+      <li><a href="/#about" class="top-nav__link">neplovとは</a></li>
+      <li><a href="/#projects" class="top-nav__link">つくったもの</a></li>
+      <li><a href="/blog/" class="top-nav__link">ブログ</a></li>
+      <li><a href="/#updates" class="top-nav__link top-nav__link--active">更新履歴</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="メニュー" onclick="document.getElementById('nav-links').classList.toggle('top-nav__links--open')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
 
-<table width="100%" border="0" cellpadding="12" cellspacing="0" bgcolor="#FFFFFF">
-<tr><td>
+<main class="container section">
+  <div class="breadcrumb">
+    <a href="/">トップページ</a><span class="breadcrumb__sep">›</span>
+    <a href="/#updates">更新履歴</a><span class="breadcrumb__sep">›</span>
+    Asporia Trace α版を公開しました
+  </div>
 
-<font size="1" face="MS Pゴシック, Osaka, sans-serif" color="#666666">
-<a href="/">トップページ</a> &gt; 更新履歴 &gt; Asporia Trace α版を公開しました
-</font>
+  <article>
+    <h1 class="display-md">Asporia Trace α版を公開しました</h1>
+    <p class="code-text text-muted" style="margin-top: var(--space-xs);">2026/06/08</p>
 
-<br><br>
+    <div class="prose" style="margin-top: var(--space-xl);">
+      <p>neplovの新しいプロジェクトとして、<strong>Asporia Trace</strong>のα版（アルファ版）を本日公開しました。</p>
 
-<font size="4" color="#000066" face="Arial, Helvetica, sans-serif"><b>Asporia Trace α版を公開しました</b></font>
-<hr size="1" color="#000066" noshade>
+      <p>Asporia Traceは、地震に関する情報をリアルタイムで閲覧することができるWebアプリケーションです。EEW（緊急地震速報）の受信にも対応しており、地震が発生した際にはすぐに情報を確認することができるようになっています。</p>
 
-<font size="2" face="MS Pゴシック, Osaka, sans-serif">
+      <p>開発のきっかけとしては、地震情報を手軽にかつ見やすく確認できるツールがあったらいいなと前々から思っていたのですが、既存のサービスだとデザインがちょっと好みじゃなかったり、自分が必要としている情報と微妙に合わなかったりして、それならもう自分でつくってしまおうと思ったのが始まりです。</p>
 
-<p><font color="#000066"><b>2026/06/08</b></font></p>
+      <p>ダークモードのUIを採用していて、必要な情報をなるべく直感的に把握できるようにデザインしています。今はまだα版ということもあり、至らない部分も多いかと思いますが、今後少しずつ改善していきたいと考えています。もし使ってみて何か気づいた点があれば、教えていただけるとありがたいです。</p>
 
-<p>
-neplovの新しいプロジェクトとして、<b>Asporia Trace</b>のα版（アルファ版）を本日公開しました。
-</p>
+      <p><strong>URL：</strong><a href="https://asporia-t.neplov.net" target="_blank">https://asporia-t.neplov.net</a></p>
 
-<p>
-Asporia Traceは、地震に関する情報をリアルタイムで閲覧することができるWebアプリケーションです。EEW（緊急地震速報）の受信にも対応しており、地震が発生した際にはすぐに情報を確認することができるようになっています。
-</p>
+      <p class="caption">※ このWebアプリを使用したことによって生じたいかなる損害についても、neplov及び開発者は一切の責任を負いかねます。地震に関する正確な情報は、気象庁の公式発表をご確認ください。</p>
+    </div>
 
-<p>
-開発のきっかけとしては、地震情報を手軽にかつ見やすく確認できるツールがあったらいいなと前々から思っていたのですが、既存のサービスだとデザインがちょっと好みじゃなかったり、自分が必要としている情報と微妙に合わなかったりして、それならもう自分でつくってしまおうと思ったのが始まりです。
-</p>
+    <hr style="border: none; border-top: 1px solid var(--color-hairline); margin: var(--space-xl) 0;">
+    <p><a href="/">&lt;&lt; トップページに戻る</a></p>
+  </article>
+</main>
 
-<p>
-ダークモードのUIを採用していて、必要な情報をなるべく直感的に把握できるようにデザインしています。今はまだα版ということもあり、至らない部分も多いかと思いますが、今後少しずつ改善していきたいと考えています。もし使ってみて何か気づいた点があれば、教えていただけるとありがたいです。
-</p>
+<footer class="footer">
+  <div class="container">
+    <div class="footer__brand"><img src="/logo-1.png" alt="neplov" style="height: 16px;"></div>
+    <div class="footer__copy">Since 2026.05.01 / Copyright &copy; 2026 neplov. All Rights Reserved.</div>
+  </div>
+</footer>
 
-<p>
-<b>URL：</b><a href="https://asporia-t.neplov.net" target="_blank">https://asporia-t.neplov.net</a>
-</p>
-
-<p>
-<font size="1" color="#999999">※ このWebアプリを使用したことによって生じたいかなる損害についても、neplov及び開発者は一切の責任を負いかねます。地震に関する正確な情報は、気象庁の公式発表をご確認ください。</font>
-</p>
-
-<br>
-<hr size="1" color="#CCCCCC" noshade>
-<p><a href="/">&lt;&lt; トップページに戻る</a></p>
-
-</font>
-
-</td></tr>
-</table>
-
-<table width="100%" border="0" cellpadding="4" cellspacing="0" bgcolor="#000066">
-<tr><td align="center">
-<font size="1" color="#CCCCCC" face="Arial, sans-serif">Copyright &copy; 2026 neplov. All Rights Reserved.</font>
-</td></tr>
-</table>
-
-</td></tr>
-</table>
-</center>
 </body>
 </html>

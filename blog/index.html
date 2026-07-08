@@ -1,102 +1,88 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ブログ - neplov</title>
-<style type="text/css">
-<!--
-body { background-color: #c0c0c0; background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAHklEQVQI12P4////f4Y3b978BwKGt2/f/gcCBigNAEwCE/kpSfd1AAAAAElFTkSuQmCC"); }
-a:link { color: #0000FF; } a:visited { color: #800080; } a:hover { color: #FF0000; }
--->
-</style>
+<link rel="stylesheet" href="/style.css">
 </head>
-<body text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
-<center>
-<table width="750" border="0" cellpadding="0" cellspacing="0">
-<tr><td>
+<body>
 
-<table width="100%" border="0" cellpadding="8" cellspacing="0" bgcolor="#000066">
-<tr><td align="center">
-<font size="6" color="#FFFFFF" face="Arial, Helvetica, sans-serif"><b>neplov</b></font><br>
-<font size="2" color="#CCCCFF" face="Arial, Helvetica, sans-serif">- ブログ -</font>
-</td></tr>
-</table>
+<!-- Top Navigation -->
+<nav class="top-nav">
+  <div class="container">
+    <a href="/" class="top-nav__brand">
+      <img src="/logo-1.png" alt="neplov">
+      <span class="top-nav__brand-text">neplov</span>
+    </a>
+    <ul class="top-nav__links" id="nav-links">
+      <li><a href="/#about" class="top-nav__link">neplovとは</a></li>
+      <li><a href="/#projects" class="top-nav__link">つくったもの</a></li>
+      <li><a href="/blog/" class="top-nav__link top-nav__link--active">ブログ</a></li>
+      <li><a href="/#updates" class="top-nav__link">更新履歴</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="メニュー" onclick="document.getElementById('nav-links').classList.toggle('top-nav__links--open')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
 
-<table width="100%" border="0" cellpadding="4" cellspacing="0" bgcolor="#336699">
-<tr><td align="center">
-<font size="2" face="Arial, sans-serif">
-<a href="/" style="color:#FFFFFF; text-decoration:none;"><b>トップページ</b></a>
-&nbsp;|&nbsp;
-<a href="/blog/" style="color:#FFCC00; text-decoration:none;"><b>ブログ</b></a>
-</font>
-</td></tr>
-</table>
+<!-- Main Content -->
+<main class="section">
+  <div class="container">
 
-<table width="100%" border="0" cellpadding="12" cellspacing="0" bgcolor="#FFFFFF">
-<tr><td>
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+      <a href="/">トップページ</a>
+      <span class="breadcrumb__sep">›</span>
+      ブログ
+    </nav>
 
-<font size="1" face="MS Pゴシック, Osaka, sans-serif" color="#666666">
-<a href="/">トップページ</a> &gt; ブログ
-</font>
+    <!-- Page Heading -->
+    <div class="section-header">
+      <h1 class="display-md">ブログ記事一覧</h1>
+    </div>
 
-<br><br>
-
-<font size="4" color="#000066" face="Arial, Helvetica, sans-serif"><b>■ ブログ記事一覧</b></font>
-<hr size="1" color="#000066" noshade>
-
-<div id="blog-description-box" style="display: none; margin-bottom: 20px;">
-<table width="100%" border="1" cellpadding="8" cellspacing="0" bordercolor="#999999">
-<tr bgcolor="#EEEEFF">
-<td>
-<table width="100%" border="0" cellpadding="0" cellspacing="0">
-<tr>
-<td><font size="2" color="#000066" face="MS Pゴシック, Osaka, sans-serif"><b>■ このブログについて</b></font></td>
-<td align="right"><font size="2" face="MS Pゴシック, Osaka, sans-serif"><a href="javascript:void(0);" onclick="toggleBlogDesc()">[閉じる]</a></font></td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td bgcolor="#FFFFFF">
-<font size="2" face="MS Pゴシック, Osaka, sans-serif">
-<p>ブログです。つくったものや、思ったこと、その他よくわからないことについて書いています。</p>
-<p>更新頻度はとくに決めていません。書きたいことが出てきたときに書く、というかんじでやっています。なのでたくさん書く時期もあれば、しばらく何もない時期もあります。そういうものだと思ってください。</p>
-<p>内容に統一感はありません。サイト全体もそうなので、まあそういうことです。気楽に読んでいただければうれしいです。</p>
-<pre style="font-family: 'MS Pゴシック', 'Mona', sans-serif; font-size: 12px; line-height: 1.1; margin-top: 16px; color: #666666;">
-　 ∧,,∧
+    <!-- Blog Description Box (toggleable) -->
+    <div id="blog-description-box" class="card mb-lg" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-sm);">
+        <span class="title-sm">このブログについて</span>
+        <a href="javascript:void(0);" onclick="toggleBlogDesc()" class="body-sm text-primary">[閉じる]</a>
+      </div>
+      <div class="prose">
+        <p>ブログです。つくったものや、思ったこと、その他よくわからないことについて書いています。</p>
+        <p>更新頻度はとくに決めていません。書きたいことが出てきたときに書く、というかんじでやっています。なのでたくさん書く時期もあれば、しばらく何もない時期もあります。そういうものだと思ってください。</p>
+        <p>内容に統一感はありません。サイト全体もそうなので、まあそういうことです。気楽に読んでいただければうれしいです。</p>
+      </div>
+      <pre class="aa-art" style="margin-top: var(--space-base);">　 ∧,,∧
 　(；`・ω・）
 　/　　 ｏ
-　しー-Ｊ
-</pre>
-</font>
-</td>
-</tr>
-</table>
-</div>
-<div id="blog-description-open" style="display: none; text-align: right; margin-bottom: 10px;">
-<font size="2" face="MS Pゴシック, Osaka, sans-serif"><a href="javascript:void(0);" onclick="toggleBlogDesc()">[ブログの説明を見る]</a></font>
-</div>
+　しー-Ｊ</pre>
+    </div>
 
-<div id="post-list">
-<font size="2" face="MS Pゴシック, Osaka, sans-serif" color="#999999">記事を読み込んでいます...</font>
-</div>
+    <div id="blog-description-open" style="display: none; text-align: right; margin-bottom: var(--space-base);">
+      <a href="javascript:void(0);" onclick="toggleBlogDesc()" class="body-sm text-primary">[ブログの説明を見る]</a>
+    </div>
 
-<br>
-<hr size="1" color="#CCCCCC" noshade>
-<p><font size="2" face="MS Pゴシック, Osaka, sans-serif"><a href="/">&lt;&lt; トップページに戻る</a></font></p>
+    <!-- Post List -->
+    <div id="post-list">
+      <p class="body-sm text-muted">記事を読み込んでいます...</p>
+    </div>
 
-</td></tr>
-</table>
+    <div class="mt-xl" style="border-top: 1px solid var(--color-hairline); padding-top: var(--space-lg);">
+      <a href="/" class="body-sm">&lt;&lt; トップページに戻る</a>
+    </div>
 
-<table width="100%" border="0" cellpadding="4" cellspacing="0" bgcolor="#000066">
-<tr><td align="center">
-<font size="1" color="#CCCCCC" face="Arial, sans-serif">Copyright &copy; 2026 neplov. All Rights Reserved.</font>
-</td></tr>
-</table>
+  </div>
+</main>
 
-</td></tr>
-</table>
-</center>
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__brand"><img src="/logo-1.png" alt="neplov" style="height: 16px;"></div>
+    <div class="footer__copy">Copyright &copy; 2026 neplov. All Rights Reserved.</div>
+  </div>
+</footer>
 
 <script>
 function toggleBlogDesc() {
@@ -128,23 +114,21 @@ function fetchPosts() {
     .then(function(posts) {
       var el = document.getElementById("post-list");
       if (posts.length === 0) {
-        el.innerHTML = '<font size="2" face="MS Pゴシック, Osaka, sans-serif" color="#999999">まだ記事がありません。</font>';
+        el.innerHTML = '<p class="body-sm text-muted">まだ記事がありません。</p>';
         return;
       }
-      var html = '<table width="100%" border="1" cellpadding="6" cellspacing="0" bordercolor="#999999">';
-      html += '<tr bgcolor="#EEEEFF"><td width="110"><font size="2" face="Arial, sans-serif"><b>日付</b></font></td><td><font size="2" face="Arial, sans-serif"><b>タイトル</b></font></td></tr>';
+      var html = '<ul class="post-list">';
       for (var i = 0; i < posts.length; i++) {
-        var bg = i % 2 === 0 ? "#FFFFFF" : "#F8F8FF";
-        html += '<tr bgcolor="' + bg + '">';
-        html += '<td><font size="2" face="Courier New, monospace" color="#000066">' + posts[i].date + '</font></td>';
-        html += '<td><font size="2" face="MS Pゴシック, Osaka, sans-serif"><a href="post.html#' + posts[i].slug + '">' + posts[i].title + '</a></font></td>';
-        html += '</tr>';
+        html += '<li class="post-item">';
+        html += '<span class="post-date">' + posts[i].date + '</span>';
+        html += '<a href="post.html#' + posts[i].slug + '" class="post-title-link">' + posts[i].title + '</a>';
+        html += '</li>';
       }
-      html += '</table>';
+      html += '</ul>';
       el.innerHTML = html;
     })
     .catch(function() {
-      document.getElementById("post-list").innerHTML = '<font size="2" face="MS Pゴシック, Osaka, sans-serif" color="#CC0000">記事の取得に失敗しました。</font>';
+      document.getElementById("post-list").innerHTML = '<p class="body-sm" style="color: var(--color-error);">記事の取得に失敗しました。</p>';
     });
 }
 
@@ -153,4 +137,3 @@ fetchPosts();
 
 </body>
 </html>
-
