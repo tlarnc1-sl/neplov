@@ -1,369 +1,623 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="neplovのホームページです。このサイトでは、個人が作成したアプリケーションや、ブログなどを閲覧することができます。">
-  <meta name="keywords" content="neplov,ネプロフ,ホームページ,個人サイト,Web制作,鎌倉">
-  <title>neplov - ネプロフのホームページへようこそ！</title>
-  <link rel="stylesheet" href="/style.css">
-  <link rel="icon" href="/favicon.png" type="image/png">
-</head>
-<body>
-
-<!-- ============ TOP NAV ============ -->
-<nav class="top-nav" id="top-nav">
-  <div class="container">
-    <a href="/" class="top-nav__brand">
-      <img src="/logo-1.png" alt="neplov">
-      <span class="top-nav__brand-text">neplov</span>
-    </a>
-    <ul class="top-nav__links" id="nav-links">
-      <li><a href="#about" class="top-nav__link">neplovとは</a></li>
-      <li><a href="#projects" class="top-nav__link">つくったもの</a></li>
-      <li><a href="#profile" class="top-nav__link">自己紹介</a></li>
-      <li><a href="/blog/" class="top-nav__link">ブログ</a></li>
-      <li><a href="#updates" class="top-nav__link">更新履歴</a></li>
-      <li><a href="#links" class="top-nav__link">リンク集</a></li>
-    </ul>
-    <button class="nav-hamburger" id="nav-hamburger" aria-label="メニュー" onclick="document.getElementById('nav-links').classList.toggle('top-nav__links--open')">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-  </div>
-</nav>
-
-<!-- ============ HERO ============ -->
-<section class="hero-band">
-  <div class="container">
-    <h1 class="display-mega">ようこそ！<br>neplovのホームページへ！</h1>
-    <p class="body-md hero-band__subtitle">
-      こんにちは！ このページを見つけてくださってありがとうございます！<br>
-      ここは <strong class="text-ink">neplov（ネプロフ）</strong> のホームページです。
-    </p>
-    <div class="hero-band__actions">
-      <a href="#projects" class="btn btn-download">つくったものを見る</a>
-      <a href="/blog/" class="btn btn-tertiary">ブログを読む →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ============ MAIN LAYOUT ============ -->
-<div class="container">
-  <div class="page-layout">
-
-    <!-- ====== MAIN CONTENT ====== -->
-    <main class="page-main">
-
-      <!-- ===== INTRO ===== -->
-      <section class="section" style="padding-top: 0;">
-        <div class="prose">
-          <p>
-            neplovというのは、なんとなくつけた名前です。特に意味はありません。響きがよかったのかもしれないし、よくなかったのかもしれません。正直なところ、自分でもよく覚えていません。ある日ふと思いついて、「まあこれでいいか」と思って、そのまま使っています。
-          </p>
-          <p>
-            このサイトでは、neplovの名前のもとでつくったいろいろなものを紹介しています。Webサービスだったり、ツールだったり、あるいは自分でもよくわからないものだったりします。基本的に思いつきでつくっているので、統一感とかそういうものはあまりありません。ご了承ください。
-          </p>
-        </div>
-      </section>
-
-      <!-- ===== ABOUT ===== -->
-      <section id="about" class="section">
-        <div class="section-header">
-          <h2 class="display-lg">neplovとは</h2>
-        </div>
-        <div class="prose">
-          <p>
-            neplov（ネプロフ）は、2026年に活動を開始した個人の制作活動における名称です。団体でもなければ、会社でもありません。一人でやっています。
-          </p>
-          <p>
-            もともとは、何かをインターネットに公開するときに名前があったほうがいいかなと思って、それでなんとなくつけたのが始まりです。由来を聞かれることがあるのですが、特にありません。語感で決めました。もしかしたら寝ぼけているときに思いついたのかもしれません。記憶が定かではないのですが、たぶんそのあたりだったと思います。
-          </p>
-          <p>
-            活動の内容としては、主にWebサービスやWebアプリケーションの開発をしています。といっても、すごく大規模なものをつくっているわけではなく、「こういうのがあったらいいな」とか「これおもしろそうだな」と思ったものを、気が向いたときにつくっている、という感じです。完成するものもあれば、途中で飽きるものもあります。そういうものだと思っています。
-          </p>
-          <p>
-            ちなみに、neplovの正式な読み方は「ネプロフ」ですが、「ネプロブ」と読む人もいますし、「ネプラヴ」と読む人もいるかもしれません。どれでも構いません。そもそも正式な読み方というもの自体が怪しいです。最初に決めたのかどうかすら覚えていないので。
-          </p>
-        </div>
-      </section>
-
-      <!-- ===== PROJECTS ===== -->
-      <section id="projects" class="section">
-        <div class="section-header">
-          <h2 class="display-lg">つくったもの</h2>
-        </div>
-        <div class="prose mb-xl">
-          <p>これまでにneplovとしてつくって公開したものを紹介します。数は少ないですが、一つひとつにそれなりの思い入れはあります。たぶん。</p>
-        </div>
-
-        <div class="card-grid card-grid--2">
-          <!-- Project 1 -->
-          <div class="feature-card">
-            <span class="feature-card__tag">Web Service</span>
-            <h3 class="feature-card__title">のこりはどれくらい？</h3>
-            <div class="feature-card__body">
-              <p>
-                これは、いままで自分が過ごしてきた時間が、いったいどれくらいの割合に相当するのかを可視化するWebサービスです。
-              </p>
-              <p style="margin-top: var(--space-sm);">
-                たとえば、今日という一日のうち、すでに何パーセントが過ぎたのか。今週のうち何パーセントが終わったのか。今月は？ 今年は？ そういうことを、プログレスバーみたいなもので表示します。
-              </p>
-              <p style="margin-top: var(--space-sm);">
-                つくった動機としては、時間というのは意識しないとあっという間に過ぎてしまうなあ、と思ったからです。気がついたら夕方になっていたり、気がついたら週末が終わっていたり、気がついたら年末になっていたりします。そういう「気がついたら」を少しでも減らせないかと思って、数字として見えるようにしてみました。
-              </p>
-              <p style="margin-top: var(--space-sm);">
-                使い方は特にありません。開いて、眺めてください。何かを感じるかもしれないし、何も感じないかもしれません。それでいいと思います。
-              </p>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="description"
+            content="neplovのホームページです。このサイトでは、個人が作成したアプリケーションや、ブログなどを閲覧することができます。"
+        />
+        <meta
+            name="keywords"
+            content="neplov,ネプロフ,ホームページ,個人サイト,Web制作,鎌倉"
+        />
+        <title>neplov - ようこそ!</title>
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="icon" href="/favicon.png" type="image/png" />
+    </head>
+    <body>
+        <!-- ============ TOP NAV ============ -->
+        <nav class="top-nav" id="top-nav">
+            <div class="container">
+                <a href="/" class="top-nav__brand">
+                    <img src="/logo-1.png" alt="neplov" />
+                    <span class="top-nav__brand-text">neplov</span>
+                </a>
+                <ul class="top-nav__links" id="nav-links">
+                    <li>
+                        <a href="#about" class="top-nav__link">neplovとは</a>
+                    </li>
+                    <li>
+                        <a href="#projects" class="top-nav__link"
+                            >つくったもの</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#profile" class="top-nav__link">自己紹介</a>
+                    </li>
+                    <li><a href="/blog/" class="top-nav__link">ブログ</a></li>
+                    <li>
+                        <a href="#updates" class="top-nav__link">更新履歴</a>
+                    </li>
+                    <li><a href="#links" class="top-nav__link">リンク集</a></li>
+                </ul>
+                <button
+                    class="nav-hamburger"
+                    id="nav-hamburger"
+                    aria-label="メニュー"
+                    onclick="
+                        document
+                            .getElementById('nav-links')
+                            .classList.toggle('top-nav__links--open')
+                    "
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
-            <div class="feature-card__meta">
-              <a href="https://remaining.neplov.net" target="_blank" class="btn btn-primary" style="margin-top: var(--space-sm);">サイトを見る →</a>
+        </nav>
+
+        <!-- ============ HERO ============ -->
+        <section class="hero-band">
+            <div class="container">
+                <h1 class="display-mega">
+                    ようこそ！<br />neplovのホームページへ！
+                </h1>
+                <p class="body-md hero-band__subtitle">
+                    こんにちは！
+                    このページを見つけてくださってありがとうございます！<br />
+                    ここは
+                    <strong class="text-ink">neplov（ネプロフ）</strong>
+                    のホームページです。
+                </p>
+                <div class="hero-band__actions">
+                    <a href="#projects" class="btn btn-download"
+                        >つくったものを見る</a
+                    >
+                    <a href="/blog/" class="btn btn-tertiary">ブログを読む →</a>
+                </div>
             </div>
-          </div>
+        </section>
 
-          <!-- Project 2 -->
-          <div class="feature-card">
-            <span class="feature-card__tag feature-card__tag--discontinued">公開終了</span>
-            <h3 class="feature-card__title">Asporia Trace <span class="text-muted" style="font-weight: 400; font-size: 14px;">─ 地震情報モニター</span></h3>
-            <div class="feature-card__body">
-              <p>
-                Asporia Traceは、地震に関する情報をリアルタイムで閲覧できるWebアプリケーションとして開発していましたが、現在は公開を終了しています。詳しくは<a href="news/20260614-asporia-trace-discontinued.html">こちら</a>をご覧ください。
-              </p>
-              <p style="margin-top: var(--space-sm);">
-                <a href="https://asporia-t.neplov.net" target="_blank">asporia-t.neplov.net</a> にはAsporia Traceについての説明を掲載しています。
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+        <!-- ============ MAIN LAYOUT ============ -->
+        <div class="container">
+            <div class="page-layout">
+                <!-- ====== MAIN CONTENT ====== -->
+                <main class="page-main">
+                    <!-- ===== INTRO ===== -->
+                    <section class="section" style="padding-top: 0">
+                        <div class="prose">
+                            <p>
+                                neplovというのは、なんとなくつけた名前です。特に意味はありません。響きがよかったのかもしれないし、よくなかったのかもしれません。正直なところ、自分でもよく覚えていません。ある日ふと思いついて、「まあこれでいいか」と思って、そのまま使っています。
+                            </p>
+                            <p>
+                                このサイトでは、neplovの名前のもとでつくったいろいろなものを紹介しています。Webサービスだったり、ツールだったり、あるいは自分でもよくわからないものだったりします。基本的に思いつきでつくっているので、統一感とかそういうものはあまりありません。ご了承ください。
+                            </p>
+                        </div>
+                    </section>
 
-      <!-- ===== PROFILE ===== -->
-      <section id="profile" class="section">
-        <div class="section-header">
-          <h2 class="display-lg">自己紹介</h2>
-        </div>
-        <div class="prose mb-xl">
-          <p>
-            neplovの中の人の自己紹介です。前述のとおり、一人でやっています。さみしいかと言われれば、まあ、そうかもしれません。でもよく考えてみると、宇宙だって最初は一つの点だったわけですし、一人であるということは、もしかしたら何かが始まる前の状態なのかもしれない、と前向きに捉えることにしています。捉えられているかどうかは別として。
-          </p>
-        </div>
+                    <!-- ===== ABOUT ===== -->
+                    <section id="about" class="section">
+                        <div class="section-header">
+                            <h2 class="display-lg">neplovとは</h2>
+                        </div>
+                        <div class="prose">
+                            <p>
+                                neplov（ネプロフ）は、2026年に活動を開始した個人の制作活動における名称です。団体でもなければ、会社でもありません。一人でやっています。
+                            </p>
+                            <p>
+                                もともとは、何かをインターネットに公開するときに名前があったほうがいいかなと思って、それでなんとなくつけたのが始まりです。由来を聞かれることがあるのですが、特にありません。語感で決めました。もしかしたら寝ぼけているときに思いついたのかもしれません。記憶が定かではないのですが、たぶんそのあたりだったと思います。
+                            </p>
+                            <p>
+                                活動の内容としては、主にWebサービスやWebアプリケーションの開発をしています。といっても、すごく大規模なものをつくっているわけではなく、「こういうのがあったらいいな」とか「これおもしろそうだな」と思ったものを、気が向いたときにつくっている、という感じです。完成するものもあれば、途中で飽きるものもあります。そういうものだと思っています。
+                            </p>
+                            <p>
+                                ちなみに、neplovの正式な読み方は「ネプロフ」ですが、「ネプロブ」と読む人もいますし、「ネプラヴ」と読む人もいるかもしれません。どれでも構いません。そもそも正式な読み方というもの自体が怪しいです。最初に決めたのかどうかすら覚えていないので。
+                            </p>
+                        </div>
+                    </section>
 
-        <table class="profile-table">
-          <tr>
-            <th>名前</th>
-            <td>たらぽん</td>
-          </tr>
-          <tr>
-            <th>肩書き</th>
-            <td>neplov の創設者（というほど大層なものではないですが、一応）</td>
-          </tr>
-          <tr>
-            <th>在住</th>
-            <td>神奈川県鎌倉市（海が近くていいところです）</td>
-          </tr>
-          <tr>
-            <th>身分</th>
-            <td>高校生</td>
-          </tr>
-          <tr>
-            <th>やっていること</th>
-            <td>このサイトをつくったり、Webサービスを開発したりすること</td>
-          </tr>
-          <tr>
-            <th>好きなこと</th>
-            <td>特にない（と思っているけど、たぶん気づいていないだけかもしれない）</td>
-          </tr>
-          <tr>
-            <th>ホームページ</th>
-            <td><a href="https://tarapon.dev" target="_blank">https://tarapon.dev</a>（個人サイト）</td>
-          </tr>
-          <tr>
-            <th>ひとこと</th>
-            <td>香川県にいってみたいです。うどんが食べたいからというわけではなく、なんとなく行ってみたいのです。理由を聞かれても困りますが、強いて言えば「行ったことがないから」でしょうか。行ったことがない場所に行ってみたいと思うのは、わりと普通のことだと思います。</td>
-          </tr>
-        </table>
-      </section>
+                    <!-- ===== PROJECTS ===== -->
+                    <section id="projects" class="section">
+                        <div class="section-header">
+                            <h2 class="display-lg">つくったもの</h2>
+                        </div>
+                        <div class="prose mb-xl">
+                            <p>
+                                これまでにneplovとしてつくって公開したものを紹介します。数は少ないですが、一つひとつにそれなりの思い入れはあります。たぶん。
+                            </p>
+                        </div>
 
-      <!-- ===== UPDATES ===== -->
-      <section id="updates" class="section">
-        <div class="section-header">
-          <h2 class="display-lg">更新履歴</h2>
-        </div>
+                        <div class="card-grid card-grid--2">
+                            <!-- Project 1 -->
+                            <div class="feature-card">
+                                <span class="feature-card__tag"
+                                    >Web Service</span
+                                >
+                                <h3 class="feature-card__title">
+                                    のこりはどれくらい？
+                                </h3>
+                                <div class="feature-card__body">
+                                    <p>
+                                        これは、いままで自分が過ごしてきた時間が、いったいどれくらいの割合に相当するのかを可視化するWebサービスです。
+                                    </p>
+                                    <p style="margin-top: var(--space-sm)">
+                                        たとえば、今日という一日のうち、すでに何パーセントが過ぎたのか。今週のうち何パーセントが終わったのか。今月は？
+                                        今年は？
+                                        そういうことを、プログレスバーみたいなもので表示します。
+                                    </p>
+                                    <p style="margin-top: var(--space-sm)">
+                                        つくった動機としては、時間というのは意識しないとあっという間に過ぎてしまうなあ、と思ったからです。気がついたら夕方になっていたり、気がついたら週末が終わっていたり、気がついたら年末になっていたりします。そういう「気がついたら」を少しでも減らせないかと思って、数字として見えるようにしてみました。
+                                    </p>
+                                    <p style="margin-top: var(--space-sm)">
+                                        使い方は特にありません。開いて、眺めてください。何かを感じるかもしれないし、何も感じないかもしれません。それでいいと思います。
+                                    </p>
+                                </div>
+                                <div class="feature-card__meta">
+                                    <a
+                                        href="https://remaining.neplov.net"
+                                        target="_blank"
+                                        class="btn btn-primary"
+                                        style="margin-top: var(--space-sm)"
+                                        >サイトを見る →</a
+                                    >
+                                </div>
+                            </div>
 
-        <ul class="update-list">
-          <li class="update-item">
-            <span class="update-date">2026/06/14</span>
-            <span class="update-text">Asporia Traceの公開をやめました。詳しくは<a href="news/20260614-asporia-trace-discontinued.html">こちら</a>をご覧ください。<span class="badge-new">NEW</span></span>
-          </li>
-          <li class="update-item">
-            <span class="update-date">2026/06/08</span>
-            <span class="update-text">Asporia Trace α版を公開しました。詳しくは<a href="news/20260608-asporia-trace.html">こちら</a>。</span>
-          </li>
-          <li class="update-item">
-            <span class="update-date">2026/05/20</span>
-            <span class="update-text">「のこりはどれくらい？」を公開しました。詳しくは<a href="news/20260520-remaining.html">こちら</a>。</span>
-          </li>
-          <li class="update-item">
-            <span class="update-date">2026/05/01</span>
-            <span class="update-text">neplov.net を公開しました。このサイトのことです。詳しくは<a href="news/20260501-site-launch.html">こちら</a>。</span>
-          </li>
-        </ul>
-      </section>
+                            <!-- Project 2 -->
+                            <div class="feature-card">
+                                <span
+                                    class="feature-card__tag feature-card__tag--discontinued"
+                                    >公開終了</span
+                                >
+                                <h3 class="feature-card__title">
+                                    Asporia Trace
+                                    <span
+                                        class="text-muted"
+                                        style="
+                                            font-weight: 400;
+                                            font-size: 14px;
+                                        "
+                                        >─ 地震情報モニター</span
+                                    >
+                                </h3>
+                                <div class="feature-card__body">
+                                    <p>
+                                        Asporia
+                                        Traceは、地震に関する情報をリアルタイムで閲覧できるWebアプリケーションとして開発していましたが、現在は公開を終了しています。詳しくは<a
+                                            href="news/20260614-asporia-trace-discontinued.html"
+                                            >こちら</a
+                                        >をご覧ください。
+                                    </p>
+                                    <p style="margin-top: var(--space-sm)">
+                                        <a
+                                            href="https://asporia-t.neplov.net"
+                                            target="_blank"
+                                            >asporia-t.neplov.net</a
+                                        >
+                                        にはAsporia
+                                        Traceについての説明を掲載しています。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
-      <!-- ===== TECH STACK ===== -->
-      <section id="tech" class="section">
-        <div class="section-header">
-          <h2 class="display-lg">このサイトの技術的な話</h2>
-        </div>
-        <div class="prose">
-          <p>このサイトの裏側について少しだけ書いておきます。書く必要があるのかと言われるとよくわかりませんが、せっかくなので書きます。</p>
+                    <!-- ===== PROFILE ===== -->
+                    <section id="profile" class="section">
+                        <div class="section-header">
+                            <h2 class="display-lg">自己紹介</h2>
+                        </div>
+                        <div class="prose mb-xl">
+                            <p>
+                                neplovの中の人の自己紹介です。前述のとおり、一人でやっています。さみしいかと言われれば、まあ、そうかもしれません。でもよく考えてみると、宇宙だって最初は一つの点だったわけですし、一人であるということは、もしかしたら何かが始まる前の状態なのかもしれない、と前向きに捉えることにしています。捉えられているかどうかは別として。
+                            </p>
+                        </div>
 
-          <p>……と言っても、実はここに書いてあることは、<strong>もう全部過去の話です。</strong></p>
+                        <table class="profile-table">
+                            <tr>
+                                <th>名前</th>
+                                <td>たらぽん</td>
+                            </tr>
+                            <tr>
+                                <th>肩書き</th>
+                                <td>
+                                    neplov
+                                    の創設者（というほど大層なものではないですが、一応）
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>在住</th>
+                                <td>
+                                    神奈川県鎌倉市（海が近くていいところです）
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>身分</th>
+                                <td>高校生</td>
+                            </tr>
+                            <tr>
+                                <th>やっていること</th>
+                                <td>
+                                    このサイトをつくったり、Webサービスを開発したりすること
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>好きなこと</th>
+                                <td>
+                                    特にない（と思っているけど、たぶん気づいていないだけかもしれない）
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>ホームページ</th>
+                                <td>
+                                    <a
+                                        href="https://tarapon.dev"
+                                        target="_blank"
+                                        >https://tarapon.dev</a
+                                    >（個人サイト）
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>ひとこと</th>
+                                <td>
+                                    香川県にいってみたいです。うどんが食べたいからというわけではなく、なんとなく行ってみたいのです。理由を聞かれても困りますが、強いて言えば「行ったことがないから」でしょうか。行ったことがない場所に行ってみたいと思うのは、わりと普通のことだと思います。
+                                </td>
+                            </tr>
+                        </table>
+                    </section>
 
-          <p>もともとこのサイトは、<strong>非推奨の技術だけで構成された非推奨の見本市</strong>として作っていました。レイアウトは全部 <code>&lt;table&gt;</code> タグ、文字の色は全部 <code>&lt;font&gt;</code> タグ、上のほうには <code>&lt;marquee&gt;</code>、リンクにマウスを載せると <code>ONMOUSEOVER="this.style.color='#FF0000'"</code> で色が変わる、HTMLのコメントには <code>&lt;bgsound SRC=midi/welcome.mid&gt;</code>（MIDIは用意していない）、<code>&lt;blink&gt;</code>（標準に採用されたことない）、<code>window.status</code>（セキュリティ上の理由で現代のブラウザでは動かない）、ページ内リンクは <code>&lt;a NAME=...&gt;</code>（HTML5では非推奨）、<code>&lt;body&gt;</code> タグに <code>text</code>, <code>link</code>, <code>vlink</code>, <code>alink</code>（全部非推奨）……というようなやつです。昔のインターネットの雰囲気を懐かしむためのネタサイトだったわけですね。</p>
+                    <!-- ===== UPDATES ===== -->
+                    <section id="updates" class="section">
+                        <div class="section-header">
+                            <h2 class="display-lg">更新履歴</h2>
+                        </div>
 
-          <p>で、そのネタを丁寧に説明した文章をここに書いていたわけなんですが、<strong>AIに「デザインを改善して」と頼んだら、それらを全部きれいに直されてしまいました。</strong></p>
+                        <ul class="update-list">
+                            <li class="update-item">
+                                <span class="update-date">2026/06/14</span>
+                                <span class="update-text"
+                                    >Asporia Traceの公開をやめました。詳しくは<a
+                                        href="news/20260614-asporia-trace-discontinued.html"
+                                        >こちら</a
+                                    >をご覧ください。<span class="badge-new"
+                                        >NEW</span
+                                    ></span
+                                >
+                            </li>
+                            <li class="update-item">
+                                <span class="update-date">2026/06/08</span>
+                                <span class="update-text"
+                                    >Asporia Trace α版を公開しました。詳しくは<a
+                                        href="news/20260608-asporia-trace.html"
+                                        >こちら</a
+                                    >。</span
+                                >
+                            </li>
+                            <li class="update-item">
+                                <span class="update-date">2026/05/20</span>
+                                <span class="update-text"
+                                    >「のこりはどれくらい？」を公開しました。詳しくは<a
+                                        href="news/20260520-remaining.html"
+                                        >こちら</a
+                                    >。</span
+                                >
+                            </li>
+                            <li class="update-item">
+                                <span class="update-date">2026/05/01</span>
+                                <span class="update-text"
+                                    >neplov.net
+                                    を公開しました。このサイトのことです。詳しくは<a
+                                        href="news/20260501-site-launch.html"
+                                        >こちら</a
+                                    >。</span
+                                >
+                            </li>
+                        </ul>
+                    </section>
 
-          <p>当然といえば当然です。AIからすれば「非推奨タグを使っている」というのはただのバグ報告であり、直すべきものです。「いや、それがネタなんです」という文脈を、私はAIに伝え忘れました。悔やんでも悔やみきれません。<code>&lt;marquee&gt;</code>よ、さようなら。</p>
+                    <!-- ===== TECH STACK ===== -->
+                    <section id="tech" class="section">
+                        <div class="section-header">
+                            <h2 class="display-lg">このサイトの技術的な話</h2>
+                        </div>
+                        <div class="prose">
+                            <p>
+                                このサイトの裏側について少しだけ書いておきます。書く必要があるのかと言われるとよくわかりませんが、せっかくなので書きます。
+                            </p>
 
-          <p>というわけで今のソースコードを見てみると、<code>DOCTYPE html</code>（ちゃんとしてる）、Interフォント（ちゃんとしてる）、CSS Grid（ちゃんとしてる）、<code>:root</code>にデザイントークン（ちゃんとしてる）、セマンティックなHTML5（ちゃんとしてる）……という、<strong>なんのネタにもならないまともなコード</strong>が広がっています。見てもつまらないと思います。</p>
+                            <p>
+                                ……と言っても、実はここに書いてあることは、<strong
+                                    >もう全部過去の話です。</strong
+                                >
+                            </p>
 
-          <p>いや、まあ、スマホでも崩れなくなったし、アクセシビリティも上がったし、フォントも綺麗だし、客観的には良くなっているんですよ？ でも、「このサイト、クソHTML使ってるの面白いね」というネタで成立していたサイトが、「このサイト、ちゃんとしてるね」というサイトになってしまった。アイデンティティの消滅です。</p>
+                            <p>
+                                もともとこのサイトは、<strong>非推奨の技術だけで構成された非推奨の見本市</strong>として作っていました。レイアウトは全部
+                                <code>&lt;table&gt;</code> タグ、文字の色は全部
+                                <code>&lt;font&gt;</code> タグ、上のほうには
+                                <code>&lt;marquee&gt;</code
+                                >、リンクにマウスを載せると
+                                <code
+                                    >ONMOUSEOVER="this.style.color='#FF0000'"</code
+                                >
+                                で色が変わる、HTMLのコメントには
+                                <code>&lt;bgsound SRC=midi/welcome.mid&gt;</code
+                                >（MIDIは用意していない）、<code>&lt;blink&gt;</code>（標準に採用されたことない）、<code>window.status</code>（セキュリティ上の理由で現代のブラウザでは動かない）、ページ内リンクは
+                                <code>&lt;a NAME=...&gt;</code
+                                >（HTML5では非推奨）、<code>&lt;body&gt;</code>
+                                タグに <code>text</code>, <code>link</code>,
+                                <code>vlink</code>,
+                                <code>alink</code
+                                >（全部非推奨）……というようなやつです。昔のインターネットの雰囲気を懐かしむためのネタサイトだったわけですね。
+                            </p>
 
-          <p>一応、ファイルの置き場所としてGithubを利用して、そこからCloudflare Pages経由で配信される仕組みには変わらずなっています。何かすごい技術を使っているわけでもなく、ただHTMLファイルが置いてあるだけ、というのも変わりません。そこだけはネタとして残っています。</p>
+                            <p>
+                                で、そのネタを丁寧に説明した文章をここに書いていたわけなんですが、<strong
+                                    >AIに「デザインを改善して」と頼んだら、それらを全部きれいに直されてしまいました。</strong
+                                >
+                            </p>
 
-          <p>ちなみに、このページの「技術的な話」セクションは、直された後も誰かが読むかもしれないと思って、<strong>直す前のコードの話をそのまま残しています</strong>。実際にそのコードが動いているわけではないし、今のソースを見ても全然違うコードが書いてあるので、何を言っているのかわからないかもしれませんが、まあ、そういうことがあったということで。</p>
+                            <p>
+                                当然といえば当然です。AIからすれば「非推奨タグを使っている」というのはただのバグ報告であり、直すべきものです。「いや、それがネタなんです」という文脈を、私はAIに伝え忘れました。悔やんでも悔やみきれません。<code>&lt;marquee&gt;</code>よ、さようなら。
+                            </p>
 
-          <p>もし昔のクソHTML版のソースコードを見たい方は、Githubのコミット履歴を掘っていただければ残っているかと思います。<a href="https://github.com/tlarnc1-sl/neplov" target="_blank">こちら</a>から見られます。……見たい人がいるかどうかはわかりませんが。</p>
-        </div>
+                            <p>
+                                というわけで今のソースコードを見てみると、<code
+                                    >DOCTYPE html</code
+                                >（ちゃんとしてる）、Interフォント（ちゃんとしてる）、CSS
+                                Grid（ちゃんとしてる）、<code>:root</code>にデザイントークン（ちゃんとしてる）、セマンティックなHTML5（ちゃんとしてる）……という、<strong>なんのネタにもならないまともなコード</strong>が広がっています。見てもつまらないと思います。
+                            </p>
 
-        <div class="text-center mt-xl">
-          <pre class="aa-art">　 ∧,,∧
+                            <p>
+                                いや、まあ、スマホでも崩れなくなったし、アクセシビリティも上がったし、フォントも綺麗だし、客観的には良くなっているんですよ？
+                                でも、「このサイト、クソHTML使ってるの面白いね」というネタで成立していたサイトが、「このサイト、ちゃんとしてるね」というサイトになってしまった。アイデンティティの消滅です。
+                            </p>
+
+                            <p>
+                                一応、ファイルの置き場所としてGithubを利用して、そこからCloudflare
+                                Pages経由で配信される仕組みには変わらずなっています。何かすごい技術を使っているわけでもなく、ただHTMLファイルが置いてあるだけ、というのも変わりません。そこだけはネタとして残っています。
+                            </p>
+
+                            <p>
+                                ちなみに、このページの「技術的な話」セクションは、直された後も誰かが読むかもしれないと思って、<strong>直す前のコードの話をそのまま残しています</strong>。実際にそのコードが動いているわけではないし、今のソースを見ても全然違うコードが書いてあるので、何を言っているのかわからないかもしれませんが、まあ、そういうことがあったということで。
+                            </p>
+
+                            <p>
+                                もし昔のクソHTML版のソースコードを見たい方は、Githubのコミット履歴を掘っていただければ残っているかと思います。<a
+                                    href="https://github.com/tlarnc1-sl/neplov"
+                                    target="_blank"
+                                    >こちら</a
+                                >から見られます。……見たい人がいるかどうかはわかりませんが。
+                            </p>
+                        </div>
+
+                        <div class="text-center mt-xl">
+                            <pre class="aa-art">
+　 ∧,,∧
 （ ´・ω・）　ごめんね
 /　　 ｏ
 しー-Ｊ</pre>
-        </div>
-      </section>
+                        </div>
+                    </section>
 
-      <!-- ===== LINKS ===== -->
-      <section id="links" class="section">
-        <div class="section-header">
-          <h2 class="display-lg">リンク集</h2>
-        </div>
-        <div class="prose">
-          <p>お世話になっているサイト、好きなサイトのリンクです。<br>
-          （※注意：このサイトは<strong>リンクフリーではありません</strong>。無断リンクはご遠慮ください。リンクをご希望の際やご連絡に関しては、<a href="https://tarapon.dev" target="_blank">tarapon.dev</a> をご確認ください。）</p>
+                    <!-- ===== LINKS ===== -->
+                    <section id="links" class="section">
+                        <div class="section-header">
+                            <h2 class="display-lg">リンク集</h2>
+                        </div>
+                        <div class="prose">
+                            <p>
+                                お世話になっているサイト、好きなサイトのリンクです。<br />
+                                （※注意：このサイトは<strong>リンクフリーではありません</strong>。無断リンクはご遠慮ください。リンクをご希望の際やご連絡に関しては、<a
+                                    href="https://tarapon.dev"
+                                    target="_blank"
+                                    >tarapon.dev</a
+                                >
+                                をご確認ください。）
+                            </p>
 
-          <ul>
-            <li><a href="https://tarapon.dev" target="_blank">tarapon.dev</a> ─ neplovの中の人（たらぽん）の個人サイトです</li>
-            <li><a href="https://remaining.neplov.net" target="_blank">のこりはどれくらい？</a> ─ neplovの制作物です</li>
-            <li><a href="https://asporia-t.neplov.net" target="_blank">Asporia Trace</a> ─ neplovの制作物です（公開終了・説明ページ）</li>
-          </ul>
+                            <ul>
+                                <li>
+                                    <a
+                                        href="https://tarapon.dev"
+                                        target="_blank"
+                                        >tarapon.dev</a
+                                    >
+                                    ─ neplovの中の人（たらぽん）の個人サイトです
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://remaining.neplov.net"
+                                        target="_blank"
+                                        >のこりはどれくらい？</a
+                                    >
+                                    ─ neplovの制作物です
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://asporia-t.neplov.net"
+                                        target="_blank"
+                                        >Asporia Trace</a
+                                    >
+                                    ─ neplovの制作物です（公開終了・説明ページ）
+                                </li>
+                            </ul>
 
-          <p class="caption" style="margin-top: var(--space-base);">リンク先の内容については、neplovは一切の責任を負いません。リンク切れ等ございましたら、ご連絡いただけると助かります。</p>
-        </div>
-      </section>
+                            <p
+                                class="caption"
+                                style="margin-top: var(--space-base)"
+                            >
+                                リンク先の内容については、neplovは一切の責任を負いません。リンク切れ等ございましたら、ご連絡いただけると助かります。
+                            </p>
+                        </div>
+                    </section>
 
-      <!-- ===== CLOSING ===== -->
-      <section class="section">
-        <div class="prose">
-          <p>
-            ……というふうに、ここまで色々と作ってみたけれども。自分は本来、自分を売り込んだりアピールしたりするのがすごく苦手だから、それができる人間を演じているようで、なんだか急に空しくなってきました、、、
-          </p>
-          <p>
-            けど、こんな辺境のサイトを見つけてくださった方、本当にありがとう！！！<br>
-            ぜひ、記憶の片隅にでもおいておいてください、、、<br>
-            お礼に、ここに可愛い犬でもおいておきます、、！！！
-          </p>
-        </div>
+                    <!-- ===== CLOSING ===== -->
+                    <section class="section">
+                        <div class="prose">
+                            <p>
+                                ……というふうに、ここまで色々と作ってみたけれども。自分は本来、自分を売り込んだりアピールしたりするのがすごく苦手だから、それができる人間を演じているようで、なんだか急に空しくなってきました、、、
+                            </p>
+                            <p>
+                                けど、こんな辺境のサイトを見つけてくださった方、本当にありがとう！！！<br />
+                                ぜひ、記憶の片隅にでもおいておいてください、、、<br />
+                                お礼に、ここに可愛い犬でもおいておきます、、！！！
+                            </p>
+                        </div>
 
-        <div style="height: 200px;"></div>
+                        <div style="height: 200px"></div>
 
-        <div class="text-center">
-          <pre class="aa-art">　　 U ´ェ` U
+                        <div class="text-center">
+                            <pre class="aa-art">
+　　 U ´ェ` U
 　　 /　　⌒ヽ
 　  （人＿__つ_つ</pre>
-          <p class="caption" style="margin-top: var(--space-base); max-width: 480px; margin-left: auto; margin-right: auto;">
-            （実は実際に犬は飼っているけれど、ここにリアルな画像を載せたらずっと残るわけじゃん？<br>
-            死んじゃったあとにこれを見たら、絶対泣くからやめました。）
-          </p>
+                            <p
+                                class="caption"
+                                style="
+                                    margin-top: var(--space-base);
+                                    max-width: 480px;
+                                    margin-left: auto;
+                                    margin-right: auto;
+                                "
+                            >
+                                （実は実際に犬は飼っているけれど、ここにリアルな画像を載せたらずっと残るわけじゃん？<br />
+                                死んじゃったあとにこれを見たら、絶対泣くからやめました。）
+                            </p>
+                        </div>
+                    </section>
+                </main>
+
+                <!-- ====== SIDEBAR ====== -->
+                <aside class="page-sidebar">
+                    <!-- Blog Link -->
+                    <a
+                        href="/blog/"
+                        class="info-box"
+                        style="
+                            text-decoration: none;
+                            display: block;
+                            border-color: var(--color-primary);
+                            transition: border-color 0.2s ease;
+                        "
+                    >
+                        <div
+                            class="info-box__title"
+                            style="color: var(--color-primary)"
+                        >
+                            Blog
+                        </div>
+                        <div class="info-box__body">
+                            思ったことを書いています
+                        </div>
+                    </a>
+
+                    <!-- Counter -->
+                    <div class="info-box">
+                        <div class="info-box__title">カウンター</div>
+                        <div
+                            class="info-box__body text-center"
+                            style="padding: var(--space-sm) 0"
+                        >
+                            <span class="body-sm">あなたは</span><br />
+                            <span
+                                style="
+                                    font-family: var(--font-code);
+                                    font-size: 24px;
+                                    font-weight: 400;
+                                    color: var(--color-ink);
+                                "
+                                >n</span
+                            ><br />
+                            <span class="body-sm">人目の訪問者です</span><br />
+                            <span
+                                class="caption"
+                                style="
+                                    display: block;
+                                    margin-top: var(--space-xs);
+                                "
+                                >追加したかったけどわかんない( ´・ω・｀)<br />いつかじっそうします。</span
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Link Policy -->
+                    <div class="info-box">
+                        <div class="info-box__title">リンクについて</div>
+                        <div class="info-box__body">
+                            当サイトはリンクフリーではないよ。
+                        </div>
+                    </div>
+
+                    <!-- Contact -->
+                    <div class="info-box">
+                        <div class="info-box__title">お問い合わせ</div>
+                        <div class="info-box__body">
+                            何か御用のある方は、<br />
+                            <a href="https://tarapon.dev" target="_blank"
+                                >ここに書いてます</a
+                            >ので見てねっ！(*ﾉω・*)ﾃﾍ<br /><br />
+                            <a
+                                href="https://github.com/tlarnc1-sl"
+                                target="_blank"
+                                >GitHub</a
+                            >
+                            からでも大丈夫だよっ☆
+                        </div>
+                    </div>
+
+                    <!-- Repository -->
+                    <div class="info-box">
+                        <div class="info-box__title">リポジトリ</div>
+                        <div class="info-box__body">
+                            このサイトの中身、全部お見せしちゃいますっ！(/ω＼)ﾊｽﾞｶｼｲ<br /><br />
+                            <a
+                                href="https://github.com/tlarnc1-sl/neplov"
+                                target="_blank"
+                                >ソースコードはこちら♡</a
+                            ><br />
+                            <span class="caption"
+                                >（というほどのものでもないけどね、、）</span
+                            ><br /><br />
+                            これを見たいひとはいるのか？？？
+                        </div>
+                    </div>
+                </aside>
+            </div>
         </div>
-      </section>
 
-    </main>
-
-    <!-- ====== SIDEBAR ====== -->
-    <aside class="page-sidebar">
-      <!-- Blog Link -->
-      <a href="/blog/" class="info-box" style="text-decoration: none; display: block; border-color: var(--color-primary); transition: border-color 0.2s ease;">
-        <div class="info-box__title" style="color: var(--color-primary);">Blog</div>
-        <div class="info-box__body">思ったことを書いています</div>
-      </a>
-
-      <!-- Counter -->
-      <div class="info-box">
-        <div class="info-box__title">カウンター</div>
-        <div class="info-box__body text-center" style="padding: var(--space-sm) 0;">
-          <span class="body-sm">あなたは</span><br>
-          <span style="font-family: var(--font-code); font-size: 24px; font-weight: 400; color: var(--color-ink);">n</span><br>
-          <span class="body-sm">人目の訪問者です</span><br>
-          <span class="caption" style="display: block; margin-top: var(--space-xs);">追加したかったけどわかんない( ´・ω・｀)<br>いつかじっそうします。</span>
-        </div>
-      </div>
-
-      <!-- Link Policy -->
-      <div class="info-box">
-        <div class="info-box__title">リンクについて</div>
-        <div class="info-box__body">当サイトはリンクフリーではないよ。</div>
-      </div>
-
-      <!-- Contact -->
-      <div class="info-box">
-        <div class="info-box__title">お問い合わせ</div>
-        <div class="info-box__body">
-          何か御用のある方は、<br>
-          <a href="https://tarapon.dev" target="_blank">ここに書いてます</a>ので見てねっ！(*ﾉω・*)ﾃﾍ<br><br>
-          <a href="https://github.com/tlarnc1-sl" target="_blank">GitHub</a> からでも大丈夫だよっ☆
-        </div>
-      </div>
-
-      <!-- Repository -->
-      <div class="info-box">
-        <div class="info-box__title">リポジトリ</div>
-        <div class="info-box__body">
-          このサイトの中身、全部お見せしちゃいますっ！(/ω＼)ﾊｽﾞｶｼｲ<br><br>
-          <a href="https://github.com/tlarnc1-sl/neplov" target="_blank">ソースコードはこちら♡</a><br>
-          <span class="caption">（というほどのものでもないけどね、、）</span><br><br>
-          これを見たいひとはいるのか？？？
-        </div>
-      </div>
-    </aside>
-
-  </div>
-</div>
-
-<!-- ============ FOOTER ============ -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer__brand">
-      <img src="/logo-1.png" alt="neplov" style="height: 16px;">
-    </div>
-    <ul class="footer__links">
-      <li><a href="#about" class="footer__link">neplovとは</a></li>
-      <li><a href="#projects" class="footer__link">つくったもの</a></li>
-      <li><a href="#profile" class="footer__link">自己紹介</a></li>
-      <li><a href="/blog/" class="footer__link">ブログ</a></li>
-      <li><a href="#updates" class="footer__link">更新履歴</a></li>
-      <li><a href="#links" class="footer__link">リンク集</a></li>
-    </ul>
-    <div class="footer__copy">
-      Since 2026.05.01 / Last updated: 2026.06.14<br>
-      Copyright &copy; 2026 neplov. All Rights Reserved.<br>
-      無断転載は禁止…と書くほどのものはありませんが、一応書いておきます。
-    </div>
-  </div>
-</footer>
-
-</body>
+        <!-- ============ FOOTER ============ -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer__brand">
+                    <img src="/logo-1.png" alt="neplov" style="height: 16px" />
+                </div>
+                <ul class="footer__links">
+                    <li>
+                        <a href="#about" class="footer__link">neplovとは</a>
+                    </li>
+                    <li>
+                        <a href="#projects" class="footer__link"
+                            >つくったもの</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#profile" class="footer__link">自己紹介</a>
+                    </li>
+                    <li><a href="/blog/" class="footer__link">ブログ</a></li>
+                    <li>
+                        <a href="#updates" class="footer__link">更新履歴</a>
+                    </li>
+                    <li><a href="#links" class="footer__link">リンク集</a></li>
+                </ul>
+                <div class="footer__copy">
+                    Since 2026.05.01 / Last updated: 2026.06.14<br />
+                    Copyright &copy; 2026 neplov. All Rights Reserved.<br />
+                    無断転載は禁止…と書くほどのものはありませんが、一応書いておきます。
+                </div>
+            </div>
+        </footer>
+    </body>
 </html>
